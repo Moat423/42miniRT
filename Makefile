@@ -6,7 +6,7 @@
 #    By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/02/11 12:37:25 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/17 13:26:02 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,11 @@ MAKEFLAGS += --no-print-directory --warn-undefined-variables
 UNAME_S := $(shell uname -s)
 
 #headers directories
-HDRS_DIR := include
-LIBFT_DIR := lib/libft
-MLX_DIR := lib/mlx
-OBJ_DIR := obj
+SRCS_DIR	:= srcs
+OBJ_DIR		:= objs
+HDRS_DIR	:= include
+LIBFT_DIR	:= lib/libft
+MLX_DIR		:= lib/mlx
 
 CC := cc
 NAME := miniRT
