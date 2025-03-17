@@ -18,6 +18,8 @@
 # include <stdio.h>
 # include <math.h>
 # include <fcntl.h>
+# include <stdbool.h>
+# include <stdint.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/libft_full.h"
 
@@ -91,5 +93,12 @@ typedef struct s_cylinder
 	float	diameter;
 	float	height;
 }	t_cylinder;
+
+typedef struct s_ray
+{
+	t_vec3	origin;
+	/// normalized
+	t_vec3	direction;
+}	t_ray;
 
 #endif
