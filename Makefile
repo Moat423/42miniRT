@@ -6,7 +6,7 @@
 #    By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/17 13:26:02 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/17 14:00:54 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,8 @@ endif
 CFLAGS := -Werror -Wall -Wextra -g
 LDFLAGS :=
 OPTIM_FLAGS := -Ofast
-LINUX_MLX := -ldl -lglfw(3) -pthread -lm
-MAC_MLX := -lglfw(3) -framework Cocoa -framework OpenGL -framework IOKit
+LINUX_MLX := -ldl -lglfw -pthread -lm
+MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
 FINAL_CFLAGS = $(CFLAGS)
 FINAL_LDFLAGS = $(LDFLAGS)
@@ -60,19 +60,12 @@ LIBFT_FLAGS := -L$(LIBFT_DIR) -lft
 # MLX_FLAGS := -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
 LIBMLX := $(MLX_DIR)/libmlx.a
 
-SRCS := main.c
+SRCS := $(addprefix $(SRCS_DIR)/, main.c)
 
-OBJS := $(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
 HDRS := $(HDRS_DIR)/fractol.h
 
 #PRETTY
-# BOLD := \033[1m
-# RESET := \033[0m
-# RED := \033[31;2m
-# GREEN := \033[32m
-# YELLOW := \033[33m
-# CLEAR_LINE := \033[2K
-# CURSOR_UP := \033[A
 BOLD := $(shell printf '\033[1m')
 RESET := $(shell printf '\033[0m')
 RED := $(shell printf '\033[31;2m')
@@ -108,12 +101,12 @@ run: all
 # Main program
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
 	@printf "\n$(BOLD)Linking $(NAME)$(RESET)\n"
-	$(CC) $(FINAL_CFLAGS) $(OBJS) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@
+	$(CC) $(FINAL_CFLAGS) $(OBJS) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@ -pie
 	printf "\n$(GREEN)$(BOLD)Build successful!$(RESET)\n" || \
 	printf "$(RED)$(BOLD)Build failed!$(RESET)\n"
 
 # Compile object files
-$(OBJ_DIR)/%.o: %.c $(LIBMLX) | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRCS_DIR)%.c $(LIBMLX) | $(OBJ_DIR)
 	$(call update_progress)
 	@$(CC) $(FINAL_CFLAGS) $(INCLUDES) -c $< -o $@
 

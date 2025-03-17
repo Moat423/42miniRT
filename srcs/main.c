@@ -6,13 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/17 13:14:04 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:23:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/miniRT.h"
+// #include "include/miniRT.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
