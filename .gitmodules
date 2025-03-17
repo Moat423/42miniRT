@@ -1,0 +1,6 @@
+[submodule "lib/libft"]
+	path = lib/libft
+	url = https://github.com/Moat423/Libft_full.git
+[submodule "lib/mlx"]
+	path = lib/mlx
+	url = https://github.com/codam-coding-college/MLX42.git
