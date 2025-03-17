@@ -1,0 +1,25 @@
+#include "../../include/miniRT.h"
+
+t_color	color_new(float r, float g, float b)
+{
+	return ((t_color){.x=r, .y=g, .z=b});
+}
+
+/// Convert Color to RGB
+void	color_to_rgb(t_color color, uint8_t *r, uint8_t *g, uint8_t *b)
+{
+	*r = (uint8_t)(clamp(color.x, 0.0f, 1.0f) * 255.0f);
+	*g = (uint8_t)(clamp(color.y, 0.0f, 1.0f) * 255.0f);
+	*b = (uint8_t)(clamp(color.z, 0.0f, 1.0f) * 255.0f);
+}
+
+/// Create Color from RGB
+t_color	color_from_rgb(uint8_t r, uint8_t g, uint8_t b)
+{
+	t_color	result;
+
+	result.x = (float)r / 255.0f;
+	result.y = (float)g / 255.0f;
+	result.z = (float)b / 255.0f;
+	return (result);
+}
