@@ -121,7 +121,7 @@ $(LIBMLX):
 	@mkdir -p lib
 	@if [ ! -d "$(MLX_DIR)" ] || [ -z "$$(ls -A $(MLX_DIR))" ]; then \
 		printf "$(BOLD)Initializing MLX42...$(RESET)\n"; \
-		git submodule add https://github.com/codam-coding-college/MLX42.git $(MLX_DIR) >/dev/null 2>&1; \
+		git submodule add -f https://github.com/codam-coding-college/MLX42.git $(MLX_DIR) >/dev/null 2>&1; \
 		git submodule init >/dev/null 2>&1 && git submodule update >/dev/null 2>&1
 	fi
 	@printf "$(BOLD)Building MLX42...$(RESET)\n"
@@ -135,7 +135,7 @@ $(LIBFT):
 	@mkdir -p lib
 	@if [ ! -d "$(LIBFT_DIR)" ] || [ -z "$$(ls -A $(LIBFT_DIR))" ]; then \
 		printf "$(BOLD)Initializing libft...$(RESET)\n"; \
-		git submodule add https://github.com/Moat423/Libft_full.git $(LIBFT_DIR); \
+		git submodule add -f https://github.com/Moat423/Libft_full.git $(LIBFT_DIR); \
 		git submodule update --init --recursive -- $(LIBFT_DIR); \
 	else \
 		printf "$(BOLD)Updating libft...$(RESET)\n"; \
