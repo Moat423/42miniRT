@@ -6,7 +6,7 @@
 #    By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/17 14:00:54 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/18 12:06:05 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ OBJ_DIR		:= objs
 HDRS_DIR	:= include
 LIBFT_DIR	:= lib/libft
 MLX_DIR		:= lib/mlx
+
+DIRS = $(addprefix $(OBJ_DIR)/, . util)
 
 CC := cc
 NAME := miniRT
@@ -60,7 +62,10 @@ LIBFT_FLAGS := -L$(LIBFT_DIR) -lft
 # MLX_FLAGS := -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
 LIBMLX := $(MLX_DIR)/libmlx.a
 
-SRCS := $(addprefix $(SRCS_DIR)/, main.c)
+SRCS := $(addprefix $(SRCS_DIR)/,\
+		main.c \
+		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
+		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
 HDRS := $(HDRS_DIR)/fractol.h
@@ -106,13 +111,15 @@ $(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
 	printf "$(RED)$(BOLD)Build failed!$(RESET)\n"
 
 # Compile object files
-$(OBJ_DIR)/%.o: $(SRCS_DIR)%.c $(LIBMLX) | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRCS_DIR)%.c $(LIBMLX) | $(DIRS)
 	$(call update_progress)
 	@$(CC) $(FINAL_CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Create obj directory
-$(OBJ_DIR):
+$(DIRS):
 	@mkdir -p $@
+# $(OBJ_DIR):
+# 	@mkdir -p $@
 
 #LIBRARIES
 # Compiling MLX42. Clones from official repo if not present.
