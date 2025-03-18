@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 12:53:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:01:39 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 # include <string.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/libft_full.h"
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 typedef struct s_vec3
 {
@@ -49,6 +53,8 @@ typedef struct s_camera
 	t_vec3		dir;
 	/// normalized up direction
 	t_vec3		up;
+	/// normalized right direction
+	t_vec3		right;
 	/// 0-180
 	uint32_t	fov;
 }	t_camera;
@@ -127,6 +133,7 @@ typedef	struct s_scene
 }	t_scene;
 
 /* VEC3 */
+
 t_vec3	vec3_new(float x, float y, float z);
 float	vec3_dot(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_cross(t_vec3 v1, t_vec3 v2);
@@ -137,11 +144,13 @@ t_vec3	vec3_multiply(t_vec3 v, float scalar);
 t_vec3	vec3_component_mul(t_vec3 v1, t_vec3 v2);
 
 /* COLOR */
+
 t_color	color_new(float r, float g, float b);
 void	color_to_rgb(t_color color, uint8_t *r, uint8_t *g, uint8_t *b);
 t_color	color_from_rgb(uint8_t r, uint8_t g, uint8_t b);
 
 /* UTIL */
+
 float	clamp(float value, float min, float max);
 void	scene_destroy(t_scene *scene);
 float	image_aspect_ratio(t_scene *scene);
