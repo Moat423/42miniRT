@@ -1,9 +1,10 @@
 #include "../../include/miniRT.h"
 
 int	parse_file(int fd, t_scene *scene);
+int	set_camera(char *line, t_camera *camera);
+int	set_vec(char *line, int start, t_vec3 *vec);
 int	ft_parseerror(char *error, char *line);
 int	rperror(char *str);
-t_camera	set_camera(char *line);
 
 
 int	parse_scene(char *filename, t_scene *scene)
@@ -28,14 +29,11 @@ int	parse_scene(char *filename, t_scene *scene)
 
 int	parse_file(int fd, t_scene *scene)
 {
-	char	*line;
-	char	ident[3];
-	int		readlen;
-	int		linebreak;
-	int		got_camera;
+	char		*line;
+	bool		got_camera;
+	bool		got_ambient_light;
+	bool		got_light;
 
-	ft_bzero(ident, 3);
-	readlen = 1;
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -44,45 +42,53 @@ int	parse_file(int fd, t_scene *scene)
 		if (line[0] == '\n')
 			continue ;
 		if (line[0] == 'C' && line[1] == ' ')
-			scene->camera = set_camera(line);
-	}
-
-	// linebreak = 1;
-	// while (ft_strchr(ident, '\n'))
-	// 	readlen = read(fd, ident, 1);
-	// while (readlen > 0)
-	// {
-	// 	while (ft_strchr(ident, '\n'))
-	// 	{
-	// 		readlen = read(fd, ident, 1);
-	// 		linebreak = 1;
-	// 	}
-	// 	readlen = read(fd, ident, 2);
-	// }
-	get_next_line(-1);
-}
-
-//
-t_camera	set_camera(char *line)
-{
-	int		i;
-	char	*num;
-	int		error;
-
-	i = 1;
-	while (line[++i] != '\n') 
-	{
-		if (line[i] == ' ')
-			continue ;
-		if (ft_isdigit(line[i]) || line[i] == '-')
 		{
-			num = ft_substr(line, i, line - ft_strchr(&line[i], ','));
-			ft_strtod_s(num, &error);
+			if (!set_camera(line, &(scene->camera)))
+				return (0);
+			got_camera = true;
 		}
+		// if (line[0] == 'A' && line[1] == ' ')
+		// {
+		// 	if (!set_camera(line, &(scene->camera)))
+		// 		return (0);
+		// 	got_ambient_light = true;
+		// }
+		// if (line[0] == 'L' && line[1] == ' ')
+		// {
+		// 	if (!set_camera(line, &(scene->camera)))
+		// 		return (0);
+		// 	got_light = true;
+		// }
 	}
+	get_next_line(-1);
+	return (1);
 }
 
-int	set_pos(char *line, int start, t_vec3 *pos)
+
+int	set_camera(char *line, t_camera *camera)
+{
+	int			i;
+
+	i = 2;
+	i = set_vec(line, i, &(camera->pos));
+	if (!i)
+		return (0);
+	while (line[i] == ' ')
+		++i;
+	i = set_vec(line, i, &(camera->dir));
+	if (!i)
+		return (0);
+	while (line[i] == ' ')
+		++i;
+	camera->fov = ft_strtoimax(&line[i], NULL, 10);
+	if (!(camera->fov) && errno)
+		return (ft_parseerror("number contains invalid characters or too large", line));
+	camera->up = vec3_new(0, 1, 0);
+	camera->right = vec3_cross(camera->dir, camera->up);
+	return (1);
+}
+
+int	set_vec(char *line, int start, t_vec3 *vec)
 {
 	int		i;
 	char	*num;
@@ -100,28 +106,48 @@ int	set_pos(char *line, int start, t_vec3 *pos)
 			comma = line - ft_strchr(&line[start], ' ');
 		num = ft_substr(line, start, comma);
 		if (!num)
-		{
-			perror("malloc");
 			return (0);
-		}
 		arr[i] = ft_strtod_s(num, &error);
 		free(num);
 		if (error)
-		{
-			ft_parseerror("number contains invalid characters or too large", line);
-			return (0);
-		}
+			return (ft_parseerror("number contains invalid characters or too large", line));
 		start = comma + 1;
 		++i;
 	}
-	*pos = vec3_new(arr[0], arr[1], arr[2]);
+	*vec = vec3_new(arr[0], arr[1], arr[2]);
 	return (comma + 1);
+}
+
+// returns index of first invalid character
+int	ft_float_len(char *str)
+{
+	int	dotcount;
+	int	i;
+
+	dotcount = 0;
+	i = ft_skip_whitespace(str);
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] == '.' )
+		{
+			if (dotcount == 0)
+				dotcount++;
+			else
+				return (i);
+		}
+		else if (str[i] < '0' || str[i] > '9')
+			return (i);
+		i++;
+	}
+	return (0);
 }
 
 int	ft_parseerror(char *error, char *line)
 {
 	ft_fprintf(2, "ERROR\n%s\n   line:\n%s", error, line);
-	return (1);
+	return (0);
 }
 
 int	rperror(char *str)
