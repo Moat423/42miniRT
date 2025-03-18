@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 12:37:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:53:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdint.h>
+# include <errno.h>
+# include <string.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/libft_full.h"
 
