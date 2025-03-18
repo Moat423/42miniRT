@@ -73,7 +73,6 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		render.c \
 		trace_ray.c \
 		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
-		$(addprefix parse/, parse_scene.c) \
 		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
