@@ -6,14 +6,14 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/17 13:31:33 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:37:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-#include <stddef.h>
+# include <stddef.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -31,7 +31,7 @@ typedef struct s_vec3
 	float	z;
 }	t_vec3;
 
-typedef t_vec3 t_color;
+typedef t_vec3	t_color;
 
 typedef struct s_ambient
 {
