@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/18 15:40:48 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/18 15:53:28 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ else ifeq ($(UNAME_S), Darwin)
     MLX_FLAGS = $(MAC_MLX)
 endif
 
+LIBMLX := $(MLX_DIR)/build/libmlx42.a
+
 #flags
 CFLAGS := -Werror -Wall -Wextra -g
 LDFLAGS :=
@@ -60,7 +62,6 @@ LIBFT_FLAGS := -L$(LIBFT_DIR) -lft
 #MiniLibX
 # replace MLX_FLAGS with LINUX_MLX or MAC_MLX depending on your OS
 # MLX_FLAGS := -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
-LIBMLX := $(MLX_DIR)/libmlx42.a
 
 SRCS := $(addprefix $(SRCS_DIR)/,\
 		main.c \
@@ -137,8 +138,8 @@ $(LIBMLX):
 	@printf "$(BOLD)Building MLX42...$(RESET)\n"
 	# @make -s -C $(MLX_DIR) >/dev/null 2>&1;
 	cd $(MLX_DIR) && \
-	cmake -B . # build here refers to the outputfolder.
-	cmake --build . -j4 # or do make -C build -j4
+	cmake -B build && \
+	cmake --build build -j4
 
 # Submodules in my own Libft from own repo if not present and compiles
 $(LIBFT):
