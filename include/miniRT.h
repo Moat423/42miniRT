@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 14:01:39 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:29:14 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,10 @@ typedef	struct s_scene
 	uint32_t	image_width;
 	uint32_t	image_height;
 }	t_scene;
+
+/* CAMERA */
+t_camera	camera_new(t_vec3 pos, t_vec3 dir, uint32_t fov);
+t_ray		get_viewport_ray(t_scene *scene, float u, float v);
 
 /* VEC3 */
 

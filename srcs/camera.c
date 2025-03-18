@@ -6,13 +6,25 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:42 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 14:21:36 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:29:03 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-float	get_height_factor(t_camera *cam)
+t_camera	camera_new(t_vec3 pos, t_vec3 dir, uint32_t fov)
+{
+	t_camera	result;
+
+	result.pos = pos;
+	result.dir = dir;
+	result.fov = fov;
+	result.up = vec3_new(0, 1, 0);
+	result.right = vec3_cross(result.dir, result.up);
+	return (result);
+}
+
+static float	get_height_factor(t_camera *cam)
 {
 	float	half_fov;
 
