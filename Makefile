@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/18 15:30:32 by kwurster         ###   ########.fr        #
+#    Updated: 2025/03/18 15:40:48 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ DIRS = $(addprefix $(OBJ_DIR)/, . util)
 
 CC := cc
 NAME := miniRT
-INCLUDES := -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
+INCLUDES := -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
 # Set MLX_FLAGS based on the operating system
 ifeq ($(UNAME_S), Linux)
@@ -42,7 +42,7 @@ endif
 CFLAGS := -Werror -Wall -Wextra -g
 LDFLAGS :=
 OPTIM_FLAGS := -Ofast
-LINUX_MLX := -ldl -lglfw -pthread -lm -L$(LIBMLX) -lmlx
+LINUX_MLX := -ldl -lglfw -pthread -lm -L$(LIBMLX) -lmlx42
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
 FINAL_CFLAGS = $(CFLAGS)
@@ -60,7 +60,7 @@ LIBFT_FLAGS := -L$(LIBFT_DIR) -lft
 #MiniLibX
 # replace MLX_FLAGS with LINUX_MLX or MAC_MLX depending on your OS
 # MLX_FLAGS := -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
-LIBMLX := $(MLX_DIR)/libmlx.a
+LIBMLX := $(MLX_DIR)/libmlx42.a
 
 SRCS := $(addprefix $(SRCS_DIR)/,\
 		main.c \
@@ -109,7 +109,7 @@ run: all
 # Main program
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
 	@printf "\n$(BOLD)Linking $(NAME)$(RESET)\n"
-	$(CC) $(FINAL_CFLAGS) $(OBJS) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@
+	$(CC) $(FINAL_CFLAGS) $(OBJS) $(INCLUDES) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@ && \
 	printf "\n$(GREEN)$(BOLD)Build successful!$(RESET)\n" || \
 	printf "$(RED)$(BOLD)Build failed!$(RESET)\n"
 
