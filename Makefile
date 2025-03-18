@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+         #
+#    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/18 12:06:05 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/18 15:30:32 by kwurster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ endif
 CFLAGS := -Werror -Wall -Wextra -g
 LDFLAGS :=
 OPTIM_FLAGS := -Ofast
-LINUX_MLX := -ldl -lglfw -pthread -lm
+LINUX_MLX := -ldl -lglfw -pthread -lm -L$(LIBMLX) -lmlx
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
 FINAL_CFLAGS = $(CFLAGS)
@@ -64,6 +64,9 @@ LIBMLX := $(MLX_DIR)/libmlx.a
 
 SRCS := $(addprefix $(SRCS_DIR)/,\
 		main.c \
+		camera.c \
+		render.c \
+		trace_ray.c \
 		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
 		)
 
@@ -106,7 +109,7 @@ run: all
 # Main program
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
 	@printf "\n$(BOLD)Linking $(NAME)$(RESET)\n"
-	$(CC) $(FINAL_CFLAGS) $(OBJS) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@ -pie
+	$(CC) $(FINAL_CFLAGS) $(OBJS) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@
 	printf "\n$(GREEN)$(BOLD)Build successful!$(RESET)\n" || \
 	printf "$(RED)$(BOLD)Build failed!$(RESET)\n"
 

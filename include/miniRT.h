@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 14:29:14 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:07:55 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,17 @@ typedef	struct s_scene
 	size_t		cylinder_count;
 	uint32_t	image_width;
 	uint32_t	image_height;
+	/// must be initialized to null
+	mlx_t		*mlx;
+	mlx_image_t	*image;
 }	t_scene;
 
+/* RENDER */
+
+int	render_loop(t_scene *scene);
+
 /* CAMERA */
+
 t_camera	camera_new(t_vec3 pos, t_vec3 dir, uint32_t fov);
 t_ray		get_viewport_ray(t_scene *scene, float u, float v);
 
