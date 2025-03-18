@@ -68,12 +68,12 @@ t_camera	set_camera(char *line)
 	int		i;
 	char	*num;
 	int		error;
-	
+
 	i = 1;
 	while (line[++i] != '\n') 
 	{
 		if (line[i] == ' ')
-			continue;
+			continue ;
 		if (ft_isdigit(line[i]) || line[i] == '-')
 		{
 			num = ft_substr(line, i, line - ft_strchr(&line[i], ','));
@@ -94,24 +94,33 @@ int	set_pos(char *line, int start, t_vec3 *pos)
 	error = 0;
 	while (i < 3)
 	{
-		comma = line - ft_strchr(&line[start], ',');
-		num = ft_substr(line, start, comma );
+		if (i < 2)
+			comma = line - ft_strchr(&line[start], ',');
+		else
+			comma = line - ft_strchr(&line[start], ' ');
+		num = ft_substr(line, start, comma);
 		if (!num)
-			rperror("malloc");
+		{
+			perror("malloc");
+			return (0);
+		}
 		arr[i] = ft_strtod_s(num, &error);
 		free(num);
 		if (error)
-			return (ft_parseerror("number to large in line:", line));
+		{
+			ft_parseerror("number contains invalid characters or too large", line);
+			return (0);
+		}
 		start = comma + 1;
 		++i;
 	}
 	*pos = vec3_new(arr[0], arr[1], arr[2]);
-	return (0);
+	return (comma + 1);
 }
 
 int	ft_parseerror(char *error, char *line)
 {
-	ft_fprintf(2, "ERROR\n%s\n    %s", error, line);
+	ft_fprintf(2, "ERROR\n%s\n   line:\n%s", error, line);
 	return (1);
 }
 
