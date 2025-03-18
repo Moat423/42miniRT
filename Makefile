@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lmeubrin <lmeubrin@student.42berlin.       +#+  +:+       +#+         #
+#    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/18 12:06:05 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/18 16:02:46 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ DIRS = $(addprefix $(OBJ_DIR)/, . util)
 
 CC := cc
 NAME := miniRT
-INCLUDES := -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
+INCLUDES := -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
 # Set MLX_FLAGS based on the operating system
 ifeq ($(UNAME_S), Linux)
@@ -38,9 +38,11 @@ else ifeq ($(UNAME_S), Darwin)
     MLX_FLAGS = $(MAC_MLX)
 endif
 
+LIBMLX := $(MLX_DIR)/build/libmlx42.a
+
 #flags
 CFLAGS := -Werror -Wall -Wextra -g
-LDFLAGS :=
+LDFLAGS += -L./$(MLX_DIR)/build -lmlx42
 OPTIM_FLAGS := -Ofast
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
@@ -60,10 +62,12 @@ LIBFT_FLAGS := -L$(LIBFT_DIR) -lft
 #MiniLibX
 # replace MLX_FLAGS with LINUX_MLX or MAC_MLX depending on your OS
 # MLX_FLAGS := -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
-LIBMLX := $(MLX_DIR)/libmlx.a
 
 SRCS := $(addprefix $(SRCS_DIR)/,\
 		main.c \
+		camera.c \
+		render.c \
+		trace_ray.c \
 		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
 		)
 
@@ -106,7 +110,7 @@ run: all
 # Main program
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
 	@printf "\n$(BOLD)Linking $(NAME)$(RESET)\n"
-	$(CC) $(FINAL_CFLAGS) $(OBJS) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@ -pie
+	$(CC) $(FINAL_CFLAGS) $(OBJS) $(INCLUDES) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@ && \
 	printf "\n$(GREEN)$(BOLD)Build successful!$(RESET)\n" || \
 	printf "$(RED)$(BOLD)Build failed!$(RESET)\n"
 
@@ -134,8 +138,8 @@ $(LIBMLX):
 	@printf "$(BOLD)Building MLX42...$(RESET)\n"
 	# @make -s -C $(MLX_DIR) >/dev/null 2>&1;
 	cd $(MLX_DIR) && \
-	cmake -B . # build here refers to the outputfolder.
-	cmake --build . -j4 # or do make -C build -j4
+	cmake -B build && \
+	cmake --build build -j4
 
 # Submodules in my own Libft from own repo if not present and compiles
 $(LIBFT):
