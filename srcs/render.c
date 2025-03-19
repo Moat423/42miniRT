@@ -6,18 +6,13 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 15:32:36 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:42:47 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
 // TODO allow pressing esc to exit
-// TODO dont render on every resize call.
-// resize should only queue a render for ~250ms after the last resize event
-// store an accumulation of time deltas from the mlx struct in the scene struct
-// to determine when to render. Store a timestamp of when the last resize event was called.
-// if the time delta is greater than 250ms, render the scene and clear the resize event.
 
 static int32_t	rgb_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
@@ -52,7 +47,6 @@ void	render_raytraced(void *param)
 		}
 		y++;
 	}
-	printf("Rendered frame\n");
 }
 
 // for now, fill all pixels with random RGB colors with full opacity
@@ -98,8 +92,8 @@ void	window_resize(int32_t width, int32_t height, void* param)
 		mlx_delete_image(minirt->mlx, minirt->image);
 		minirt->image = mlx_new_image(minirt->mlx, minirt->scene.image_width, minirt->scene.image_height);
 		mlx_image_to_window(minirt->mlx, minirt->image, 0, 0);
+		minirt->last_render_request_time = mlx_get_time();
 		printf("Resized window to %dx%d\n", width, height);
-		render((void*)minirt);
 	}
 	else
 		printf("Tried to resize window with image or mlx == null.\n");
@@ -112,6 +106,21 @@ void	window_close(void *param)
 	minirt = param;
 	(void)minirt;
 	printf("Window close hook called\n");
+}
+
+void	render_on_request(void *param)
+{
+	t_minirt	*minirt;
+	double		before_render;
+
+	minirt = param;
+	before_render = mlx_get_time();
+	if (minirt->last_render_request_time + 0.1 < before_render)
+	{
+		render((void*)minirt);
+		printf("Rendered frame in %f seconds\n", mlx_get_time() - before_render);
+		minirt->last_render_request_time = INFINITY;
+	}
 }
 
 /// @brief Render loop
@@ -144,6 +153,7 @@ int	render_loop(t_minirt *minirt)
 	}
 	//mlx_loop_hook(mlx, ft_randomize, scene);
 	//mlx_loop_hook(mlx, ft_hook, scene);
+	mlx_loop_hook(minirt->mlx, render_on_request, minirt);
 	mlx_resize_hook(minirt->mlx, window_resize, minirt);
 	mlx_close_hook(minirt->mlx, window_close, minirt);
 	mlx_loop(minirt->mlx);

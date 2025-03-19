@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 14:23:48 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:37:32 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ typedef struct s_minirt
 	/// must be initialized to null
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	double		last_render_request_time;
 }	t_minirt;
 
 #endif

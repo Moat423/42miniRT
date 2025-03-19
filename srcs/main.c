@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/19 15:01:06 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:38:39 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int argc, char **argv)
 	int	exit_code;
 
 	minirt = (t_minirt){0};
+	minirt.last_render_request_time = INFINITY;
 	scene = &minirt.scene;
 	(void)argc;
 	(void)argv;
