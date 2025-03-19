@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:58:18 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:20:28 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:56:58 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_intersection	find_closest_sphere_intersection(t_scene *scene, t_ray ray)
 	while (i < scene->sphere_count)
 	{
 		intersection = sphere_intersect(&scene->spheres[i], ray);
-		if (intersection.object && intersection.distance < closest.distance)
+		if (intersection.object.any && intersection.distance < closest.distance)
 			closest = intersection;
 		i++;
 	}

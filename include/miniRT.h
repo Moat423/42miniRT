@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:11:05 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:55:54 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ t_color	trace_ray(t_scene *scene, t_ray ray);
 
 t_intersection	find_closest_intersection(t_scene *scene, t_ray ray);
 t_intersection	sphere_intersect(t_sphere *sphere, t_ray ray);
+
+/* SURFACE NORMAL */
+
+t_vec3	sphere_normal(t_sphere sphere, t_vec3 point);
+
+/* OBJECT */
+
+t_color	object_color(t_object object);
+t_vec3	object_normal(t_object object, t_vec3 point);
 
 /* CAMERA */
 

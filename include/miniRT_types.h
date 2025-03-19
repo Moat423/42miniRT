@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:01:18 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:56:53 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,17 @@ typedef struct s_ray
 	t_vec3	direction;
 }	t_ray;
 
+typedef struct s_object
+{
+	union {
+		t_sphere	*sphere;
+		t_plane		*plane;
+		t_cylinder	*cylinder;
+		void		*any;
+	};
+	t_object_type	type;
+}	t_object;
+
 typedef enum e_object_type
 {
 	SPHERE,
@@ -110,11 +121,8 @@ typedef enum e_object_type
 typedef struct s_intersection
 {
 	t_vec3			point;
-	/// normal of the object at the intersection point
-	t_vec3			normal;
 	/// alias of the object from the scene which was intersected
-	void			*object;
-	t_object_type	type;
+	t_object		object;
 	float			distance;
 }	t_intersection;
 

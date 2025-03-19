@@ -6,11 +6,16 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:29:16 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:53:20 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
+
+t_vec3	sphere_normal(t_sphere sphere, t_vec3 point)
+{
+	return (vec3_normalize(vec3_subtract(point, sphere.pos)));
+}
 
 t_intersection	sphere_intersect(t_sphere *sphere, t_ray ray)
 {
@@ -33,9 +38,10 @@ t_intersection	sphere_intersect(t_sphere *sphere, t_ray ray)
 	intersection = (t_intersection){
 		.distance = t,
 		.point = vec3_add(ray.origin, vec3_multiply(ray.direction, t)),
-		.object = sphere,
-		.type = SPHERE,
+		.object = {
+			.sphere = sphere,
+			.type = SPHERE,
+		},
 	};
-	intersection.normal = vec3_normalize(vec3_subtract(intersection.point, sphere->pos));
 	return (intersection);
 }
