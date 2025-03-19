@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 14:20:21 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:09:22 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ t_color	trace_ray(t_scene *scene, t_ray ray);
 
 /* INTERSECT */
 
-t_intersection	find_closest_intersection(t_scene *scene, t_ray ray);
-t_intersection	sphere_intersect(t_sphere *sphere, t_ray ray);
+bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closest);
+bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out);
 
 /* SURFACE NORMAL */
 
@@ -50,6 +50,7 @@ t_vec3	vec3_subtract(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_add(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_multiply(t_vec3 v, float scalar);
 t_vec3	vec3_component_mul(t_vec3 v1, t_vec3 v2);
+t_vec3 vec3_divide(t_vec3 v, float scalar);
 
 /* COLOR */
 

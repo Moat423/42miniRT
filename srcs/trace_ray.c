@@ -6,11 +6,20 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:47 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:57:23 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:10:43 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
+
+t_color	surface_normal_color(t_ray ray, t_intersection intersection)
+{
+	t_color	color;
+
+	(void)ray;
+	color = object_color(intersection.object);
+	return vec3_multiply(vec3_add(object_normal(intersection.object, intersection.point), color_new(1,1,1)), 0.5f);
+}
 
 t_color	trace_ray(t_scene *scene, t_ray ray)
 {
@@ -19,9 +28,8 @@ t_color	trace_ray(t_scene *scene, t_ray ray)
 	(void)intersection;
 	(void)scene;
 	(void)ray;
-	intersection = find_closest_intersection(scene, ray);
-	if (intersection.object.any != NULL)
-		return (object_color(intersection.object));
+	if (find_closest_intersection(scene, ray, &intersection))
+		return (surface_normal_color(ray, intersection));
 		//return (calculate_lighting(intersection, scene));
 	//else
 	return (color_new(0, 0, 0));

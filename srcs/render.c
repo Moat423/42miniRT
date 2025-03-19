@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:25:51 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:32:36 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	render_raytraced(void *param)
 	t_minirt	*minirt;
 	uint32_t	x;
 	uint32_t	y;
-	t_color		color;
+	t_ray		ray;
 	size_t		i;
 
 	minirt = param;
@@ -40,8 +40,10 @@ void	render_raytraced(void *param)
 		while (x < minirt->scene.image_width)
 		{
 			i = (y * minirt->scene.image_width + x) * 4;
-			color = trace_ray(&minirt->scene, get_viewport_ray(&minirt->scene, (float)x / (float)minirt->scene.image_width, (float)y / (float)minirt->scene.image_height));
-			color_to_rgb(color,
+			ray = get_viewport_ray(&minirt->scene,
+				(float)x / (float)minirt->scene.image_width,
+				(float)y / (float)minirt->scene.image_height);
+			color_to_rgb(trace_ray(&minirt->scene, ray),
 				&minirt->image->pixels[i],
 				&minirt->image->pixels[i + 1],
 				&minirt->image->pixels[i + 2]);
