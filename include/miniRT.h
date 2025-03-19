@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 11:51:44 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:11:05 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,13 @@
 
 /* RENDER */
 
-int	render_loop(t_minirt *minirt);
+int		render_loop(t_minirt *minirt);
+t_color	trace_ray(t_scene *scene, t_ray ray);
+
+/* INTERSECT */
+
+t_intersection	find_closest_intersection(t_scene *scene, t_ray ray);
+t_intersection	sphere_intersect(t_sphere *sphere, t_ray ray);
 
 /* CAMERA */
 

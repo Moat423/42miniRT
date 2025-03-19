@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/19 11:52:14 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:30:38 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ int	main(int argc, char **argv)
 	// if (parse_scene(argv[1], &scene))
 		// return (1);
 	// render_scene(scene);
+	scene->camera = camera_new(vec3_new(0, 0, 0), vec3_new(0, 0, 1), 60);
+	scene->sphere_count = 1;
+	scene->spheres = malloc(sizeof(t_sphere) * scene->sphere_count);
+	scene->spheres[0] = (t_sphere){
+		.pos = vec3_new(0, 0, -2),
+		.color = color_new(1, 0, 0),
+		.diameter = 1.0f
+	};
 	scene->image_width = 800;
 	scene->image_height = 600;
 	exit_code = render_loop(&minirt);
