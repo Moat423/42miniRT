@@ -9,3 +9,9 @@ int	input_check(int argc, char **argv)
 	ft_fprintf(2, "scene-description.rt must be a valid file inside the 'scene' folder");
 	return (0);
 }
+
+int	ft_parseerror(char *error, char *line)
+{
+	ft_fprintf(2, "ERROR\n%s\n   line:\n%s", error, line);
+	return (0);
+}

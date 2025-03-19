@@ -6,11 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-<<<<<<< Updated upstream
-#    Updated: 2025/03/18 16:02:46 by lmeubrin         ###   ########.fr        #
-=======
-#    Updated: 2025/03/18 16:49:58 by lmeubrin         ###   ########.fr        #
->>>>>>> Stashed changes
+#    Updated: 2025/03/19 12:44:52 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +69,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		render.c \
 		trace_ray.c \
 		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
+		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_scene_1.c set_utils.c) \
 		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
