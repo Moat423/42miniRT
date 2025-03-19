@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:56:53 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:00:53 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,13 @@ typedef struct s_ray
 	t_vec3	direction;
 }	t_ray;
 
+typedef enum e_object_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER,
+}	t_object_type;
+
 typedef struct s_object
 {
 	union {
@@ -108,13 +115,6 @@ typedef struct s_object
 	};
 	t_object_type	type;
 }	t_object;
-
-typedef enum e_object_type
-{
-	SPHERE,
-	PLANE,
-	CYLINDER,
-}	t_object_type;
 
 /// When successfully intersecting a Ray with an Object we can return
 /// a Intersection struct

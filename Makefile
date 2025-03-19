@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/19 12:20:12 by kwurster         ###   ########.fr        #
+#    Updated: 2025/03/19 14:01:28 by kwurster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		trace_ray.c \
 		intersect.c \
 		sphere.c \
+		object.c \
 		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
 		)
 
