@@ -1,0 +1,123 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   miniRT_types.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
+/*   Updated: 2025/03/19 11:39:17 by kwurster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINIRT_TYPES_H
+# define MINIRT_TYPES_H
+
+
+typedef struct s_vec3
+{
+	float	x;
+	float	y;
+	float	z;
+}	t_vec3;
+
+typedef t_vec3	t_color;
+
+typedef struct s_ambient
+{
+	t_color	color;
+	/// 0.0-1.0
+	float	brightness;
+}	t_ambient;
+
+typedef struct s_camera
+{
+	t_vec3		pos;
+	/// normalized
+	t_vec3		dir;
+	/// normalized up direction
+	t_vec3		up;
+	/// normalized right direction
+	t_vec3		right;
+	/// 0-180
+	uint32_t	fov;
+}	t_camera;
+
+typedef struct s_light
+{
+	t_vec3	pos;
+	t_color	color;
+	/// 0.0-1.0
+	float	brightness;
+}	t_light;
+
+typedef struct s_sphere
+{
+	t_vec3	pos;
+	t_color	color;
+	float	diameter;
+}	t_sphere;
+
+typedef struct s_plane
+{
+	t_vec3	pos;
+	t_vec3	normal;
+	t_color	color;
+}	t_plane;
+
+typedef struct s_cylinder
+{
+	t_vec3	pos;
+	/// normalized
+	t_vec3	axis;
+	t_color	color;
+	float	diameter;
+	float	height;
+}	t_cylinder;
+
+typedef struct s_ray
+{
+	t_vec3	origin;
+	/// normalized
+	t_vec3	direction;
+}	t_ray;
+
+typedef enum e_object_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER,
+}	t_object_type;
+
+/// When successfully intersecting a Ray with an Object we can return
+/// a Intersection struct
+typedef struct s_intersection
+{
+	t_vec3			point;
+	/// normal of the object at the intersection point
+	t_vec3			normal;
+	/// alias of the object from the scene which was intersected
+	void			*object;
+	t_object_type	type;
+}	t_intersection;
+
+typedef	struct s_scene
+{
+	t_camera	camera;
+	t_ambient	ambient;
+	t_light		*lights;
+	t_sphere	*spheres;
+	t_plane		*planes;
+	t_cylinder	*cylinders;
+	size_t		light_count;
+	size_t		sphere_count;
+	size_t		plane_count;
+	size_t		cylinder_count;
+	uint32_t	image_width;
+	uint32_t	image_height;
+	/// must be initialized to null
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+}	t_scene;
+
+#endif
