@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 14:00:53 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:23:48 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_sphere
 {
 	t_vec3	pos;
 	t_color	color;
-	float	diameter;
+	float	radius;
 }	t_sphere;
 
 typedef struct s_plane

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:53:20 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:24:04 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ t_intersection	sphere_intersect(t_sphere *sphere, t_ray ray)
 {
 	t_vec3			oc;
 	t_intersection	intersection;
-	float			abc[3];
+	float			ahc[3];
 	float			discriminant;
 	float			t;
 
 	oc = vec3_subtract(ray.origin, sphere->pos);
-	abc[0] = vec3_dot(ray.direction, ray.direction);
-	abc[1] = -2 * vec3_dot(oc, ray.direction);
-	abc[2] = vec3_dot(oc, oc) - (sphere->diameter/2 * sphere->diameter/2);
-	discriminant = abc[1] * abc[1] - 4 * abc[0] * abc[2];
+	ahc[0] = vec3_squared_length(ray.direction);
+	ahc[1] = vec3_dot(oc, ray.direction);
+	ahc[2] = vec3_squared_length(oc) - sphere->radius * sphere->radius;
+	discriminant = ahc[1] * ahc[1] - ahc[0] * ahc[2];
 	if (discriminant < 0)
 		return ((t_intersection){0});
-	t = (-abc[1] - sqrt(discriminant)) / (2.0*abc[0]);
+	t = (ahc[1] - sqrt(discriminant)) / ahc[0];
 	if (t < 0)
 		return ((t_intersection){0});
 	intersection = (t_intersection){

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:55:54 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:20:21 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_ray		get_viewport_ray(t_scene *scene, float u, float v);
 
 t_vec3	vec3_new(float x, float y, float z);
 float	vec3_dot(t_vec3 v1, t_vec3 v2);
+float	vec3_squared_length(t_vec3 v);
 t_vec3	vec3_cross(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_normalize(t_vec3 v);
 t_vec3	vec3_subtract(t_vec3 v1, t_vec3 v2);
