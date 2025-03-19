@@ -1,3 +1,4 @@
+
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
 
@@ -10,15 +11,24 @@
 * */
 int	set_sphere(char *line, t_sphere *sphere)
 {
-	int			i;
+	int		i;
+	int		error;
+	char	*number;
+	int		previ;
 
 	i = 3;
+	error = 0;
 	i = set_vec(line, i, &(sphere->pos));
 	if (!i)
 		return (0);
 	i = ft_skip_space(line, i);
-	sphere->diameter = ft_strtod_s(&line[i], NULL);
-	if (!sphere->diameter && errno)
+	previ = i;
+	i = ft_float_len(&line[i]);
+	number = ft_substr(line, previ, i);
+	if (!number)
+		return (ft_rperror("malloc)"));
+	sphere->diameter = ft_strtof(number, &error);
+	if (!sphere->diameter && error)
 		return (ft_parseerror("invalid number", line));
 	i = ft_skip_space(line, i);
 	if (line[i] != '\n')
@@ -66,8 +76,11 @@ int	set_cylinder(char *line, t_cylinder *cylinder)
 {
 	int			i;
 	int			error;
+	char		*number;
+	int			previ;
 
 	i = 3;
+	error = 0;
 	i = set_vec(line, i, &(cylinder->pos));
 	if (!i)
 		return (0);
@@ -75,11 +88,20 @@ int	set_cylinder(char *line, t_cylinder *cylinder)
 	i = set_vec(line, i, &(cylinder->axis));
 	if (!i)
 		return (0);
-	i = ft_skip_space(line, i);
-	cylinder->diameter = ft_strtod_s(&line[i], &error);
+	previ = ft_skip_space(line, i);
+	i = ft_float_len(&line[i]);
+	number = ft_substr(line, previ, i);
+	if (!number)
+		return (ft_rperror("malloc)"));
+	cylinder->diameter = ft_strtof(number, &error);
 	if (!cylinder->diameter && error)
 		return (ft_parseerror("invalid number", line));
-	cylinder->height = ft_strtod_s(&line[i], &error);
+	previ = ft_skip_space(line, i);
+	i = ft_float_len(&line[i]);
+	number = ft_substr(line, i, ft_float_len(&line[i]));
+	if (!number)
+		return (ft_rperror("malloc)"));
+	cylinder->height = ft_strtof(number, &error);
 	i = ft_skip_space(line, i);
 	if (!cylinder->height && error)
 		return (ft_parseerror("invalid number", line));

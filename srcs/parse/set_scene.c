@@ -1,17 +1,27 @@
+
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
 
 int	set_light(char *line, t_light *light)
 {
-	int			i;
+	int		i;
+	int		error;
+	char	*number;
+	int		previ;
 
 	i = 2;
+	error = 0;
 	i = set_vec(line, i, &(light->pos));
 	if (!i)
 		return (0);
 	i = ft_skip_space(line, i);
-	light->brightness = ft_strtod_s(&line[i], NULL);
-	if (!light->brightness && errno)
+	previ = i;
+	i = ft_float_len(&line[i]);
+	number = ft_substr(line, previ, i);
+	if (!number)
+		return (ft_rperror("malloc)"));
+	light->brightness = ft_strtof(number, &error);
+	if (!light->brightness && error)
 		return (ft_parseerror("invalid number", line));
 	i = ft_skip_space(line, i);
 	if (line[i] != '\n')
@@ -21,11 +31,20 @@ int	set_light(char *line, t_light *light)
 
 int	set_ambient(char *line, t_ambient *ambient)
 {
-	int			i;
+	int		i;
+	int		previ;
+	int		error;
+	char	*number;
 
 	i = 2;
-	ambient->brightness = ft_strtod_s(&line[i], NULL);
-	if (!ambient->brightness && errno)
+	previ = 2;
+	error = 0;
+	i += ft_float_len(&line[previ]);
+	number = ft_substr(line, previ, i - previ);
+	if (!number)
+		return (ft_rperror("malloc)"));
+	ambient->brightness = ft_strtof(number, &error);
+	if (!ambient->brightness && error)
 		return (ft_parseerror("invalid number", line));
 	i = ft_skip_space(line, i);
 	i = set_color(line, i, &(ambient->color));
@@ -36,9 +55,11 @@ int	set_ambient(char *line, t_ambient *ambient)
 
 int	set_camera(char *line, t_camera *camera)
 {
-	int			i;
+	int	i;
+	int	error;
 
 	i = 2;
+	error = 0;
 	i = set_vec(line, i, &(camera->pos));
 	if (!i)
 		return (0);
@@ -48,8 +69,11 @@ int	set_camera(char *line, t_camera *camera)
 		return (0);
 	i = ft_skip_space(line, i);
 	camera->fov = ft_strtoimax(&line[i], NULL, 10);
-	if (!(camera->fov) && errno)
+	if (!(camera->fov) && error)
 		return (ft_parseerror("invalid number", line));
+	while (ft_isdigit(line[i]))
+		i++;
+	i = ft_skip_space(line, i);
 	camera->up = vec3_new(0, 1, 0);
 	camera->right = vec3_cross(camera->dir, camera->up);
 	return (1);

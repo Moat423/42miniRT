@@ -6,25 +6,23 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/18 16:58:50 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:31:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
+#include "../include/parse.h"
 
 int	main(int argc, char **argv)
 {
 	t_scene	scene;
-	int	exit_code;
+	int		exit_code;
 
-	(void)argc;
 	(void)argv;
-	//what it should do:
-	//
-	// if (argc != 2)
-	// 	return (0);
-	// if (parse_scene(argv[1], &scene))
-		// return (1);
+	if (input_check(argc) == 0)
+		return (1);
+	if (parse_scene(argv[1], &scene))
+		return (1);
 	// render_scene(scene);
 	scene = (t_scene){0};
 	scene.image_width = 800;

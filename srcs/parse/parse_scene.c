@@ -1,7 +1,54 @@
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
 
-int	get_arrays(int fd, t_scene *scene);
+static float	ft_after_point(char *str)
+{
+	float	pos;
+	float	res_b;
+
+	pos = 1;
+	res_b = 0;
+	while (*str <= '9' && *str >= '0')
+	{
+		pos /= 10;
+		res_b += pos * (*str - '0');
+		str++;
+	}
+	return (res_b);
+}
+
+float	ft_atof(char *str)
+{
+	float	res_a;
+	int		sign;
+	float	res_b;
+
+	sign = 1;
+	while ((*str >= '\t' && *str <= '\r') || *str == ' ')
+		str++;
+	if (*str == '+' || *str == '-')
+		if (*(str++) == '-')
+			sign = -1;
+	res_a = 0;
+	while (*str >= '0' && *str <= '9')
+		res_a = res_a * 10 + *(str++) - '0';
+	if (*(str++) != '.')
+		return (res_a * sign);
+	res_b = ft_after_point(str);
+	return ((res_a + res_b) * sign);
+}
+
+//returns attempted ft_atof, and sets error to 1 if not floatable, else error 0
+float	ft_strtof(char *str, int *error)
+{
+	*error = 0;
+	if (ft_isdoubleable(str))
+	{
+		*error = 1;
+		return (0);
+	}
+	return (ft_atof(str));
+}
 
 int	parse_scene(char *filename, t_scene *scene)
 {
@@ -19,10 +66,12 @@ int	parse_scene(char *filename, t_scene *scene)
 		ft_fprintf(2, "invalid file: %s", strerror(errno));
 		return (1);
 	}
-	parse_file(fd, scene);
+	if (!parse_file(fd, scene))
+		return (1);
 	close(fd);
 	fd = open(filename, O_RDONLY);
-	get_arrays(fd, scene);
+	if (!get_arrays(fd, scene))
+		return (1);
 	return (0);
 }
 
@@ -109,6 +158,7 @@ int	get_arrays(int fd, t_scene *scene)
 			cylinder_index++;
 	}
 	get_next_line(-1);
+	return (1);
 }
 		// if (line[0] == 'L' && line[1] == ' ')
 		// {

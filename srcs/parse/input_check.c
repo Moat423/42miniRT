@@ -1,7 +1,7 @@
 
 #include "../../include/miniRT.h"
 
-int	input_check(int argc, char **argv)
+int	input_check(int argc)
 {
 	if (argc == 2)
 		return (1);

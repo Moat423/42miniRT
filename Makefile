@@ -42,7 +42,7 @@ LIBMLX := $(MLX_DIR)/build/libmlx42.a
 
 #flags
 CFLAGS := -Werror -Wall -Wextra -g
-LDFLAGS += -L./$(MLX_DIR)/build -lmlx42
+LDFLAGS += -L./$(MLX_DIR)/build -lmlx42 -g
 OPTIM_FLAGS := -Ofast
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit

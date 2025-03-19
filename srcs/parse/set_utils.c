@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/19 12:28:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:26:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,23 @@ int	set_vec(char *line, int start, t_vec3 *vec)
 	i = 0;
 	while (i < 3)
 	{
+		comma = ft_float_len(&line[start]);
 		if (i < 2)
-			comma = line - ft_strchr(&line[start], ',');
+		{
+			if (line[start + comma] != ',')
+				return (ft_parseerror("invalid seperation in vector-numbers", line));
+		}
 		else
-			comma = line - ft_strchr(&line[start], ' ');
+			if (line[start + comma] != ' ' || line[start + comma != '\n'])
+				return (ft_parseerror("invalid seperation in vector-numbers", line));
 		num = ft_substr(line, start, comma);
 		if (!num)
-			return (0);
-		arr[i] = ft_strtod_s(num, &error);
+			return (ft_rperror("malloc"));
+		arr[i] = ft_strtof(num, &error);
 		free(num);
 		if (error)
 			return (ft_parseerror("invalid number", line));
-		start = comma + 1;
+		start += comma + 1;
 		++i;
 	}
 	*vec = vec3_new(arr[0], arr[1], arr[2]);
