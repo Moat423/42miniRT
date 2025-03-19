@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:31 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 15:05:09 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:52:53 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ float	clamp(float value, float min, float max)
 }
 
 /// Free memory allocated for a scene
-/// @warning Does not destroy the MLX context/image
 void	scene_destroy(t_scene *scene)
 {
 	if (!scene)

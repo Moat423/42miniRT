@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 11:39:15 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:51:44 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,9 @@
 
 # include "miniRT_types.h"
 
-# include <stddef.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <math.h>
-# include <fcntl.h>
-# include <stdbool.h>
-# include <stdint.h>
-# include <errno.h>
-# include <string.h>
-# include "../lib/mlx/include/MLX42/MLX42.h"
-# include "../lib/libft/libft_full.h"
-
-# ifndef M_PI
-#  define M_PI 3.14159265358979323846
-# endif
-
 /* RENDER */
 
-int	render_loop(t_scene *scene);
+int	render_loop(t_minirt *minirt);
 
 /* CAMERA */
 

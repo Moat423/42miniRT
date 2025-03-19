@@ -6,13 +6,29 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 11:39:17 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:50:54 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_TYPES_H
 # define MINIRT_TYPES_H
 
+# include <stddef.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <math.h>
+# include <fcntl.h>
+# include <stdbool.h>
+# include <stdint.h>
+# include <errno.h>
+# include <string.h>
+# include "../lib/mlx/include/MLX42/MLX42.h"
+# include "../lib/libft/libft_full.h"
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 typedef struct s_vec3
 {
@@ -115,9 +131,14 @@ typedef	struct s_scene
 	size_t		cylinder_count;
 	uint32_t	image_width;
 	uint32_t	image_height;
+}	t_scene;
+
+typedef struct s_minirt
+{
+	t_scene	scene;
 	/// must be initialized to null
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-}	t_scene;
+}	t_minirt;
 
 #endif
