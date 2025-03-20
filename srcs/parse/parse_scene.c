@@ -139,7 +139,7 @@ int	get_arrays(int fd, t_scene *scene)
 	sphere_index = 0;
 	plane_index = 0;
 	cylinder_index = 0;
-	if (ft_malloc_scene_arrays(scene))
+	if (!ft_malloc_scene_arrays(scene))
 		return (0);
 	while (1)
 	{
