@@ -1,6 +1,11 @@
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
 
+static int	parse_file(int fd, t_scene *scene);
+static int	get_arrays(int fd, t_scene *scene);
+static int	set_obj(char *line, t_scene *scene, int *indexi);
+static void	count_obj(char *line, t_scene *scene);
+
 int	parse_scene(char *filename, t_scene *scene)
 {
 	int	fd;
@@ -26,7 +31,19 @@ int	parse_scene(char *filename, t_scene *scene)
 	return (0);
 }
 
-int	parse_file(int fd, t_scene *scene)
+static void	count_obj(char *line, t_scene *scene)
+{
+	if (!ft_strncmp(line, "L ", 2))
+		scene->light_count++;
+	else if (!ft_strncmp(line, "sp ", 3))
+		scene->sphere_count++;
+	else if (!ft_strncmp(line, "pl ", 3))
+		scene->plane_count++;
+	else if (!ft_strncmp(line, "cy ", 3))
+		scene->cylinder_count++;
+}
+
+static int	parse_file(int fd, t_scene *scene)
 {
 	char	*line;
 	int		got_camera;
@@ -45,14 +62,8 @@ int	parse_file(int fd, t_scene *scene)
 			++got_ambient;
 		else if (!ft_strncmp(line, "C ", 2))
 			++got_camera;
-		else if (!ft_strncmp(line, "L ", 2))
-			scene->light_count++;
-		else if (!ft_strncmp(line, "sp ", 3))
-			scene->sphere_count++;
-		else if (!ft_strncmp(line, "pl ", 3))
-			scene->plane_count++;
-		else if (!ft_strncmp(line, "cy ", 3))
-			scene->cylinder_count++;
+		else
+			count_obj(line, scene);
 		free(line);
 	}
 	if (got_camera != 1 || got_ambient != 1)
@@ -62,7 +73,7 @@ int	parse_file(int fd, t_scene *scene)
 }
 
 // checks for object type and sets object (except camera and ambient)
-int	set_obj(char *line, t_scene *scene, int *indexi)
+static int	set_obj(char *line, t_scene *scene, int *indexi)
 {
 	if (!ft_strncmp(line, "L ", 2))
 		return (set_light(line, &(scene->lights[indexi[LIGHT]++])));
@@ -79,7 +90,7 @@ int	set_obj(char *line, t_scene *scene, int *indexi)
 	return (ft_parseerror("invalid object", line));
 }
 
-int	get_arrays(int fd, t_scene *scene)
+static int	get_arrays(int fd, t_scene *scene)
 {
 	char		*line;
 	int			indexi[4];
