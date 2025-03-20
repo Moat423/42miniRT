@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/20 15:54:40 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:56:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	// a
 	abc[0] = vec3_squared_length(ray.direction);
 	// b
-	abc[1] = 2 * vec3_dot(oc, ray.direction);
+	// abc[1] = vec3_dot(vec3_multiply(ray.direction, -2.0), oc);
+	abc[1] = (vec3_dot(ray.direction, oc) * 2.0);
 	// c
 	abc[2] = vec3_squared_length(oc) - sphere->radius * sphere->radius;
 	discriminant = abc[1] * abc[1] - 4 * abc[0] * abc[2]; // b*b - 4*a*c
