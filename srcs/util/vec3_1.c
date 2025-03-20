@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:37 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 13:55:38 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:39:50 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,15 @@ t_vec3	vec3_component_mul(t_vec3 v1, t_vec3 v2)
 	result.y = v1.y * v2.y;
 	result.z = v1.z * v2.z;
 	return (result);
+}
+
+/// Division of vector by scalar
+t_vec3 vec3_divide(t_vec3 v, float scalar)
+{
+	t_vec3	result;
+
+	result.x = v.x / scalar;
+	result.y = v.y / scalar;
+	result.z = v.z / scalar;
+    return (result);
 }

@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/19 12:44:52 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/20 10:06:37 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		camera.c \
 		render.c \
 		trace_ray.c \
+		intersect.c \
+		sphere.c \
+		object.c \
 		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_scene_1.c set_utils.c) \
 		)
