@@ -1,55 +1,6 @@
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
 
-static float	ft_after_point(char *str)
-{
-	float	pos;
-	float	res_b;
-
-	pos = 1;
-	res_b = 0;
-	while (*str <= '9' && *str >= '0')
-	{
-		pos /= 10;
-		res_b += pos * (*str - '0');
-		str++;
-	}
-	return (res_b);
-}
-
-float	ft_atof(char *str)
-{
-	float	res_a;
-	int		sign;
-	float	res_b;
-
-	sign = 1;
-	while ((*str >= '\t' && *str <= '\r') || *str == ' ')
-		str++;
-	if (*str == '+' || *str == '-')
-		if (*(str++) == '-')
-			sign = -1;
-	res_a = 0;
-	while (*str >= '0' && *str <= '9')
-		res_a = res_a * 10 + *(str++) - '0';
-	if (*(str++) != '.')
-		return (res_a * sign);
-	res_b = ft_after_point(str);
-	return ((res_a + res_b) * sign);
-}
-
-//returns attempted ft_atof, and sets error to 1 if not floatable, else error 0
-float	ft_strtof(char *str, int *error)
-{
-	*error = 0;
-	if (ft_isdoubleable(str))
-	{
-		*error = 1;
-		return (0);
-	}
-	return (ft_atof(str));
-}
-
 int	parse_scene(char *filename, t_scene *scene)
 {
 	int	fd;
@@ -75,17 +26,30 @@ int	parse_scene(char *filename, t_scene *scene)
 	return (0);
 }
 
-// return -1 on error, 0 if no camera, 1 if camera
-int	get_camera(char *line, t_camera *camera, bool got_camera)
+// return 0 on error, -1 if no camera, 1 if camera
+int	get_camera(char *line, t_camera *camera, int *got_camera)
 {
 	if (line[0] == 'C' && line[1] == ' ')
 	{
 		if (!set_camera(line, camera))
-			return (-1);
-		got_camera = true;
+			return (0);
+		++(*got_camera);
 		return (1);
 	}
-	return (0);
+	return (-1);
+}
+
+// return 0 on error, -1 if no ambient, 1 if ambient
+int	get_ambient(char *line, t_ambient *ambient, int *got_ambient)
+{
+	if (line[0] == 'C' && line[1] == ' ')
+	{
+		if (!set_ambient(line, ambient))
+			return (0);
+		++(*got_ambient);
+		return (1);
+	}
+	return (-1);
 }
 
 int	parse_file(int fd, t_scene *scene)
@@ -103,18 +67,10 @@ int	parse_file(int fd, t_scene *scene)
 			break ;
 		if (line[0] == '\n')
 			continue ;
-		if (line[0] == 'C' && line[1] == ' ')
-		{
-			if (!set_camera(line, &(scene->camera)))
-				return (0);
-			got_camera++;
-		}
-		else if (line[0] == 'A' && line[1] == ' ')
-		{
-			if (!set_ambient(line, &(scene->ambient)))
-				return (0);
-			got_ambient++;
-		}
+		if (!get_camera(line, &(scene->camera), &got_camera))
+			return (0);
+		else if (!get_ambient(line, &(scene->ambient), &got_ambient))
+			return (0);
 		else if (!ft_strncmp(line, "L ", 2))
 			scene->light_count++;
 		else if (!ft_strncmp(line, "sp ", 3))
@@ -125,6 +81,8 @@ int	parse_file(int fd, t_scene *scene)
 			scene->cylinder_count++;
 		free(line);
 	}
+	printf("got_camera: %d\n", got_camera);
+	printf("got_ambient: %d\n", got_ambient);
 	if (got_camera != 1 || got_ambient != 1)
 		return (ft_parseerror("need 1 camera (C) & 1 ambient light (A)", NULL));
 	get_next_line(-1);
