@@ -1,11 +1,54 @@
 #include "../../include/miniRT.h"
+#include "../../include/parse.h"
 
-int	parse_file(int fd, t_scene *scene);
-int	set_camera(char *line, t_camera *camera);
-int	set_vec(char *line, int start, t_vec3 *vec);
-int	ft_parseerror(char *error, char *line);
-int	rperror(char *str);
+static float	ft_after_point(char *str)
+{
+	float	pos;
+	float	res_b;
 
+	pos = 1;
+	res_b = 0;
+	while (*str <= '9' && *str >= '0')
+	{
+		pos /= 10;
+		res_b += pos * (*str - '0');
+		str++;
+	}
+	return (res_b);
+}
+
+float	ft_atof(char *str)
+{
+	float	res_a;
+	int		sign;
+	float	res_b;
+
+	sign = 1;
+	while ((*str >= '\t' && *str <= '\r') || *str == ' ')
+		str++;
+	if (*str == '+' || *str == '-')
+		if (*(str++) == '-')
+			sign = -1;
+	res_a = 0;
+	while (*str >= '0' && *str <= '9')
+		res_a = res_a * 10 + *(str++) - '0';
+	if (*(str++) != '.')
+		return (res_a * sign);
+	res_b = ft_after_point(str);
+	return ((res_a + res_b) * sign);
+}
+
+//returns attempted ft_atof, and sets error to 1 if not floatable, else error 0
+float	ft_strtof(char *str, int *error)
+{
+	*error = 0;
+	if (ft_isdoubleable(str))
+	{
+		*error = 1;
+		return (0);
+	}
+	return (ft_atof(str));
+}
 
 int	parse_scene(char *filename, t_scene *scene)
 {
@@ -23,7 +66,25 @@ int	parse_scene(char *filename, t_scene *scene)
 		ft_fprintf(2, "invalid file: %s", strerror(errno));
 		return (1);
 	}
-	parse_file(fd, scene);
+	if (!parse_file(fd, scene))
+		return (1);
+	close(fd);
+	fd = open(filename, O_RDONLY);
+	if (!get_arrays(fd, scene))
+		return (1);
+	return (0);
+}
+
+// return -1 on error, 0 if no camera, 1 if camera
+int	get_camera(char *line, t_camera *camera, bool got_camera)
+{
+	if (line[0] == 'C' && line[1] == ' ')
+	{
+		if (!set_camera(line, camera))
+			return (-1);
+		got_camera = true;
+		return (1);
+	}
 	return (0);
 }
 
@@ -31,8 +92,7 @@ int	parse_file(int fd, t_scene *scene)
 {
 	char		*line;
 	bool		got_camera;
-	bool		got_ambient_light;
-	bool		got_light;
+	bool		got_ambient;
 
 	while (1)
 	{
@@ -47,111 +107,63 @@ int	parse_file(int fd, t_scene *scene)
 				return (0);
 			got_camera = true;
 		}
-		// if (line[0] == 'A' && line[1] == ' ')
-		// {
-		// 	if (!set_camera(line, &(scene->camera)))
-		// 		return (0);
-		// 	got_ambient_light = true;
-		// }
-		// if (line[0] == 'L' && line[1] == ' ')
-		// {
-		// 	if (!set_camera(line, &(scene->camera)))
-		// 		return (0);
-		// 	got_light = true;
-		// }
+		else if (line[0] == 'A' && line[1] == ' ')
+		{
+			if (!set_ambient(line, &(scene->ambient)))
+				return (0);
+			got_ambient = true;
+		}
+		else if (ft_strncmp(line, "L ", 2))
+			scene->light_count++;
+		else if (ft_strncmp(line, "sp ", 3))
+			scene->sphere_count++;
+		else if (ft_strncmp(line, "pl ", 3))
+			scene->plane_count++;
+		else if (ft_strncmp(line, "cy ", 3))
+			scene->cylinder_count++;
+		free(line);
 	}
 	get_next_line(-1);
 	return (1);
 }
 
-
-int	set_camera(char *line, t_camera *camera)
+int	get_arrays(int fd, t_scene *scene)
 {
-	int			i;
+	char		*line;
+	int			light_index;
+	int			sphere_index;
+	int			plane_index;
+	int			cylinder_index;
 
-	i = 2;
-	i = set_vec(line, i, &(camera->pos));
-	if (!i)
+	light_index = 0;
+	sphere_index = 0;
+	plane_index = 0;
+	cylinder_index = 0;
+	if (!ft_malloc_scene_arrays(scene))
 		return (0);
-	while (line[i] == ' ')
-		++i;
-	i = set_vec(line, i, &(camera->dir));
-	if (!i)
-		return (0);
-	while (line[i] == ' ')
-		++i;
-	camera->fov = ft_strtoimax(&line[i], NULL, 10);
-	if (!(camera->fov) && errno)
-		return (ft_parseerror("number contains invalid characters or too large", line));
-	camera->up = vec3_new(0, 1, 0);
-	camera->right = vec3_cross(camera->dir, camera->up);
-	return (1);
-}
-
-int	set_vec(char *line, int start, t_vec3 *vec)
-{
-	int		i;
-	char	*num;
-	int		error;
-	int		arr[3];
-	int		comma;
-
-	i = 0;
-	error = 0;
-	while (i < 3)
+	while (1)
 	{
-		if (i < 2)
-			comma = line - ft_strchr(&line[start], ',');
-		else
-			comma = line - ft_strchr(&line[start], ' ');
-		num = ft_substr(line, start, comma);
-		if (!num)
-			return (0);
-		arr[i] = ft_strtod_s(num, &error);
-		free(num);
-		if (error)
-			return (ft_parseerror("number contains invalid characters or too large", line));
-		start = comma + 1;
-		++i;
-	}
-	*vec = vec3_new(arr[0], arr[1], arr[2]);
-	return (comma + 1);
-}
-
-// returns index of first invalid character
-int	ft_float_len(char *str)
-{
-	int	dotcount;
-	int	i;
-
-	dotcount = 0;
-	i = ft_skip_whitespace(str);
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i])
-	{
-		if (str[i] == '.' )
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		if (line[0] == '\n')
+			continue ;
+		if (line[0] == 'L' && line[1] == ' ')
 		{
-			if (dotcount == 0)
-				dotcount++;
-			else
-				return (i);
+			if (!set_light(line, &(scene->lights[++light_index])))
+			{
+				free(line);
+				return (0);
+			}
 		}
-		else if (str[i] < '0' || str[i] > '9')
-			return (i);
-		i++;
+		else if (ft_strncmp(line, "sp ", 3))
+			sphere_index++;
+		else if (ft_strncmp(line, "pl ", 3))
+			plane_index++;
+		else if (ft_strncmp(line, "cy ", 3))
+			cylinder_index++;
+		free(line);
 	}
-	return (0);
-}
-
-int	ft_parseerror(char *error, char *line)
-{
-	ft_fprintf(2, "ERROR\n%s\n   line:\n%s", error, line);
-	return (0);
-}
-
-int	rperror(char *str)
-{
-	perror(str);
-	return (errno);
+	get_next_line(-1);
+	return (1);
 }

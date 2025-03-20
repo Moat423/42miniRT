@@ -6,6 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
+#    Updated: 2025/03/20 13:02:04 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +42,7 @@ LIBMLX := $(MLX_DIR)/build/libmlx42.a
 
 #flags
 CFLAGS := -Werror -Wall -Wextra -g
-LDFLAGS += -L./$(MLX_DIR)/build -lmlx42
+LDFLAGS += -L./$(MLX_DIR)/build -lmlx42 -g
 OPTIM_FLAGS := -Ofast
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
@@ -70,7 +71,8 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		intersect.c \
 		sphere.c \
 		object.c \
-		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
+		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c scene_malloc.c) \
+		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c set_utils.c) \
 		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
