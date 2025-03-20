@@ -90,10 +90,12 @@ int	get_camera(char *line, t_camera *camera, bool got_camera)
 
 int	parse_file(int fd, t_scene *scene)
 {
-	char		*line;
-	bool		got_camera;
-	bool		got_ambient;
+	char	*line;
+	int		got_camera;
+	int		got_ambient;
 
+	got_camera = 0;
+	got_ambient = 0;
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -105,40 +107,52 @@ int	parse_file(int fd, t_scene *scene)
 		{
 			if (!set_camera(line, &(scene->camera)))
 				return (0);
-			got_camera = true;
+			got_camera++;
 		}
 		else if (line[0] == 'A' && line[1] == ' ')
 		{
 			if (!set_ambient(line, &(scene->ambient)))
 				return (0);
-			got_ambient = true;
+			got_ambient++;
 		}
-		else if (ft_strncmp(line, "L ", 2))
+		else if (!ft_strncmp(line, "L ", 2))
 			scene->light_count++;
-		else if (ft_strncmp(line, "sp ", 3))
+		else if (!ft_strncmp(line, "sp ", 3))
 			scene->sphere_count++;
-		else if (ft_strncmp(line, "pl ", 3))
+		else if (!ft_strncmp(line, "pl ", 3))
 			scene->plane_count++;
-		else if (ft_strncmp(line, "cy ", 3))
+		else if (!ft_strncmp(line, "cy ", 3))
 			scene->cylinder_count++;
 		free(line);
 	}
+	if (got_camera != 1 || got_ambient != 1)
+		return (ft_parseerror("need 1 camera (C) & 1 ambient light (A)", NULL));
 	get_next_line(-1);
 	return (1);
+}
+
+// checks for object type and sets object (except camera and ambient)
+int	set_obj(char *line, t_scene *scene, int *indexi)
+{
+	if (!ft_strncmp(line, "L ", 2))
+		return (set_light(line, &(scene->lights[indexi[LIGHT]++])));
+	else if (!ft_strncmp(line, "sp ", 3))
+		return (set_sphere(line, &(scene->spheres[indexi[SPHERE]++])));
+	else if (!ft_strncmp(line, "pl ", 3))
+		return (set_plane(line, &(scene->planes[indexi[PLANE]++])));
+	else if (!ft_strncmp(line, "cy ", 3))
+		return (set_cylinder(line, &(scene->cylinders[indexi[CYLINDER]++])));
+	else if (!ft_strncmp(line, "A ", 2) || !ft_strncmp(line, "C ", 2))
+		return (1);
+	return (ft_parseerror("invalid object", line));
 }
 
 int	get_arrays(int fd, t_scene *scene)
 {
 	char		*line;
-	int			light_index;
-	int			sphere_index;
-	int			plane_index;
-	int			cylinder_index;
+	int			indexi[4];
 
-	light_index = 0;
-	sphere_index = 0;
-	plane_index = 0;
-	cylinder_index = 0;
+	ft_bzero(indexi, sizeof(int) * 4);
 	if (!ft_malloc_scene_arrays(scene))
 		return (0);
 	while (1)
@@ -148,20 +162,8 @@ int	get_arrays(int fd, t_scene *scene)
 			break ;
 		if (line[0] == '\n')
 			continue ;
-		if (line[0] == 'L' && line[1] == ' ')
-		{
-			if (!set_light(line, &(scene->lights[++light_index])))
-			{
-				free(line);
-				return (0);
-			}
-		}
-		else if (ft_strncmp(line, "sp ", 3))
-			sphere_index++;
-		else if (ft_strncmp(line, "pl ", 3))
-			plane_index++;
-		else if (ft_strncmp(line, "cy ", 3))
-			cylinder_index++;
+		if (!set_obj(line, scene, indexi))
+			return (0);
 		free(line);
 	}
 	get_next_line(-1);

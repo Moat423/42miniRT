@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/20 11:39:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:15:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,9 @@ float	image_aspect_ratio(t_scene *scene);
 /*OBJS */
 
 int	ft_malloc_scene_arrays(t_scene *scene);
+
+/*PRINT_SCENE*/
+
+void print_scene(const t_scene *scene);
 
 #endif

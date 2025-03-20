@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/20 10:57:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:03:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef enum e_object_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	LIGHT,
 }	t_object_type;
 
 typedef struct s_object

@@ -30,6 +30,7 @@ int	set_sphere(char *line, t_sphere *sphere)
 	sphere->radius = ft_strtof(number, &error);
 	if (!sphere->radius && error)
 		return (ft_parseerror("invalid number", line));
+	sphere->radius /= 2;
 	i = ft_skip_space(line, i);
 	if (line[i] != '\n')
 		i = set_color(line, i, &(sphere->color));
