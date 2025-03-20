@@ -6,11 +6,6 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-<<<<<<< Updated upstream
-#    Updated: 2025/03/18 16:02:46 by lmeubrin         ###   ########.fr        #
-=======
-#    Updated: 2025/03/18 16:49:58 by lmeubrin         ###   ########.fr        #
->>>>>>> Stashed changes
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +67,9 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		camera.c \
 		render.c \
 		trace_ray.c \
+		intersect.c \
+		sphere.c \
+		object.c \
 		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c) \
 		)
 

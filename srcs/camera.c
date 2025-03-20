@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:42 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 14:29:03 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:57:42 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_ray	get_viewport_ray(t_scene *scene, float u, float v)
 	float		view_height;
 
 	/// Flip v coordinate to not produce a upside down mirrored image
-	v = 1.0 - v;
+	//v = 1.0 - v;
 	ray.origin = scene->camera.pos;
 	ray.direction = scene->camera.dir;
 	view_height = 2 * get_height_factor(&scene->camera);

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:34 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 13:55:35 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:20:31 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ t_vec3	vec3_new(float x, float y, float z)
 float	vec3_dot(t_vec3 v1, t_vec3 v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+}
+
+float	vec3_squared_length(t_vec3 v)
+{
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
 /// Cross product of two vectors
@@ -39,7 +44,7 @@ t_vec3	vec3_normalize(t_vec3 v)
 {
 	float	length;
 
-	length = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+	length = sqrtf(vec3_squared_length(v));
 	v.x = v.x / length;
 	v.y = v.y / length;
 	v.z = v.z / length;
