@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 15:09:22 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:39:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,9 @@ t_color	color_from_rgb(uint8_t r, uint8_t g, uint8_t b);
 float	clamp(float value, float min, float max);
 void	scene_destroy(t_scene *scene);
 float	image_aspect_ratio(t_scene *scene);
+
+/*OBJS */
+
+int	ft_malloc_scene_arrays(t_scene *scene);
 
 #endif

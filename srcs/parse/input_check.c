@@ -12,6 +12,9 @@ int	input_check(int argc)
 
 int	ft_parseerror(char *error, char *line)
 {
-	ft_fprintf(2, "ERROR\n%s\n   line:\n%s", error, line);
+	if (!line)
+		ft_fprintf(2, "ERROR\n%s\n", error);
+	else
+		ft_fprintf(2, "ERROR\n%s\n   line:\n%s", error, line);
 	return (0);
 }

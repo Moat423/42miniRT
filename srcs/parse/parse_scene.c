@@ -121,6 +121,7 @@ int	parse_file(int fd, t_scene *scene)
 			scene->plane_count++;
 		else if (ft_strncmp(line, "cy ", 3))
 			scene->cylinder_count++;
+		free(line);
 	}
 	get_next_line(-1);
 	return (1);
@@ -138,6 +139,8 @@ int	get_arrays(int fd, t_scene *scene)
 	sphere_index = 0;
 	plane_index = 0;
 	cylinder_index = 0;
+	if (ft_malloc_scene_arrays(scene))
+		return (0);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -145,10 +148,13 @@ int	get_arrays(int fd, t_scene *scene)
 			break ;
 		if (line[0] == '\n')
 			continue ;
-		if (ft_strncmp(line, "L ", 2))
+		if (line[0] == 'L' && line[1] == ' ')
 		{
 			if (!set_light(line, &(scene->lights[++light_index])))
+			{
+				free(line);
 				return (0);
+			}
 		}
 		else if (ft_strncmp(line, "sp ", 3))
 			sphere_index++;
@@ -156,13 +162,8 @@ int	get_arrays(int fd, t_scene *scene)
 			plane_index++;
 		else if (ft_strncmp(line, "cy ", 3))
 			cylinder_index++;
+		free(line);
 	}
 	get_next_line(-1);
 	return (1);
 }
-		// if (line[0] == 'L' && line[1] == ' ')
-		// {
-		// 	if (!set_light(line, &(scene->light)))
-		// 		return (0);
-		// 	got_light = true;
-		// }

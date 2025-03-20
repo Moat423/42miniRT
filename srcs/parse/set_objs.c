@@ -27,8 +27,8 @@ int	set_sphere(char *line, t_sphere *sphere)
 	number = ft_substr(line, previ, i);
 	if (!number)
 		return (ft_rperror("malloc)"));
-	sphere->diameter = ft_strtof(number, &error);
-	if (!sphere->diameter && error)
+	sphere->radius = ft_strtof(number, &error);
+	if (!sphere->radius && error)
 		return (ft_parseerror("invalid number", line));
 	i = ft_skip_space(line, i);
 	if (line[i] != '\n')
