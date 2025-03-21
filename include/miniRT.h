@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 14:44:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:58:41 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 int		render_loop(t_minirt *minirt);
 t_color	trace_ray(t_scene *scene, t_ray ray);
+t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection);
 
 /* INTERSECT */
 
@@ -51,6 +52,7 @@ t_vec3	vec3_add(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_multiply(t_vec3 v, float scalar);
 t_vec3	vec3_component_mul(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_divide(t_vec3 v, float scalar);
+t_vec3	vec3_calc_length_and_normalize(t_vec3 v, float *length);
 
 /* COLOR */
 
