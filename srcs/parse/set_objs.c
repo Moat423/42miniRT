@@ -33,7 +33,7 @@ int	set_sphere(char *line, t_sphere *sphere)
 	i = ft_skip_space(line, i + floatlen);
 	if (line[i] != '\n')
 		i = set_color(line, i, &(sphere->color));
-	return (1);
+	return (i);
 }
 
 /*

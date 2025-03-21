@@ -14,3 +14,5 @@ https://medium.com/@muhammedcan.erbudak/ray-tracing-from-scratch-grid-bvh-compar
 ### Bounding Boxes by raytracerchallenge
 http://raytracerchallenge.com/bonus/bounding-boxes.html
 
+## Phong
+https://medium.com/@lennnart/vex-ray-tracer-4-blinn-phong-shading-f0bf3042ba92

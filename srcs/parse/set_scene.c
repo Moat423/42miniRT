@@ -32,21 +32,20 @@ int	set_light(char *line, t_light *light)
 int	set_ambient(char *line, t_ambient *ambient)
 {
 	int		i;
-	int		previ;
+	int		floatlen;
 	int		error;
 	char	*number;
 
 	i = 2;
-	previ = 2;
 	error = 0;
-	i += ft_float_len(&line[previ]);
-	number = ft_substr(line, previ, i - previ);
+	floatlen = ft_float_len(&line[i]);
+	number = ft_substr(line, i, floatlen);
 	if (!number)
 		return (ft_rperror("malloc)"));
 	ambient->brightness = ft_strtof(number, &error);
 	if (!ambient->brightness && error)
 		return (ft_parseerror("invalid number", line));
-	i = ft_skip_space(line, i);
+	i = ft_skip_space(line, i + floatlen);
 	i = set_color(line, i, &(ambient->color));
 	if (!i)
 		return (0);
@@ -71,9 +70,6 @@ int	set_camera(char *line, t_camera *camera)
 	camera->fov = ft_strtoimax(&line[i], NULL, 10);
 	if (!(camera->fov) && error)
 		return (ft_parseerror("invalid number", line));
-	while (ft_isdigit(line[i]))
-		i++;
-	i = ft_skip_space(line, i);
 	camera->up = vec3_new(0, 1, 0);
 	camera->right = vec3_cross(camera->dir, camera->up);
 	return (1);
