@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/20 15:54:40 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:28:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	// (P - C)² = R²
 	// (O + t * D - C)² = R²
 	// (O-C + t * D)² = R²
+	// D^2*t^2 + 2OC tD + (OC)^2 - R^2 = 0
 	oc = vec3_subtract(ray.origin, sphere->pos);
-	// a = 1 (|normal vector|² = 1)
+	// a = 1 (|normal vector|² = 1) = D²
 	// b = 2 * oc * D
 	bc[0] = 2 * vec3_dot(oc, ray.direction);
 	// c = oc² - r²
