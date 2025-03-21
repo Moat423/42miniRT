@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 12:40:45 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:41:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,19 @@ void	cam_movement(void *param)
 	}
 }
 
+void	key_press(void *param)
+{
+	t_minirt	*minirt;
+
+	minirt = param;
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
+	{
+		printf("Escape key pressed, closing window\n");
+		mlx_close_window(minirt->mlx);
+	}
+	cam_movement(param);
+}
+
 /// @brief Render loop
 /// @param scene The scene to render
 /// @return Exit code. EXIT_SUCCESS on success, EXIT_FAILURE on failure
@@ -177,7 +190,7 @@ int	render_loop(t_minirt *minirt)
 	}
 	//mlx_loop_hook(mlx, ft_randomize, scene);
 	//mlx_loop_hook(mlx, ft_hook, scene);
-	mlx_loop_hook(minirt->mlx, cam_movement, minirt);
+	mlx_loop_hook(minirt->mlx, key_press, minirt);
 	mlx_loop_hook(minirt->mlx, render_on_request, minirt);
 	mlx_resize_hook(minirt->mlx, window_resize, minirt);
 	mlx_close_hook(minirt->mlx, window_close, minirt);
