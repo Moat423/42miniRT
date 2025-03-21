@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/20 14:03:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:00:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,17 @@
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
+
+# ifndef EPSILON // tollerance value for floating point comparisons
+#  define EPSILON 0.00001
+# endif
+
+typedef enum e_abc
+{
+	A,
+	B,
+	C,
+}	t_abc;
 
 typedef struct s_vec3
 {
