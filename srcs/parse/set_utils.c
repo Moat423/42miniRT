@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/20 10:31:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:46:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	set_color(char *line, int start, t_vec3 *color)
 	start = set_vec(line, start, color);
 	if (!start)
 		return (0);
-	*color = vec3_normalize(*color);
+	*color = vec3_to_color(*color);
 	return (start);
 }
 

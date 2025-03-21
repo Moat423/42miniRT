@@ -7,7 +7,7 @@ int	set_light(char *line, t_light *light)
 	int		i;
 	int		error;
 	char	*number;
-	int		previ;
+	int		floatlen;
 
 	i = 2;
 	error = 0;
@@ -15,18 +15,17 @@ int	set_light(char *line, t_light *light)
 	if (!i)
 		return (0);
 	i = ft_skip_space(line, i);
-	previ = i;
-	i = ft_float_len(&line[i]);
-	number = ft_substr(line, previ, i);
+	floatlen = ft_float_len(&line[i]);
+	number = ft_substr(line, i, floatlen);
 	if (!number)
 		return (ft_rperror("malloc)"));
 	light->brightness = ft_strtof(number, &error);
 	if (!light->brightness && error)
 		return (ft_parseerror("invalid number", line));
-	i = ft_skip_space(line, i);
+	i = ft_skip_space(line, i + floatlen);
 	if (line[i] != '\n')
 		i = set_color(line, i, &(light->color));
-	return (1);
+	return (i != 0);
 }
 
 int	set_ambient(char *line, t_ambient *ambient)
@@ -47,9 +46,7 @@ int	set_ambient(char *line, t_ambient *ambient)
 		return (ft_parseerror("invalid number", line));
 	i = ft_skip_space(line, i + floatlen);
 	i = set_color(line, i, &(ambient->color));
-	if (!i)
-		return (0);
-	return (1);
+	return (i != 0);
 }
 
 int	set_camera(char *line, t_camera *camera)

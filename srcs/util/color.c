@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:28 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/18 13:57:23 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:45:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ t_color	color_from_rgb(uint8_t r, uint8_t g, uint8_t b)
 	result.y = (float)g / 255.0f;
 	result.z = (float)b / 255.0f;
 	return (result);
+}
+
+t_color	vec3_to_color(t_vec3 vec)
+{
+	vec.x /= 255.0f;
+	vec.y /= 255.0f;
+	vec.z /= 255.0f;
+	return (vec);
 }
 
 t_color	color_clamp(t_color color)
