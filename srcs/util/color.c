@@ -35,3 +35,13 @@ t_color	color_from_rgb(uint8_t r, uint8_t g, uint8_t b)
 	result.z = (float)b / 255.0f;
 	return (result);
 }
+
+t_color	color_clamp(t_color color)
+{
+	t_color	result;
+
+	result.x = clamp(color.x, 0.0f, 1.0f);
+	result.y = clamp(color.y, 0.0f, 1.0f);
+	result.z = clamp(color.z, 0.0f, 1.0f);
+	return (result);
+}

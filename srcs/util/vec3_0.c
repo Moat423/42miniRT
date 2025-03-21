@@ -45,6 +45,7 @@ t_vec3	vec3_normalize(t_vec3 v)
 	float	length;
 
 	length = sqrtf(vec3_squared_length(v));
+	// TODO check for when length == 0
 	v.x = v.x / length;
 	v.y = v.y / length;
 	v.z = v.z / length;
