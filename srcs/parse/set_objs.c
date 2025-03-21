@@ -14,7 +14,7 @@ int	set_sphere(char *line, t_sphere *sphere)
 	int		i;
 	int		error;
 	char	*number;
-	int		previ;
+	int		floatlen;
 
 	i = 3;
 	error = 0;
@@ -22,16 +22,15 @@ int	set_sphere(char *line, t_sphere *sphere)
 	if (!i)
 		return (0);
 	i = ft_skip_space(line, i);
-	previ = i;
-	i = ft_float_len(&line[i]);
-	number = ft_substr(line, previ, i);
+	floatlen = ft_float_len(&line[i]);
+	number = ft_substr(line, i, floatlen);
 	if (!number)
 		return (ft_rperror("malloc)"));
 	sphere->radius = ft_strtof(number, &error);
 	if (!sphere->radius && error)
 		return (ft_parseerror("invalid number", line));
 	sphere->radius /= 2;
-	i = ft_skip_space(line, i);
+	i = ft_skip_space(line, i + floatlen);
 	if (line[i] != '\n')
 		i = set_color(line, i, &(sphere->color));
 	return (1);
@@ -78,7 +77,7 @@ int	set_cylinder(char *line, t_cylinder *cylinder)
 	int			i;
 	int			error;
 	char		*number;
-	int			previ;
+	int			floatlen;
 
 	i = 3;
 	error = 0;
@@ -89,24 +88,23 @@ int	set_cylinder(char *line, t_cylinder *cylinder)
 	i = set_vec(line, i, &(cylinder->axis));
 	if (!i)
 		return (0);
-	previ = ft_skip_space(line, i);
-	i = ft_float_len(&line[i]);
-	number = ft_substr(line, previ, i);
+	i = ft_skip_space(line, i);
+	floatlen = ft_float_len(&line[ft_skip_space(line, i)]);
+	number = ft_substr(line, i, floatlen);
 	if (!number)
 		return (ft_rperror("malloc)"));
 	cylinder->diameter = ft_strtof(number, &error);
 	if (!cylinder->diameter && error)
 		return (ft_parseerror("invalid number", line));
-	previ = ft_skip_space(line, i);
-	i = ft_float_len(&line[i]);
-	number = ft_substr(line, i, ft_float_len(&line[i]));
+	i = ft_skip_space(line, i + floatlen);
+	floatlen = ft_float_len(&line[i]);
+	number = ft_substr(line, i, floatlen);
 	if (!number)
 		return (ft_rperror("malloc)"));
 	cylinder->height = ft_strtof(number, &error);
-	i = ft_skip_space(line, i);
+	i = ft_skip_space(line, i + floatlen);
 	if (!cylinder->height && error)
 		return (ft_parseerror("invalid number", line));
-	i = ft_skip_space(line, i);
 	i = set_color(line, i, &(cylinder->color));
 	if (!i)
 		return (0);
