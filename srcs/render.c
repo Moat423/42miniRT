@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 15:42:47 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:40:45 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,30 @@ void	render_on_request(void *param)
 	}
 }
 
+void	cam_movement(void *param)
+{
+	t_minirt	*minirt;
+	t_scene		*scene;
+	float		prev;
+
+	minirt = param;
+	scene = &minirt->scene;
+	prev = vec3_squared_length(scene->camera.pos);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN))
+		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(scene->camera.dir, -0.1));
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_UP))
+		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(scene->camera.dir, 0.1));
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
+		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.up), -0.1));
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
+		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.up), 0.1));
+	if (prev != vec3_squared_length(scene->camera.pos))
+	{
+		minirt->last_render_request_time = mlx_get_time();
+		printf("Moved camera to %f %f %f\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
+	}
+}
+
 /// @brief Render loop
 /// @param scene The scene to render
 /// @return Exit code. EXIT_SUCCESS on success, EXIT_FAILURE on failure
@@ -153,6 +177,7 @@ int	render_loop(t_minirt *minirt)
 	}
 	//mlx_loop_hook(mlx, ft_randomize, scene);
 	//mlx_loop_hook(mlx, ft_hook, scene);
+	mlx_loop_hook(minirt->mlx, cam_movement, minirt);
 	mlx_loop_hook(minirt->mlx, render_on_request, minirt);
 	mlx_resize_hook(minirt->mlx, window_resize, minirt);
 	mlx_close_hook(minirt->mlx, window_close, minirt);

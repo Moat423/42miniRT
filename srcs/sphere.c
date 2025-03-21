@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/20 15:54:40 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:02:54 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	}
 	else
 	{
-		sqrt_d = sqrt(discriminant);
+		sqrt_d = sqrtf(discriminant);
 		// (-b +- sqrt(disc)) / 2*1
 		t[0] = (-bc[0] - sqrt_d) * 0.5;
 		t[1] = (-bc[0] + sqrt_d) * 0.5;
