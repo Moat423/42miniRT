@@ -18,6 +18,7 @@ t_color	surface_normal_color(t_ray ray, t_intersection intersection)
 
 	(void)ray;
 	color = object_color(intersection.object);
+	(void)color;
 	return vec3_multiply(vec3_add(object_normal(intersection.object, intersection.point), color_new(1,1,1)), 0.5f);
 }
 
@@ -29,7 +30,7 @@ t_color	trace_ray(t_scene *scene, t_ray ray)
 	(void)scene;
 	(void)ray;
 	if (find_closest_intersection(scene, ray, &intersection))
-		return (surface_normal_color(ray, intersection));
+		return (color_clamp(surface_normal_color(ray, intersection)));
 		//return (calculate_lighting(intersection, scene));
 	//else
 	return (color_new(0, 0, 0));

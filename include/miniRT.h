@@ -50,13 +50,14 @@ t_vec3	vec3_subtract(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_add(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_multiply(t_vec3 v, float scalar);
 t_vec3	vec3_component_mul(t_vec3 v1, t_vec3 v2);
-t_vec3 vec3_divide(t_vec3 v, float scalar);
+t_vec3	vec3_divide(t_vec3 v, float scalar);
 
 /* COLOR */
 
 t_color	color_new(float r, float g, float b);
 void	color_to_rgb(t_color color, uint8_t *r, uint8_t *g, uint8_t *b);
 t_color	color_from_rgb(uint8_t r, uint8_t g, uint8_t b);
+t_color	color_clamp(t_color color);
 
 /* UTIL */
 
