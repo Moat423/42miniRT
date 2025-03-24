@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/9 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 12:44:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:47:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_vec3	sphere_normal(t_sphere sphere, t_vec3 point)
 bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 {
 	t_vec3			oc;
-	float			bc[2];
+	float			abc[3];
 	float			discriminant;
 	float			sqrt_d;
 	float			t[2];
@@ -36,25 +36,25 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	oc = vec3_subtract(ray.origin, sphere->pos);
 	// a = 1 (|normal vector|² = 1) = D²
 	// b = 2 * oc * D
-	bc[B] = 2 * vec3_dot(oc, ray.direction);
+	abc[B] = 2 * vec3_dot(oc, ray.direction);
 	// c = oc² - r²
-	bc[C] = vec3_squared_length(oc) - sphere->radius * sphere->radius;
+	abc[C] = vec3_squared_length(oc) - sphere->radius * sphere->radius;
 	// disc = b*b - 4*1*c
-	discriminant = bc[B] * bc[B] - 4 * bc[C];
+	discriminant = abc[B] * abc[B] - 4 * abc[C];
 	if (discriminant < 0)
 		return (false);
 	if (discriminant == 1.0)
 	{
 		// -b / 2*1
-		t[0] = -bc[B] * 0.5;
+		t[0] = -abc[B] * 0.5;
 		t[1] = t[0];
 	}
 	else
 	{
 		sqrt_d = sqrtf(discriminant);
 		// (-b +- sqrt(disc)) / 2*1
-		t[0] = (-bc[B] - sqrt_d) * 0.5;
-		t[1] = (-bc[B] + sqrt_d) * 0.5;
+		t[0] = (-abc[B] - sqrt_d) * 0.5;
+		t[1] = (-abc[B] + sqrt_d) * 0.5;
 	}
 	// we want the closest intersection point thats not behind the camera/ ray origin
 	if (t[0] < ray.range.min)

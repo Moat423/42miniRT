@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 18:44:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:47:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@
 #  define EPSILON 0.0001
 # endif
 
-typedef enum e_bc
+typedef enum e_abc
 {
+	A,
 	B,
 	C,
-}	t_bc;
+}	t_abc;
 
 typedef struct s_vec3
 {
