@@ -93,8 +93,8 @@ int	set_cylinder(char *line, t_cylinder *cylinder)
 	number = ft_substr(line, i, floatlen);
 	if (!number)
 		return (ft_rperror("malloc)"));
-	cylinder->diameter = ft_strtof(number, &error);
-	if (!cylinder->diameter && error)
+	cylinder->radius = ft_strtof(number, &error) / 2;
+	if (!cylinder->radius && error)
 		return (ft_parseerror("invalid number", line));
 	i = ft_skip_space(line, i + floatlen);
 	floatlen = ft_float_len(&line[i]);
