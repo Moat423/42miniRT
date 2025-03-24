@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 14:34:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:40:28 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static t_color	ambient(t_scene *scene, t_object object)
 		scene->ambient.brightness));
 }
 
-static bool	is_in_shadow(t_scene *scene, t_ray ray, t_interval ray_t)
+static bool	is_in_shadow(t_scene *scene, t_ray ray)
 {
 	t_intersection	intersection;
 
-	return (find_closest_intersection(scene, ray, &intersection, ray_t));
+	return (find_closest_intersection(scene, ray, &intersection));
 }
 
 t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
@@ -64,7 +64,7 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 			&light_dist);
 		// if (lambert > 0)
 		// {
-		if (!is_in_shadow(scene, (t_ray){.origin=intersection.point, .direction=light_dir}, interval_new(EPSILON, light_dist)))
+		if (!is_in_shadow(scene, (t_ray){.origin=intersection.point, .direction=light_dir, .range=interval_new(EPSILON, light_dist)}))
 		{
 			color = vec3_add(color,
 				light_diffuse(scene->lights[i],

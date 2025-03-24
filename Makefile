@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/24 16:09:28 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/24 16:57:34 by kwurster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,8 @@ endif
 LIBMLX := $(MLX_DIR)/build/libmlx42.a
 
 #flags
-CFLAGS := -Werror -Wall -Wextra -g
-LDFLAGS += -L./$(MLX_DIR)/build -lmlx42 -g
+CFLAGS := -Werror -Wall -Wextra #-g
+LDFLAGS += -L./$(MLX_DIR)/build -lmlx42 #-g
 OPTIM_FLAGS := -Ofast
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit

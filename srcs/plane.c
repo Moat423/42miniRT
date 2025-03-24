@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:51:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/24 16:09:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:39:13 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out, t_interval ray_t)
+bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out)
 {
-	float	res;
 	// t_vec3			oc;
 	float	t;
 	float	denom;
@@ -26,7 +25,7 @@ bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out, t_interval 
 	if (denom > EPSILON || denom < -EPSILON)
 	{
 		t = vec3_dot(vec3_subtract(plane->pos, ray.direction), plane->normal) / denom;
-		if (!interval_contains(ray_t, t))
+		if (!interval_contains(ray.range, t))
 			return (false);
 		out->distance = t;
 		out->object.plane = plane;

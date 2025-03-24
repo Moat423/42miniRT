@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 13:43:07 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:36:54 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,10 @@ typedef struct s_cylinder
 
 typedef struct s_ray
 {
-	t_vec3	origin;
+	t_vec3		origin;
 	/// normalized
-	t_vec3	direction;
+	t_vec3		direction;
+	t_interval	range;
 }	t_ray;
 
 typedef enum e_object_type
@@ -131,6 +132,7 @@ typedef struct s_object
 		void		*any;
 	};
 	t_object_type	type;
+	//intersect_fn	intersect_fn;
 }	t_object;
 
 /// When successfully intersecting a Ray with an Object we can return
@@ -142,6 +144,8 @@ typedef struct s_intersection
 	t_object		object;
 	float			distance;
 }	t_intersection;
+
+typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);
 
 typedef struct s_scene
 {

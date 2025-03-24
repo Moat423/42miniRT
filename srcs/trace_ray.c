@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:47 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 14:50:07 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:39:30 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_color	trace_ray(t_scene *scene, t_ray ray)
 	(void)intersection;
 	(void)scene;
 	(void)ray;
-	if (find_closest_intersection(scene, ray, &intersection, interval_new(0.0f, INFINITY)))
+	if (find_closest_intersection(scene, ray, &intersection))
 		return (color_clamp(shade(scene, ray, intersection)));
 		//return (calculate_lighting(intersection, scene));
 	//else

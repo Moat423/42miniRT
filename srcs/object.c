@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:51:50 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 12:56:09 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:47:50 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ t_vec3	object_normal(t_object object, t_vec3 point)
 {
 	if (object.type == SPHERE)
 		return (sphere_normal(*object.sphere, point));
+	else //if (object.type == PLANE)
+		return (object.plane->normal);
 	return (vec3_new(0, 0, 0));
 }

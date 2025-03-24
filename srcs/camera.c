@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:42 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/19 14:57:42 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:39:55 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ t_ray	get_viewport_ray(t_scene *scene, float u, float v)
 	// Apply offset to our ray direction
 	ray.direction = vec3_add(ray.direction, vec3_add(view_u, view_v));
 	ray.direction = vec3_normalize(ray.direction);
-
+	ray.range = interval_new(0.0f, INFINITY);
 	return (ray);
 }
