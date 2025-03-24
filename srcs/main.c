@@ -6,12 +6,18 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/21 17:13:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:33:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 #include "../include/parse.h"
+
+//TODO: make lambertian if
+//TODO: shadow not get closest, but get any intersect
+//TODO: calculate surface normal for sphere only once, put in intersection struct und nur wenn noetig
+//TODO: plane normal in plane struct
+//TODO: viewport ray don't normalize ray, calculate a for sphere
 
 int	main(int argc, char **argv)
 {

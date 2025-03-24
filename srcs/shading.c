@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 15:00:36 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:34:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 		light_dir = vec3_calc_length_and_normalize(
 			vec3_subtract(scene->lights[i].pos, intersection.point),
 			&light_dist);
+		// if (lambert > 0)
+		// {
 		if (!is_in_shadow(scene, (t_ray){.origin=intersection.point, .direction=light_dir}, interval_new(EPSILON, light_dist)))
 		{
 			color = vec3_add(color,

@@ -16,3 +16,6 @@ http://raytracerchallenge.com/bonus/bounding-boxes.html
 
 ## Phong
 https://medium.com/@lennnart/vex-ray-tracer-4-blinn-phong-shading-f0bf3042ba92
+
+## different objects
+https://hugi.scene.org/online/hugi24/coding%20graphics%20chris%20dragan%20raytracing%20shapes.htm
