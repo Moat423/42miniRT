@@ -29,7 +29,7 @@ t_color	trace_ray(t_scene *scene, t_ray ray)
 	(void)intersection;
 	(void)scene;
 	(void)ray;
-	if (find_closest_intersection(scene, ray, &intersection))
+	if (find_closest_intersection(scene, ray, &intersection, interval_new(0.0f, INFINITY)))
 		return (color_clamp(shade(scene, ray, intersection)));
 		//return (calculate_lighting(intersection, scene));
 	//else

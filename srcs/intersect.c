@@ -12,7 +12,7 @@
 
 #include "../include/miniRT.h"
 
-void	find_closest_sphere_intersection(t_scene *scene, t_ray ray, t_intersection *closest)
+static void	find_closest_sphere_intersection(t_scene *scene, t_ray ray, t_intersection *closest, t_interval ray_t)
 {
 	t_intersection	intersection;
 	size_t			i;
@@ -20,17 +20,17 @@ void	find_closest_sphere_intersection(t_scene *scene, t_ray ray, t_intersection 
 	i = 0;
 	while (i < scene->sphere_count)
 	{
-		if (sphere_intersect(&scene->spheres[i], ray, &intersection)
+		if (sphere_intersect(&scene->spheres[i], ray, &intersection, ray_t)
 		&& intersection.distance < closest->distance)
 			*closest = intersection;
 		i++;
 	}
 }
 
-bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closest)
+bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closest, t_interval ray_t)
 {
 	*closest = (t_intersection){0};
 	closest->distance = INFINITY;
-	find_closest_sphere_intersection(scene, ray, closest);
+	find_closest_sphere_intersection(scene, ray, closest, ray_t);
 	return (closest->object.any != NULL);
 }

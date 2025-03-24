@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
+#include <stdbool.h>
 
 static float	lambertian(t_vec3 normal, t_vec3 light_dir)
 {
@@ -20,10 +21,10 @@ static float	lambertian(t_vec3 normal, t_vec3 light_dir)
 static t_color	light_diffuse(t_light light, t_object object, float lambertian, float light_dist_sq)
 {
 	t_color	color;
-	color = vec3_component_mul(object_color(object), light.color);
-	color = vec3_multiply(color, lambertian * light.brightness);
+
 	(void)light_dist_sq;
-	// / light_dist_sq
+	color = vec3_component_mul(object_color(object), light.color);
+	color = vec3_multiply(color, lambertian * light.brightness / (light_dist_sq / 5.0));
 	return (color);
 }
 
@@ -32,6 +33,13 @@ static t_color	ambient(t_scene *scene, t_object object)
 	return (vec3_multiply(
 		vec3_component_mul(scene->ambient.color, object_color(object)),
 		scene->ambient.brightness));
+}
+
+static bool	is_in_shadow(t_scene *scene, t_ray ray, t_interval ray_t)
+{
+	t_intersection	intersection;
+
+	return (find_closest_intersection(scene, ray, &intersection, ray_t));
 }
 
 t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
@@ -54,18 +62,15 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 		light_dir = vec3_calc_length_and_normalize(
 			vec3_subtract(scene->lights[i].pos, intersection.point),
 			&light_dist);
-		// TODO check if light is blocked by another object
-		// if (!in_shadow(...))
-		// use find_closest_intersection with the light_dir and the light point
-		// find_closest_intersection must be given a new parameter, the interval
-		// which in this case must be from 0 to (light_dist - 0.001) to not intersect with our own object
-		// https://raytracing.github.io/books/RayTracingInOneWeekend.html#surfacenormalsandmultipleobjects/anintervalclass
-		color = vec3_add(color,
-			light_diffuse(scene->lights[i],
-				intersection.object,
-				lambertian(normal, light_dir),
-				light_dist * light_dist)
-			);
+		if (!is_in_shadow(scene, (t_ray){.origin=intersection.point, .direction=light_dir}, interval_new(EPSILON, light_dist)))
+		{
+			color = vec3_add(color,
+				light_diffuse(scene->lights[i],
+					intersection.object,
+					lambertian(normal, light_dir),
+					light_dist * light_dist)
+				);
+		}
 		i++;
 	}
 	return (color);

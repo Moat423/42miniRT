@@ -23,8 +23,8 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection);
 
 /* INTERSECT */
 
-bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closest);
-bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out);
+bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closest, t_interval ray_t);
+bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out, t_interval ray_t);
 
 /* SURFACE NORMAL */
 
@@ -61,6 +61,12 @@ void	color_to_rgb(t_color color, uint8_t *r, uint8_t *g, uint8_t *b);
 t_color	color_from_rgb(uint8_t r, uint8_t g, uint8_t b);
 t_color	color_clamp(t_color color);
 t_color	vec3_to_color(t_vec3 vec);
+
+/* INTERVAL */
+
+t_interval	interval_new(float min, float max);
+bool		interval_contains(t_interval interval, float x);
+bool		interval_surrounds(t_interval interval, float x);
 
 /* UTIL */
 

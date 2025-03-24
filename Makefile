@@ -47,7 +47,7 @@ OPTIM_FLAGS := -Ofast
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
-FINAL_CFLAGS = $(CFLAGS)
+FINAL_CFLAGS = $(CFLAGS) $(OPTIM_FLAGS)
 FINAL_LDFLAGS = $(LDFLAGS)
 
 # Different sanitizer configurations
@@ -72,7 +72,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		sphere.c \
 		object.c \
 		shading.c \
-		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c vec3_2.c scene_malloc.c print_scene.c) \
+		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c vec3_2.c scene_malloc.c print_scene.c interval.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c set_utils.c) \
 		)
 

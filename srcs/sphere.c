@@ -20,7 +20,7 @@ t_vec3	sphere_normal(t_sphere sphere, t_vec3 point)
 	return (normal);
 }
 
-bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
+bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out, t_interval ray_t)
 {
 	t_vec3			oc;
 	float			bc[2];
@@ -46,23 +46,25 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	if (discriminant == 1.0)
 	{
 		// -b / 2*1
-		t[B] = -bc[B] * 0.5;
-		t[C] = t[B];
+		t[0] = -bc[B] * 0.5;
+		t[1] = t[0];
 	}
 	else
 	{
 		sqrt_d = sqrtf(discriminant);
 		// (-b +- sqrt(disc)) / 2*1
-		t[B] = (-bc[B] - sqrt_d) * 0.5;
-		t[C] = (-bc[B] + sqrt_d) * 0.5;
+		t[0] = (-bc[B] - sqrt_d) * 0.5;
+		t[1] = (-bc[B] + sqrt_d) * 0.5;
 	}
 	// we want the closest intersection point thats not behind the camera/ ray origin
-	if (t[B] < 0)
-		t[B] = t[C];
+	if (t[0] < ray_t.min)
+		t[0] = t[1];
 	// if there is none we dont have an intersection in the ray's direction
-	if (t[B] < 0)
+	if (t[0] < 0)
 		return (false);
-	out->distance = t[B];
+	out->distance = t[0];
+	if (!interval_contains(ray_t, out->distance))
+		return (false);
 	// P = O + t * D
 	out->point = vec3_add(ray.origin, vec3_multiply(ray.direction, out->distance));
 	out->object = (t_object){.sphere = sphere, .type = SPHERE};

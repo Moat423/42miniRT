@@ -31,7 +31,7 @@
 # endif
 
 # ifndef EPSILON // tollerance value for floating point comparisons
-#  define EPSILON 0.00001
+#  define EPSILON 0.0001
 # endif
 
 typedef enum e_bc
@@ -48,6 +48,12 @@ typedef struct s_vec3
 }	t_vec3;
 
 typedef t_vec3	t_color;
+
+typedef struct s_interval
+{
+	float	min;
+	float	max;
+}	t_interval;
 
 typedef struct s_ambient
 {
