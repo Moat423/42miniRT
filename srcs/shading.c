@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 15:00:36 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:28:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 	t_vec3	normal;
 	float	light_dist;
 	size_t	i;
+	float	lambert;
 
 	(void)ray;
 	color = ambient(scene, intersection.object);
@@ -64,12 +65,14 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 			&light_dist);
 		if (!is_in_shadow(scene, (t_ray){.origin=intersection.point, .direction=light_dir}, interval_new(EPSILON, light_dist)))
 		{
+			lambert = lambertian(normal, light_dir);
 			color = vec3_add(color,
 				light_diffuse(scene->lights[i],
 					intersection.object,
-					lambertian(normal, light_dir),
+					lambert,
 					light_dist * light_dist)
 				);
+			// color = specular(scene->lights[i], light_dir, normal, color, lambert, light_dist);
 		}
 		i++;
 	}

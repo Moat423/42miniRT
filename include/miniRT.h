@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 14:58:41 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:25:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ t_color	vec3_to_color(t_vec3 vec);
 t_interval	interval_new(float min, float max);
 bool		interval_contains(t_interval interval, float x);
 bool		interval_surrounds(t_interval interval, float x);
+
+/* LIGHT */
+
+t_color	specular(t_light light, t_vec3 light_dir, t_vec3 normal, t_vec3 diffuse_color, float lambertian, float distance);
 
 /* UTIL */
 
