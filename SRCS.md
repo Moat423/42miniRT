@@ -19,3 +19,8 @@ https://medium.com/@lennnart/vex-ray-tracer-4-blinn-phong-shading-f0bf3042ba92
 
 ## different objects
 https://hugi.scene.org/online/hugi24/coding%20graphics%20chris%20dragan%20raytracing%20shapes.htm
+
+## cylinder
+https://stackoverflow.com/questions/73866852/ray-cylinder-intersection-formula
+https://mrl.cs.nyu.edu/~dzorin/rendering/lectures/lecture3/lecture3.pdf
+https://hugi.scene.org/online/hugi24/coding%20graphics%20chris%20dragan%20raytracing%20shapes.htm
