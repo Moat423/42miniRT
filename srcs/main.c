@@ -6,19 +6,22 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/24 16:38:42 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:17:15 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 #include "../include/parse.h"
 
-//TODO: make lambertian if
-//TODO: shadow not get closest, but get any intersect
+//TODO: implement specular reflection
+//TODO: weird interactions between planes and lights need fixing
+//TODO: implement cylinder shape
+//TODO: implement cone shape
 //TODO: calculate surface normal for sphere only once, put in intersection struct und nur wenn noetig
-//TODO: plane normal in plane struct
 //TODO: viewport ray don't normalize ray, calculate a for sphere
-// note ^^^^: a plane does expect a normalized direction ray though, so how can we do this?
+// note ^^^^: a plane does expect a normalized direction ray though, so how can we do this? TRY OUT
+//TODO: bvh tree
+//TODO: shadow not get closest, but get any intersect
 //TODO: for bvh where we have arrays of pointers to generic objects, we want to store their specific intersection function inside the generic object struct
 
 int	main(int argc, char **argv)
