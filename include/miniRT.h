@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 16:39:21 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:14:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection);
 
 bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closest);
 bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out);
-
-/* PLANE */
-
+bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out);
 bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out);
 
 /* SURFACE NORMAL */

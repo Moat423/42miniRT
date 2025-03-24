@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/9 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 18:47:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:15:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	if (t[0] < ray.range.min)
 		t[0] = t[1];
 	// if there is none we dont have an intersection in the ray's direction
-	if (t[0] < 0)
+	if (t[0] < ray.range.min)
 		return (false);
 	out->distance = t[0];
 	if (!interval_contains(ray.range, out->distance))
