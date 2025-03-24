@@ -84,7 +84,7 @@ void print_scene(const t_scene *scene) {
 			print_vec3("	Position", scene->cylinders[i].pos);
 			print_vec3("	Axis", scene->cylinders[i].axis);
 			print_color("	Color", scene->cylinders[i].color);
-			printf("	Diameter: %.2f\n", scene->cylinders[i].diameter);
+			printf("	Radius: %.2f\n", scene->cylinders[i].radius);
 			printf("	Height: %.2f\n", scene->cylinders[i].height);
 		}
 	} else {

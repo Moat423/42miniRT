@@ -6,13 +6,14 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/24 17:17:15 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:59:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 #include "../include/parse.h"
 
+//TODO: cap infinite cylinder (remove comment in parsing)
 //TODO: implement specular reflection
 //TODO: weird interactions between planes and lights need fixing
 //TODO: implement cylinder shape

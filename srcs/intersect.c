@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:58:18 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 16:44:24 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:22:18 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,27 @@ static void	find_closest_obj_intersect(t_scene *scene, t_ray ray, t_intersection
 	if (type == SPHERE)
 	{
 		intersect_fn = (t_intersect_fn)sphere_intersect;
-		objects = (void*)scene->spheres;
+		objects = (void *)scene->spheres;
 		object_count = scene->sphere_count;
 		elem_size = sizeof(t_sphere);
 	}
-	else //if (type == PLANE)
+	else if (type == PLANE)
 	{
 		intersect_fn = (t_intersect_fn)plane_intersect;
-		objects = (void*)scene->planes;
+		objects = (void *)scene->planes;
 		object_count = scene->plane_count;
 		elem_size = sizeof(t_plane);
 	}
+	else //if (type == CYLINDER)
+	{
+		intersect_fn = (t_intersect_fn)cylinder_intersect;
+		objects = (void *)scene->cylinders;
+		object_count = scene->cylinder_count;
+		elem_size = sizeof(t_cylinder);
+	}
 	while (i < object_count)
 	{
-		if (intersect_fn((void*)((char*)objects + i * elem_size), ray, &intersection)
+		if (intersect_fn((void *)((char *)objects + i * elem_size), ray, &intersection)
 		&& intersection.distance < closest->distance)
 			*closest = intersection;
 		i++;
@@ -51,5 +58,6 @@ bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closes
 	closest->distance = INFINITY;
 	find_closest_obj_intersect(scene, ray, closest, SPHERE);
 	find_closest_obj_intersect(scene, ray, closest, PLANE);
+	find_closest_obj_intersect(scene, ray, closest, CYLINDER);
 	return (closest->object.any != NULL);
 }
