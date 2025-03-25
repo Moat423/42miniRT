@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/25 09:57:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:21:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_cylinder
 	float	radius;
 	float	height;
 	t_vec3	top;
+	t_vec3	bottom;
 }	t_cylinder;
 
 typedef struct s_ray
@@ -116,6 +117,13 @@ typedef struct s_ray
 	t_vec3		direction;
 	t_interval	range;
 }	t_ray;
+
+typedef struct s_circle
+{
+	t_vec3	pos;
+	t_vec3	normal;
+	float	radius;
+} t_circle;
 
 typedef enum e_object_type
 {

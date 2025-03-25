@@ -108,6 +108,9 @@ int	set_cylinder(char *line, t_cylinder *cylinder)
 	i = set_color(line, i, &(cylinder->color));
 	if (!i)
 		return (0);
-	cylinder->top = vec3_add(cylinder->pos, vec3_multiply(cylinder->axis, cylinder->height / 2));
+	cylinder->top = vec3_add(cylinder->pos, 
+			vec3_multiply(cylinder->axis, cylinder->height / 2));
+	cylinder->bottom = vec3_add(cylinder->pos, 
+			vec3_multiply(cylinder->axis, -cylinder->height / 2));
 	return (1);
 }
