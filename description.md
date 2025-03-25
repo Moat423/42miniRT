@@ -124,3 +124,34 @@ if (t[0] > t[1])
     t[1] = temp;
 }
 ```
+
+## plane
+
+we decided to have a double sided plane, meaning you can see it from both sides
+thats why we do 
+	if (denom > EPSILON || denom < -EPSILON)
+that means we are checking if the denominator is not 0, that means the plane is not perpendicular to us.
+since denom is positiv if the view direction is in line with the plane normal, and its negative, if the plane normal points in the other direction.
+so if it points in the other direction, we thought, we should still be able to see it.
+```C++
+bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out)
+{
+	float	t;
+	float	denom;
+
+	denom =  vec3_dot(plane->normal, ray.direction);
+	if (denom > EPSILON || denom < -EPSILON)
+	{
+		t = vec3_dot(vec3_subtract(plane->pos, ray.origin), plane->normal) / denom;
+		if (!interval_contains(ray.range, t))
+			return (false);
+		out->distance = t;
+		out->object.plane = plane;
+		out->object.type = PLANE;
+		out->point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
+		return (true);
+	}
+	return (false);
+}
+```
+
