@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/25 16:28:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:58:38 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	oc = vec3_subtract(ray.origin, cylinder->pos);
 	abc[A] = vec3_squared_length(ray.direction) - vec3_dot(ray.direction, cylinder->axis) * vec3_dot(ray.direction, cylinder->axis);
 	abc[C] = vec3_squared_length(oc) - (vec3_dot(oc, cylinder->axis) * vec3_dot(oc, cylinder->axis)) - cylinder->radius * cylinder->radius;
-	abc[B] = 2 * vec3_dot(ray.direction, oc) - vec3_dot(ray.direction, cylinder->axis) * vec3_dot(oc, cylinder->axis);
+	abc[B] = 2 * (vec3_dot(ray.direction, oc) - vec3_dot(ray.direction, cylinder->axis) * vec3_dot(oc, cylinder->axis));
 	discriminant = abc[B] * abc[B] - 4 * abc[A] * abc[C];
+	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	if (discriminant < EPSILON && discriminant > -EPSILON)
 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
 	if (discriminant < 0)
 		return (false);
-	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	sqrt_d = sqrtf(discriminant);
 	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
 	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
@@ -109,20 +109,20 @@ bool	circle_intersect(t_circle circle, t_ray ray, float *o_dist, t_vec3 *o_pt)
 	t_vec3	hit_point;
 
 	denom = vec3_dot(circle.normal, ray.direction);
-	if (denom > EPSILON || denom < -EPSILON)
+	if (denom < EPSILON && denom > -EPSILON)
+		return (false);
+	t = vec3_dot(vec3_subtract(circle.pos, ray.origin), circle.normal) 
+		/ denom;
+	if (!interval_contains(ray.range, t))
+		return (false);
+	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
+	// the (1.0f + EPSILON) is to account for floating point errors, can be taken out
+	if (vec3_squared_length(vec3_subtract(hit_point, circle.pos)) <= 
+		circle.radius * circle.radius * (1.0f + EPSILON))
 	{
-		t = vec3_dot(vec3_subtract(circle.pos, ray.origin), circle.normal) 
-			/ denom;
-		if (!interval_contains(ray.range, t))
-			return (false);
-		hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
-		if (vec3_squared_length(vec3_subtract(hit_point, circle.pos)) <= 
-			circle.radius * circle.radius)
-		{
-			*o_dist = t;
-			*o_pt = hit_point;
-			return (true);
-		}
+		*o_dist = t;
+		*o_pt = hit_point;
+		return (true);
 	}
 	return (false);
 }
