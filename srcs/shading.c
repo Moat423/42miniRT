@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 17:19:00 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:20:46 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 	color = ambient(scene, intersection.object);
 	// dont calculate the normal multiple times for the same object but rather include it in intersection struct
 	normal = object_normal(intersection.object, intersection.point);
+	// TODO temporary, lets refactor everything to use the intersection struct
+	if (intersection.object.type == CYLINDER)
+		normal = intersection.normal;
 	i = 0;
 	(void)light_dir;
 	(void)light_dist;

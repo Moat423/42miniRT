@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/25 13:21:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:05:41 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ typedef struct s_object
 typedef struct s_intersection
 {
 	t_vec3			point;
+	t_vec3			normal;
 	/// alias of the object from the scene which was intersected
 	t_object		object;
 	float			distance;
