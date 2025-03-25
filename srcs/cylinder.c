@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/25 16:58:38 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:31:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 bool	circle_intersect(t_circle circle, t_ray ray, float *out_dist, t_vec3 *out_point);
 bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, float *o_dist, t_vec3 *o_pt);
+float	get_discriminant(float *abc[3], t_ray ray, t_vec3 oc, t_vec3 obj_norm, float rad);
 
 bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 {
@@ -27,12 +28,12 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	int		i;
 
 	i = 0;
+	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	oc = vec3_subtract(ray.origin, cylinder->pos);
 	abc[A] = vec3_squared_length(ray.direction) - vec3_dot(ray.direction, cylinder->axis) * vec3_dot(ray.direction, cylinder->axis);
 	abc[C] = vec3_squared_length(oc) - (vec3_dot(oc, cylinder->axis) * vec3_dot(oc, cylinder->axis)) - cylinder->radius * cylinder->radius;
 	abc[B] = 2 * (vec3_dot(ray.direction, oc) - vec3_dot(ray.direction, cylinder->axis) * vec3_dot(oc, cylinder->axis));
 	discriminant = abc[B] * abc[B] - 4 * abc[A] * abc[C];
-	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	if (discriminant < EPSILON && discriminant > -EPSILON)
 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
 	if (discriminant < 0)
@@ -75,6 +76,43 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	out->distance = t[1];
 	out->point = hit_point;
 	return (true);
+}
+
+float	*quadradic_equation_cyl(t_ray ray, t_cylinder *cylinder)
+{
+	t_vec3	oc;
+	float	abc[3];
+	float	t[2];
+	float	discriminant;
+
+	oc = vec3_subtract(ray.origin, cylinder->pos);
+	discriminant = get_discriminant(&(abc), ray, oc, cylinder->axis, cylinder->radius);
+	if (discriminant < EPSILON && discriminant > -EPSILON)
+		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
+	if (discriminant < 0)
+		return (false);
+	sqrt_d = sqrtf(discriminant);
+	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
+	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
+}
+
+// returns the discriminant and sets the abc values for the quadratic equation
+// A = |d|² - (d·a)²
+// B = 2[d·(o-c) - (d·a)(oc·a)]
+// C = |o-c|² - (oc·a)² - r²
+float	get_discriminant(float *abc[3], t_ray ray, t_vec3 oc, t_vec3 obj_norm, float rad)
+{
+	float	discriminant;
+	float	sqrt_d;
+	float	ray_dot_normal;
+	float	oc_dot_normal;
+
+	ray_dot_normal = vec3_dot(ray.direction, obj_norm);
+	oc_dot_normal = vec3_dot(oc, obj_norm);
+	abc[A] = vec3_squared_length(ray.direction) - ray_dot_normal * ray_dot_normal;
+	abc[B] = 2 * (vec3_dot(ray.direction, oc) - ray_dot_normal * oc_dot_normal) - rad * rad;
+	abc[C] = vec3_squared_length(oc) - oc_dot_normal * oc_dot_normal;
+	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 }
 
 bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, float *o_dist, t_vec3 *o_pt)
