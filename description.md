@@ -124,6 +124,27 @@ if (t[0] > t[1])
     t[1] = temp;
 }
 ```
+## cylinder
+
+the reason we do this is, the substraction creates a vector from the top cap of the cylinder to the point that was hit by the ray.
+when we dot that with a vector, that is NORMALIZED, we get the projection of the vector onto the axis of the cylinder.
+because
+a · b = |a| × |b| × cos(θ)
+
+Where θ is the angle between them.
+
+When b is a unit vector (normalized, as cylinder->axis should be), this simplifies to:
+Code
+
+a · b = |a| × cos(θ)
+
+		hit_proj = vec3_dot(vec3_subtract(hit_point, cylinder->top), cylinder->axis);
+		if (hit_proj <= 0 && hit_proj >= -cylinder->height)
+so what we and up with is a scaled projection of the vector onto the axis of the cylinder.
+
+we calculate the length of a, then we scale it with cos(θ) and now that our a is kind of normalized, and we scaled it, it acutally is the corresponding projection
+
+```C++
 
 ## plane
 

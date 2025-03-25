@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 18:47:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:57:41 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_cylinder
 	t_color	color;
 	float	radius;
 	float	height;
+	t_vec3	top;
 }	t_cylinder;
 
 typedef struct s_ray
