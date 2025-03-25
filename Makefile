@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/24 19:15:32 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/25 11:30:19 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,7 +107,7 @@ define update_progress
     @printf "] %3d%% %s" $(PERCENTAGE) "$<"
 endef
 
-.PHONY: all clean fclean re sanitize asan ubsan leak
+.PHONY: all clean fclean re sanitize asan ubsan leak debug clean_submodules
 
 all: $(LIBFT) $(LIBMLX) $(NAME)
 
@@ -179,12 +179,19 @@ sanitize: FINAL_CFLAGS = $(CFLAGS) $(SANITIZE_FLAGS)
 sanitize: FINAL_LDFLAGS = $(LDFLAGS) $(SANITIZE_FLAGS)
 sanitize: fclean $(NAME)
 
+debug: FINAL_CFLAGS += -g
+debug: FINAL_LDFLAGS += -g
+debug: fclean $(NAME)
+
+clean_submodules:
+	@printf "$(BOLD)Cleaning submodule object files...$(RESET)\n"
+	@rm -rf $(MLX_DIR)
+	@make -s -C $(LIBFT_DIR) clean 2>&1
+
 clean:
 	@printf "$(BOLD)Cleaning object files...$(RESET)\n"
-	@rm -rf $(MLX_DIR)
 	@rm -dRf $(OBJ_DIR)
 	@rm -f $(OBJ_DIR)/.flags
-	@make -s -C $(LIBFT_DIR) clean 2>&1
 
 fclean: clean
 	@printf "$(BOLD)Cleaning executables...$(RESET)\n"
