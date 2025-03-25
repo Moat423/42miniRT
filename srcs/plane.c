@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:51:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/24 16:39:13 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:05:18 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out)
 {
-	// t_vec3			oc;
 	float	t;
 	float	denom;
 
-	// oc = vec3_subtract(ray.origin, plane->pos);
 	denom =  vec3_dot(plane->normal, ray.direction);
-	// plane might have a normal looking into wrong dir
-	// but we can't detect if camera looks into wrong dir
+	// we decided to have a double sided plane, meaning you can see it from both sides
 	if (denom > EPSILON || denom < -EPSILON)
 	{
-		t = vec3_dot(vec3_subtract(plane->pos, ray.direction), plane->normal) / denom;
+		t = vec3_dot(vec3_subtract(plane->pos, ray.origin), plane->normal) / denom;
 		if (!interval_contains(ray.range, t))
 			return (false);
 		out->distance = t;
