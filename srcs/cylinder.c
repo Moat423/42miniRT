@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/25 14:53:28 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:28:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,56 +32,55 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	abc[C] = vec3_squared_length(oc) - (vec3_dot(oc, cylinder->axis) * vec3_dot(oc, cylinder->axis)) - cylinder->radius * cylinder->radius;
 	abc[B] = 2 * vec3_dot(ray.direction, oc) - vec3_dot(ray.direction, cylinder->axis) * vec3_dot(oc, cylinder->axis);
 	discriminant = abc[B] * abc[B] - 4 * abc[A] * abc[C];
-	if (discriminant < EPSILON || discriminant > -EPSILON)
-	{
-		// if top cap is closer than bottom, cirlce intersect with top, else with bottom
-		if (vec3_squared_length(vec3_subtract(cylinder->top, ray.origin)) <= vec3_squared_length(vec3_subtract(cylinder->bottom, ray.origin)))
-			return (circle_intersect((t_circle){cylinder->top, cylinder->axis, cylinder->radius}, ray, &(out->distance), &(out->point)));
-		else
-			return (circle_intersect((t_circle){cylinder->bottom, cylinder->axis, cylinder->radius}, ray, &(out->distance), &(out->point)));
-	}
+	if (discriminant < EPSILON && discriminant > -EPSILON)
+		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
 	if (discriminant < 0)
 		return (false);
+	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	sqrt_d = sqrtf(discriminant);
 	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
 	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
-	if (t[0] < ray.range.max)
-	{
-		if (t[0] < ray.range.min)
-			++i;
-	}
-	if (t[i] < ray.range.min)
-		++i;
 	// cylinder body finite range lock
-	if (i == 0)
+	if (interval_contains(ray.range, t[0]))
 	{
-		hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, out->distance));
+		hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[0]));
 		hit_proj = vec3_dot(vec3_subtract(hit_point, cylinder->top), cylinder->axis);
 		if (hit_proj <= 0 && hit_proj >= -cylinder->height)
 		{
-			out->distance = t[i];
+			out->distance = t[0];
 			out->point = hit_point;
 			out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 			return (true);
 		}
 	}
-	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, out->distance));
+	if (!interval_contains(ray.range, t[1]))
+		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
+	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[1]));
 	hit_proj = vec3_dot(vec3_subtract(hit_point, cylinder->top), cylinder->axis);
+	// cylinder body true hit
 	if (hit_proj <= 0 && hit_proj >= -cylinder->height)
 	{
-		if (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)))
+		// circle true hit
+		if (closer_circle_intersect(cylinder, ray, &t[0], &(out->point)))
+		{
+			if (t[0] < t[1])
+			{
+				out->distance = t[0];
+				return (true);
+			}
+		}
 	}
-	out->distance = t[i];
+	else
+		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
+	out->distance = t[1];
 	out->point = hit_point;
-	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
-	return (false);
+	return (true);
 }
 
 bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, float *o_dist, t_vec3 *o_pt)
 {
 	t_vec3	hit_point[2];
 	float	hit_dist[2];
-	bool	has_hit;
 
 	// if (vec3_squared_length(vec3_subtract(cylinder->top, ray.origin)) <= vec3_squared_length(vec3_subtract(cylinder->bottom, ray.origin)))
 	if (!circle_intersect((t_circle){cylinder->top, cylinder->axis, cylinder->radius}, ray, &(hit_dist[0]), &(hit_point[0])))
