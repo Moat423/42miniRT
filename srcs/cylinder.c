@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 10:22:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:25:46 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,9 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 
 	discriminant = get_discriminant(abc, ray, cylinder);
 	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
+	out->normal = cylinder->axis;
 	if (discriminant < EPSILON && discriminant > -EPSILON)
-	{
-		bool hit = closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point));
-		if (hit)
-			out->normal = cyl_surface_normal(cylinder, out->point, projected_len_on_axis(cylinder, out->point));
-		return (hit);
-	}
+		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
 	if (discriminant < 0)
 		return (false);
 	sqrt_d = sqrtf(discriminant);
@@ -67,12 +63,7 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 		}
 	}
 	if (!interval_contains(ray.range, t[1]))
-	{
-		bool hit = closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point));
-		if (hit)
-			out->normal = cyl_surface_normal(cylinder, out->point, projected_len_on_axis(cylinder, out->point));
-		return (hit);
-	}
+		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[1]));
 	hit_proj = projected_len_on_axis(cylinder, hit_point);
 	if (hit_proj >= 0 && hit_proj <= cylinder->height)
@@ -83,20 +74,15 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 			if (t[0] < t[1])
 			{
 				out->distance = t[0];
-				out->normal = cyl_surface_normal(cylinder, out->point, projected_len_on_axis(cylinder, out->point));
 				return (true);
 			}
 		}
 	}
 	else
-	{
-		bool hit = closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point));
-		if (hit)
-			out->normal = cyl_surface_normal(cylinder, out->point, projected_len_on_axis(cylinder, out->point));
-		return (hit);
-	}
+		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
 	out->distance = t[1];
 	out->point = hit_point;
+	out->normal = cyl_surface_normal(cylinder, hit_point, hit_proj);
 	return (true);
 }
 float	get_discriminant(float abc[3], const t_ray ray, const t_cylinder *cyl)
@@ -104,12 +90,12 @@ float	get_discriminant(float abc[3], const t_ray ray, const t_cylinder *cyl)
 	t_vec3	oc;
 
 	oc = vec3_subtract(ray.origin, cyl->pos);
-	abc[A] = vec3_squared_length(ray.direction) - 
-		vec3_dot(ray.direction, cyl->axis) * 
+	abc[A] = vec3_squared_length(ray.direction) -
+		vec3_dot(ray.direction, cyl->axis) *
 		vec3_dot(ray.direction, cyl->axis);
-	abc[C] = vec3_squared_length(oc) - (vec3_dot(oc, cyl->axis) * 
+	abc[C] = vec3_squared_length(oc) - (vec3_dot(oc, cyl->axis) *
 			vec3_dot(oc, cyl->axis)) - cyl->radius * cyl->radius;
-	abc[B] = 2 * (vec3_dot(ray.direction, oc) - 
+	abc[B] = 2 * (vec3_dot(ray.direction, oc) -
 			vec3_dot(ray.direction, cyl->axis) * vec3_dot(oc, cyl->axis));
 	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 }
