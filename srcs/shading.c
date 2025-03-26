@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 16:04:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:06:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,37 @@ static bool	is_in_shadow(t_scene *scene, t_ray ray)
 	return (find_closest_intersection(scene, ray, &intersection));
 }
 
-// t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
-// {
-//
-// }
+t_color	calc_lights(const t_light light, const t_ray ray, t_intersection ints)
+
+ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
+ {
+ 	t_color	color;
+ 	t_vec3	normal;
+ 	float	lambert;
+ 	t_vec3	diff_spec_color;
+ 	t_vec3	light_dir;
+ 	float	light_dist;
+ 	float	light_attenuation;
+ 	size_t	i;
+ 	t_color	spec_color;
+ 	t_vec3	half_dir;
+ 	float	specular;
+
+ 	color = ambient(scene, intersection.object);
+ 	normal = intersect_normal(&intersection);
+ 	i = 0;
+ 	while (i < scene->light_count)
+ 	{
+ 		light_dir = vec3_calc_length_and_normalize(
+ 			vec3_subtract(scene->lights[i].pos, intersection.point),
+ 			&light_dist);
+ 		lambert = lambertian(normal, light_dir);
+ 		if (lambert <= 0)
+			continue ;
+		if (!is_in_shadow(scene, (t_ray){.origin=intersection.point, .direction=light_dir, .range=interval_new(EPSILON, light_dist)}))
+			diff_spec_color = calc_lights(scene->lights[i], ray, intersection);
+	}
+ }
 
 
 t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
@@ -84,10 +111,10 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 					;
 				light_diminish = scene->lights[i].brightness / (light_dist / 5.0);
 				half_dir = vec3_normalize(vec3_add(light_dir, vec3_multiply(ray.direction, -1.0)));
-				specular = fmax((powi(vec3_dot(normal, half_dir), 5) * light_diminish), 0);
-				spec_color = vec3_multiply((t_vec3){1, 1, 1}, specular);
+				specular = fmax((powi(vec3_dot(normal, half_dir), 80) * light_diminish), 0);
+				spec_color = vec3_multiply((t_vec3){0.9, 0.9, 0.9}, specular);
 				color = vec3_add(color, diffuse_color);
-				// color = vec3_add(color, spec_color);
+				color = vec3_add(color, spec_color);
 			}
 		}
 		i++;
