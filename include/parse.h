@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/20 15:05:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:53:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	parse_scene(char *filename, t_scene *scene);
 
 int	set_color(char *line, int start, t_vec3 *color);
 int	set_vec(char *line, int start, t_vec3 *vec);
+int	ft_substrtof(float *num, int start, char *line);
 
 // set_scene.c
 

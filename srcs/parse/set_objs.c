@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_objs.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
+/*   Updated: 2025/03/26 12:08:00 by lmeubrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
@@ -13,8 +24,6 @@ int	set_sphere(char *line, t_sphere *sphere)
 {
 	int		i;
 	int		error;
-	char	*number;
-	int		floatlen;
 
 	i = 3;
 	error = 0;
@@ -22,15 +31,10 @@ int	set_sphere(char *line, t_sphere *sphere)
 	if (!i)
 		return (0);
 	i = ft_skip_space(line, i);
-	floatlen = ft_float_len(&line[i]);
-	number = ft_substr(line, i, floatlen);
-	if (!number)
-		return (ft_rperror("malloc)"));
-	sphere->radius = ft_strtof(number, &error);
-	if (!sphere->radius && error)
-		return (ft_parseerror("invalid number", line));
+	i = ft_substrtof(&(sphere->radius), i, line);
+	if (!i)
+		return (0);
 	sphere->radius /= 2;
-	i = ft_skip_space(line, i + floatlen);
 	if (line[i] != '\n')
 		i = set_color(line, i, &(sphere->color));
 	return (i != 0);
@@ -62,6 +66,11 @@ int	set_plane(char *line, t_plane *plane)
 	return (1);
 }
 
+static t_vec3	move_point(t_vec3 point, t_vec3 dir, float dist)
+{
+	return (vec3_add(point, vec3_multiply(dir, dist)));
+}
+
 /*
 * cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
 ∗ identifier: cy
@@ -71,46 +80,32 @@ z axis: 0.0,0.0,1.0
 ∗ the cylinder diameter: 14.2
 ∗ the cylinder height: 21.42
 ∗ R, G, B colors in the range [0,255]: 10, 0, 255
+* sets top as the end point where the cylinders normal points to
+* sets bottom as the end point where the normal points inside the cylinder
 */
-int	set_cylinder(char *line, t_cylinder *cylinder)
+int	set_cylinder(char *line, t_cylinder *cyl)
 {
 	int			i;
-	int			error;
-	char		*number;
-	int			floatlen;
 
 	i = 3;
-	error = 0;
-	i = set_vec(line, i, &(cylinder->pos));
+	i = set_vec(line, i, &(cyl->pos));
 	if (!i)
 		return (0);
 	i = ft_skip_space(line, i);
-	i = set_vec(line, i, &(cylinder->axis));
+	i = set_vec(line, i, &(cyl->axis));
 	if (!i)
 		return (0);
-	i = ft_skip_space(line, i);
-	floatlen = ft_float_len(&line[ft_skip_space(line, i)]);
-	number = ft_substr(line, i, floatlen);
-	if (!number)
-		return (ft_rperror("malloc)"));
-	cylinder->radius = ft_strtof(number, &error) / 2;
-	if (!cylinder->radius && error)
-		return (ft_parseerror("invalid number", line));
-	i = ft_skip_space(line, i + floatlen);
-	floatlen = ft_float_len(&line[i]);
-	number = ft_substr(line, i, floatlen);
-	if (!number)
-		return (ft_rperror("malloc)"));
-	cylinder->height = ft_strtof(number, &error);
-	i = ft_skip_space(line, i + floatlen);
-	if (!cylinder->height && error)
-		return (ft_parseerror("invalid number", line));
-	i = set_color(line, i, &(cylinder->color));
+	i = ft_substrtof(&(cyl->radius), i, line);
 	if (!i)
 		return (0);
-	cylinder->top = vec3_add(cylinder->pos, 
-			vec3_multiply(cylinder->axis, cylinder->height / 2));
-	cylinder->bottom = vec3_add(cylinder->pos, 
-			vec3_multiply(cylinder->axis, -cylinder->height / 2));
+	cyl->radius /= 2;
+	i = ft_substrtof(&(cyl->height), i, line);
+	if (!i)
+		return (0);
+	i = set_color(line, i, &(cyl->color));
+	if (!i)
+		return (0);
+	cyl->top = move_point(cyl->pos, cyl->axis, cyl->height / 2);
+	cyl->bottom = move_point(cyl->pos, cyl->axis, -cyl->height / 2);
 	return (1);
 }
