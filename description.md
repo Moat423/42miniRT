@@ -175,4 +175,27 @@ bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out)
 	return (false);
 }
 ```
+## specular
+srcs:
+https://medium.com/@lennnart/vex-ray-tracer-4-blinn-phong-shading-f0bf3042ba92
+https://www.cg.tuwien.ac.at/courses/EinfVisComp/Skriptum/SS13/EVC-21%20Beleuchtung%20+%20Schattierung.pdf
+
+this is the formula for the specular skalar, that skales the light reflection.
+I spec = ks * I * cos^p(σ) = ks * I * (r dot v)
+this is the "specular" in our code.
+ and as you can see, the part with cosinus actually gets replaced with (r dot v)
+with v being the view direction (our ray direction) and r being the reflection direction.
+But we don't have the reflection direction.
+However, there is an approximation for the angle that comes out of that dot product, it is:
+n * h ≈ r * v
+n is the surface normal, and h we can get, it is the half direction in between the light direction and the ray direction (ray direciton  = view direction)
+
+please refer to the image in the second link under sources for further info.
+
+but what is ks? that is the reflection koefficient of the material.
+
+usually you would shoot another ray from that location, see what it hits and get the reflected color from that object. but we are not doing it recusively, to save time. therefore this simplifies the calculation as we just use white light:
+``` C++
+				spec_color = vec3_multiply((t_vec3){1, 1, 1}, specular);
+```
 

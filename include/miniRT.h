@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 14:05:21 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:06:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_color	trace_ray(t_scene *scene, t_ray ray);
 /* SHADING */
 
 t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection);
+t_color	specular(t_light light, t_vec3 light_dir, t_vec3 normal, t_vec3 diffuse_color, float lambertian, float distance);
 
 /* INTERSECT */
 
