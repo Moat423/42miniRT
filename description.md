@@ -199,3 +199,33 @@ usually you would shoot another ray from that location, see what it hits and get
 				spec_color = vec3_multiply((t_vec3){1, 1, 1}, specular);
 ```
 
+## light
+
+The Phong reflection model consists of three components:
+
+    Ambient Reflection: Constant light that illuminates all surfaces regardless of light sources
+    Code
+
+Ambient = Ka * Ia   (where Ka is ambient coefficient, Ia is ambient intensity)
+
+Diffuse Reflection: Light that is scattered equally in all directions (Lambertian)
+Code
+
+Diffuse = Kd * Id * max(0, N·L)
+
+    Kd: diffuse coefficient (material property)
+    Id: diffuse intensity (light source property)
+    N: surface normal
+    L: light direction (from surface to light)
+
+Specular Reflection: Shiny highlights that depend on viewing direction
+Code
+
+Specular = Ks * Is * max(0, R·V)^shininess
+
+    Ks: specular coefficient (material property)
+    Is: specular intensity (light source property)
+    R: reflection vector = 2*(N·L)*N - L
+    V: view vector (from surface to viewer/camera)
+    shininess: material property (higher = sharper highlights)
+

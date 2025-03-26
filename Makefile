@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/26 13:29:11 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/26 16:05:20 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,9 @@ LIBMLX := $(MLX_DIR)/build/libmlx42.a
 #flags
 CFLAGS := -Werror -Wall -Wextra #-g
 LDFLAGS += -L./$(MLX_DIR)/build -lmlx42 #-g
-OPTIM_FLAGS := -Ofast
+# Ofast might instroduce race conditions in multithreading
+# 03 is fast and safer
+OPTIM_FLAGS := -O3
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
