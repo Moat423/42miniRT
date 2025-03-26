@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 14:06:40 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:46:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 	float	lambert;
 	t_vec3	diffuse_color;
 	t_color	spec_color;
+	t_vec3	half_dir;
+	float	light_diminish;
+	float	specular;
 
 	(void)ray;
 	color = ambient(scene, intersection.object);
@@ -73,10 +76,14 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 						lambert,
 						light_dist * light_dist)
 					;
+				light_diminish = scene->lights[i].brightness / (light_dist / 5.0);
+				half_dir = vec3_normalize(vec3_add(light_dir, ray.direction));
+				specular = fmax((powi(vec3_dot(normal, half_dir), 5) * light_diminish), 0);
+				spec_color = vec3_multiply((t_vec3){1, 1, 1}, specular);
 				// pow(1 - dot(N, -V), 5)
-				spec_color = vec3_pow(1 - vec3_dot(normal, vec3_multiply(ray.direction, -1)), );
+				// spec_color = vec3_multiply((t_vec3){1, 1, 1}, powi((1 - vec3_dot(normal, vec3_multiply(ray.direction, -1))), 5));
 				// spec_color = specular(scene->lights[i], light_dir, normal, diffuse_color, lambert, light_dist);
-				// color = vec3_add(color, diffuse_color);
+				color = vec3_add(color, diffuse_color);
 				color = vec3_add(color, spec_color);
 			}
 		}
