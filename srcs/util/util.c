@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:31 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 11:10:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:04:02 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,17 @@ float	image_aspect_ratio(t_scene *scene)
 bool	equal(float a, float b)
 {
 	return (fabs(a - b) < EPSILON);
+}
+
+float	powi(float x, int z)
+{
+	float	result;
+
+	result = 1;
+	while (z > 0)
+	{
+		result *= x;
+		z--;
+	}
+	return (result);
 }

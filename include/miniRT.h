@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 13:09:17 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:05:21 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_vec3	vec3_multiply(t_vec3 v, float scalar);
 t_vec3	vec3_component_mul(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_divide(t_vec3 v, float scalar);
 t_vec3	vec3_calc_length_and_normalize(t_vec3 v, float *length);
+t_vec3	vec3_pow(t_vec3 v, int scalar);
 
 /* COLOR */
 
@@ -87,6 +88,7 @@ float	clamp(float value, float min, float max);
 void	scene_destroy(t_scene *scene);
 float	image_aspect_ratio(t_scene *scene);
 bool	equal(float a, float b);
+float	powi(float x, int z);
 
 /*OBJS */
 
