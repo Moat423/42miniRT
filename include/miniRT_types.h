@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/25 17:05:41 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:45:46 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,10 @@ typedef struct s_intersection
 	/// alias of the object from the scene which was intersected
 	t_object		object;
 	float			distance;
+	/// Whether normal was calculated already or still needs to be calculated
+	/// In case it was not calculated, the normal field is filled with
+	/// a vec that may be unnormalized, meaning it has to be normalized before use
+	bool			normal_calculated;
 }	t_intersection;
 
 typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);

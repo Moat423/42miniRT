@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:51:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/25 12:05:18 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:04:04 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out)
 		out->object.plane = plane;
 		out->object.type = PLANE;
 		out->point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
+		out->normal = plane->normal;
+		out->normal_calculated = true;
 		return (true);
 	}
 	return (false);

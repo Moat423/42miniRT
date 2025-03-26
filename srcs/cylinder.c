@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 12:25:46 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:02:32 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,24 @@ bool	circle_intersect(t_circle circle, t_ray ray, float *out_dist, t_vec3 *out_p
 bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, float *o_dist, t_vec3 *o_pt);
 float	get_discriminant(float abc[3], const t_ray ray, const t_cylinder *cyl);
 
-t_vec3	cyl_surface_normal(t_cylinder *cylinder, t_vec3 point, float m)
+/// @brief Calculate the unnormalized surface normal of a cylinder at a given
+/// intersection point
+/// @param intersection The intersection point
+/// @param m The projection of the intersection point on the cylinder axis
+static void	set_intersect_normal(t_intersection *intersection, float m)
 {
-	return (vec3_normalize(vec3_subtract(point, vec3_add(cylinder->bottom, vec3_multiply(cylinder->axis, m)))));
+	intersection->normal = vec3_subtract(
+		intersection->point,
+		vec3_add(intersection->object.cylinder->bottom,
+			vec3_multiply(intersection->object.cylinder->axis, m))
+		);
+	intersection->normal_calculated = false;
 }
 
 /// returns the projection of vector v on the axis of the cylinder
 /// also known as "m"
 /// if the resulting float value is between 0 and height, the point is on the cylinder body
-float	projected_len_on_axis(t_cylinder *cyl, t_vec3 v)
+static float	projected_len_on_axis(t_cylinder *cyl, t_vec3 v)
 {
 	return (vec3_dot(cyl->axis, vec3_subtract(v, cyl->bottom)));
 }
@@ -41,6 +50,7 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	discriminant = get_discriminant(abc, ray, cylinder);
 	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	out->normal = cylinder->axis;
+	out->normal_calculated = true;
 	if (discriminant < EPSILON && discriminant > -EPSILON)
 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
 	if (discriminant < 0)
@@ -58,7 +68,7 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 			out->distance = t[0];
 			out->point = hit_point;
 			out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
-			out->normal = cyl_surface_normal(cylinder, hit_point, hit_proj);
+			set_intersect_normal(out, hit_proj);
 			return (true);
 		}
 	}
@@ -82,7 +92,7 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
 	out->distance = t[1];
 	out->point = hit_point;
-	out->normal = cyl_surface_normal(cylinder, hit_point, hit_proj);
+	set_intersect_normal(out, hit_proj);
 	return (true);
 }
 float	get_discriminant(float abc[3], const t_ray ray, const t_cylinder *cyl)

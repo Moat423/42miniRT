@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:58:18 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 19:22:18 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:07:17 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,16 @@ bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closes
 	find_closest_obj_intersect(scene, ray, closest, PLANE);
 	find_closest_obj_intersect(scene, ray, closest, CYLINDER);
 	return (closest->object.any != NULL);
+}
+
+/// @brief Lazy calculation of the surface normal of an intersection
+/// @param intersection The intersection to calculate the surface normal for
+/// @return The surface normal of the intersection point
+t_vec3	intersect_normal(t_intersection *intersection)
+{
+	if (intersection->normal_calculated)
+		return (intersection->normal);
+	intersection->normal = vec3_normalize(intersection->normal);
+	intersection->normal_calculated = true;
+	return (intersection->normal);
 }

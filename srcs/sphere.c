@@ -12,12 +12,10 @@
 
 #include "../include/miniRT.h"
 
-t_vec3	sphere_normal(t_sphere sphere, t_vec3 point)
+static void	set_intersect_normal(t_sphere *sphere, t_intersection *intersection)
 {
-	t_vec3	normal;
-
-	normal = vec3_divide(vec3_subtract(point, sphere.pos), sphere.radius);
-	return (normal);
+	intersection->normal = vec3_divide(vec3_subtract(intersection->point, sphere->pos), sphere->radius);
+	intersection->normal_calculated = true;
 }
 
 bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
@@ -68,5 +66,6 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	// P = O + t * D
 	out->point = vec3_add(ray.origin, vec3_multiply(ray.direction, out->distance));
 	out->object = (t_object){.sphere = sphere, .type = SPHERE};
+	set_intersect_normal(sphere, out);
 	return (true);
 }

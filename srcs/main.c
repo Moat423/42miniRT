@@ -6,21 +6,27 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/24 19:59:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:13:47 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 #include "../include/parse.h"
 
-//TODO: cap infinite cylinder (remove comment in parsing)
+//TODO: valgrind!!
 //TODO: implement specular reflection
-//TODO: weird interactions between planes and lights need fixing
-//TODO: implement cylinder shape
 //TODO: implement cone shape
-//TODO: calculate surface normal for sphere only once, put in intersection struct und nur wenn noetig
-//TODO: viewport ray don't normalize ray, calculate a for sphere
-// note ^^^^: a plane does expect a normalized direction ray though, so how can we do this? TRY OUT
+//TODO: implement more options for dynamic camera movement or also object movement/rotation
+// for example pgup/pgdown to move the camera up and down and mouse for rotation
+//TODO: lazy\deferred rendering can be optimized to
+// not wait x milliseconds after last render request but rather request that
+// the rendering must be deferred to only the next frame if
+// there isnt another key/mouse input on the next frame before rendering
+//TODO: checkerboard pattern
+//TODO: optimization for light calculation.
+// We currently try to check for every point if it is in shadow of
+// any/all lights no matter how far away the light is.
+// Quadratic slowdown per light on the scene.
 //TODO: bvh tree
 //TODO: shadow not get closest, but get any intersect
 //TODO: for bvh where we have arrays of pointers to generic objects, we want to store their specific intersection function inside the generic object struct
