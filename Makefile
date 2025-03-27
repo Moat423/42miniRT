@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/03/26 16:05:20 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/03/27 15:58:23 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
-HDRS := $(HDRS_DIR)/fractol.h
+HDRS := $(addprefix $(HDRS_DIR)/, miniRT.h miniRT_types.h parse.h)
 
 #PRETTY
 BOLD := $(shell printf '\033[1m')
@@ -118,7 +118,7 @@ run: all
 	./$(NAME)
 
 # Main program
-$(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
+$(NAME): $(LIBFT) $(LIBMLX) $(OBJS) $(HDRS)
 	@printf "\n$(BOLD)Linking $(NAME)$(RESET)\n"
 	$(CC) $(FINAL_CFLAGS) $(OBJS) $(INCLUDES) $(LIBFT_FLAGS) $(MLX_FLAGS) $(FINAL_LDFLAGS) -o $@ && \
 	printf "\n$(GREEN)$(BOLD)Build successful!$(RESET)\n" || \
