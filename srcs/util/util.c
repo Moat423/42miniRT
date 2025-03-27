@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:31 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 14:04:02 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:22:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,25 @@ bool	equal(float a, float b)
 	return (fabs(a - b) < EPSILON);
 }
 
-float	powi(float x, int z)
+// binary exponentiation
+float	powi(float x, int n)
 {
 	float	result;
 
 	result = 1;
-	while (z > 0)
+	if (n < 0)
 	{
-		result *= x;
-		z--;
+		x = 1.0f / x;
+		n = -n;
+	}
+	while (n > 0)
+	{
+		if (n & 1)
+		{
+			result *= x;
+		}
+		x *= x;
+		n >>= 1;
 	}
 	return (result);
 }

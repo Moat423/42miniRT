@@ -221,11 +221,11 @@ Diffuse = Kd * Id * max(0, N·L)
 Specular Reflection: Shiny highlights that depend on viewing direction
 Code
 
-Specular = Ks * Is * max(0, R·V)^shininess
+Specular = Ks * Is * (max(0, R·V))^shininess
 
-    Ks: specular coefficient (material property)
-    Is: specular intensity (light source property)
+    Ks: specular coefficient (material property) (can also be object colour, but then it's not really real)
+    Is: specular intensity (light source property) (light brightness)
     R: reflection vector = 2*(N·L)*N - L
-    V: view vector (from surface to viewer/camera)
+    V: view vector (from surface to viewer/camera) (meaning ray inverted)
     shininess: material property (higher = sharper highlights)
 
