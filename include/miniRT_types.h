@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 12:45:46 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:41:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 
 # ifndef EPSILON // tollerance value for floating point comparisons
 #  define EPSILON 0.0001
+# endif
+
+# ifndef MATERIAL_COLOR // default object specular color as specular coefficient
+#  define MATERIAL_COLOR (t_color){0.9, 0.9, 0.9}
 # endif
 
 typedef enum e_abc
@@ -101,13 +105,13 @@ typedef struct s_plane
 typedef struct s_cylinder
 {
 	t_vec3	pos;
+	t_vec3	top;
+	t_vec3	bottom;
 	/// normalized
 	t_vec3	axis;
 	t_color	color;
 	float	radius;
 	float	height;
-	t_vec3	top;
-	t_vec3	bottom;
 }	t_cylinder;
 
 typedef struct s_ray
@@ -186,5 +190,13 @@ typedef struct s_minirt
 	mlx_image_t	*image;
 	double		last_render_request_time;
 }	t_minirt;
+
+typedef struct s_light_ray
+{
+	t_vec3	direction;
+	float	distance;
+	float	attenuation;
+	float	lambert;
+}	t_light_ray;
 
 #endif
