@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 14:06:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/28 12:47:54 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ void	color_to_rgb(t_color color, uint8_t *r, uint8_t *g, uint8_t *b);
 t_color	color_from_rgb(uint8_t r, uint8_t g, uint8_t b);
 t_color	color_clamp(t_color color);
 t_color	vec3_to_color(t_vec3 vec);
+
+/* LIGHT */
+
+t_color	calc_lights(const t_light light, const t_ray ray, t_intersection its, t_light_ray l);
 
 /* INTERVAL */
 

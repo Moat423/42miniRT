@@ -197,8 +197,8 @@ but what is ks? that is the reflection koefficient of the material.
 usually you would shoot another ray from that location, see what it hits and get the reflected color from that object. but we are not doing it recusively, to save time. therefore this simplifies the calculation as we just use white light:
 ``` C++
 				spec_color = vec3_multiply((t_vec3){1, 1, 1}, specular);
-```
 
+```
 ## light
 
 The Phong reflection model consists of three components:
@@ -228,4 +228,30 @@ Specular = Ks * Is * (max(0, R·V))^shininess
     R: reflection vector = 2*(N·L)*N - L
     V: view vector (from surface to viewer/camera) (meaning ray inverted)
     shininess: material property (higher = sharper highlights)
+
+actually, there are two approaches:
+
+Original Phong Model
+
+Specular = Ks * Is * (max(0, R·V))^shininess
+where R = 2*(N·L)*N - L
+
+Blinn-Phong Model (the half-vector approach)
+
+Specular = Ks * Is * (max(0, N·H))^shininess
+where H = normalize(L + V)
+
+	mixed_color = vec3_component_mul(MATERIAL_COLOR, l_color);
+	specular = powi(fmaxf(vec3_dot(its.normal, half_dir), 0.0f), 128);
+	spec_color = vec3_multiply(vec3_component_mul((t_color){0.9, 0.9, 0.9}, light.color), specular * l.attenuation);
+
+last line can have mixed_color instead of the component mul
+
+### shininess
+
+For non-metals: white/gray specular color (0.9, 0.9, 0.9) with moderate shininess (16-32)
+For metals: colored specular matching the metal color with high shininess (64-128)
+
+If using Blinn-Phong, use 4x higher shininess than original Phong
+Example: 32 in original Phong ≈ 128 in Blinn-Phong
 
