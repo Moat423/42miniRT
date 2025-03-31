@@ -255,3 +255,31 @@ For metals: colored specular matching the metal color with high shininess (64-12
 If using Blinn-Phong, use 4x higher shininess than original Phong
 Example: 32 in original Phong ≈ 128 in Blinn-Phong
 
+## cone
+
+formula:
+```
+C is the vertex of the cone
+V is the axis vector
+k is the tangent of half angle of the cone
+
+ A ray is defined in the following way:
+
+   P = O + D*t
+and 
+   P - C = D*t + X
+where C is a center point of a shape that we hit and X equals O-C. 
+
+
+   a   = D|D - (1+k*k)*(D|V)^2
+   b/2 = D|X - (1+k*k)*(D|V)*(X|V)
+   c   = X|X - (1+k*k)*(X|V)^2
+
+```
+
+therefore:
+```
+a = (d dot d) - (1 + slant * slant) * (d dot axis)^2
+b = root((d dot oc) - (1 + slant * slant) * (d dot axis) (oc dot axis)
+c = (oc dot oc) - (1 + slant * slant) * (oc dot axis)^2
+```
