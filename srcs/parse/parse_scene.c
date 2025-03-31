@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/31 14:25:49 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:51:32 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,23 +97,26 @@ static int	set_obj(char *line, t_scene *scene, int *indexi)
 		return (set_plane(line, &(scene->planes[indexi[PLANE]++])));
 	else if (!ft_strncmp(line, "cy ", 3))
 		return (set_cylinder(line, &(scene->cylinders[indexi[CYLINDER]++])));
+	else if (!ft_strncmp(line, "co ", 3))
+		return (set_cone(line, &(scene->cones[indexi[CONE]++])));
 	else if (!ft_strncmp(line, "A ", 2))
 		return (set_ambient(line, &(scene->ambient)));
 	else if (!ft_strncmp(line, "C ", 2))
 		return (set_camera(line, &(scene->camera)));
-	else if (!ft_strncmp(line, "co ", 3))
-		return (set_cone(line, &(scene->cones[indexi[CONE]++])));
 	return (ft_parseerror("invalid object", line));
 }
 
 static int	get_arrays(int fd, t_scene *scene)
 {
 	char		*line;
-	int			indexi[4];
+	int			indexi[OBJ_NUM];
 
-	ft_bzero(indexi, sizeof(int) * 4);
+	ft_bzero(indexi, sizeof(int) * OBJ_NUM);
 	if (!ft_malloc_scene_arrays(scene))
+	{
+		scene_destroy(scene);
 		return (0);
+	}
 	while (1)
 	{
 		line = get_next_line(fd);

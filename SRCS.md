@@ -28,3 +28,7 @@ https://hugi.scene.org/online/hugi24/coding%20graphics%20chris%20dragan%20raytra
 ## optimization
 
 https://www.geeksforgeeks.org/binary-exponentiation-for-competitive-programming/
+
+## cone
+https://www.onemathematicalcat.org/Math/Precalculus_obj/conicDiscriminant.htm
+

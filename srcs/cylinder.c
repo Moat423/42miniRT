@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/31 13:25:31 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:59:55 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	float	abc[3];
 	float	discriminant;
 	float	sqrt_d;
-	float	t[4];
+	float	t[2];
 	t_vec3	hit_point;
 	float	hit_proj;
 
@@ -66,7 +66,6 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 		{
 			out->distance = t[0];
 			out->point = hit_point;
-			out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 			set_intersect_normal(out, hit_proj);
 			return (true);
 		}

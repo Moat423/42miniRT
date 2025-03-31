@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/31 14:26:28 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:38:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@
 
 # ifndef MATERIAL_COLOR // default object specular color as specular coefficient
 #  define MATERIAL_COLOR (t_color){0.9, 0.9, 0.9}
+# endif
+
+# ifndef OBJ_NUM // number of different object-kinds we can parse in general
+#  define OBJ_NUM 5
 # endif
 
 typedef enum e_abc

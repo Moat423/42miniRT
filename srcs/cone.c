@@ -6,11 +6,31 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/31 13:27:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:20:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
+
+void	ft_insertion_sort(float *arr, size_t size)
+{
+	int		i;
+	int		j;
+	float	key;
+
+	i = 1;
+	while (i < size)
+	{
+		key = arr[i];
+		j = i - 1;
+		while (j >= 0 && arr[j] >= key)
+		{
+			arr[j + 1] = arr[j];
+			j--;
+		}
+		arr[j + 1] = key;
+	}
+}
 
 // gets discriminant of cone
 // the axis is normalized and therefore the normal of the cone
@@ -36,3 +56,32 @@ static	float	get_discriminant(float abc[3], const t_ray ray,
 	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 }
 
+bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
+{
+	float	discriminant;
+	float	abc[3];
+	float	sqrt_d;
+	float	t[3];
+	int		i;
+	t_vec3	hit_point;
+
+	i = -1;
+	discriminant = get_discriminant(abc, ray, cone);
+	// if (discriminant < 0)
+	// 	return (true) // is elipse;
+	out->object = (t_object){.cone = cone, .type = CONE};
+	out->normal = cone->axis;
+	out->normal_calculated = true;
+	sqrt_d = sqrtf(discriminant);
+	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
+	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
+	circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, ray, &t[2], &(out->point));
+	// if (t[2] <= t[0] && t[2] <= t[1])
+	while (++i < 2)
+	{
+		if (interval_contains(ray.range, t[i]))
+		{
+			
+		}
+	}
+}
