@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 13:02:32 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:43:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,17 @@ float	get_discriminant(float abc[3], const t_ray ray, const t_cylinder *cyl);
 static void	set_intersect_normal(t_intersection *intersection, float m)
 {
 	intersection->normal = vec3_subtract(
-		intersection->point,
-		vec3_add(intersection->object.cylinder->bottom,
-			vec3_multiply(intersection->object.cylinder->axis, m))
-		);
+			intersection->point,
+			vec3_add(intersection->object.cylinder->bottom,
+				vec3_multiply(intersection->object.cylinder->axis, m))
+			);
 	intersection->normal_calculated = false;
 }
 
 /// returns the projection of vector v on the axis of the cylinder
 /// also known as "m"
-/// if the resulting float value is between 0 and height, the point is on the cylinder body
+/// if the resulting float value is between 0 and height, 
+/// the point is on the cylinder body
 static float	projected_len_on_axis(t_cylinder *cyl, t_vec3 v)
 {
 	return (vec3_dot(cyl->axis, vec3_subtract(v, cyl->bottom)));
@@ -45,7 +46,7 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	float	sqrt_d;
 	float	t[4];
 	t_vec3	hit_point;
-	float	hit_proj; //projection of hit_point along axis
+	float	hit_proj;
 
 	discriminant = get_discriminant(abc, ray, cylinder);
 	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
@@ -95,22 +96,24 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	set_intersect_normal(out, hit_proj);
 	return (true);
 }
+
 float	get_discriminant(float abc[3], const t_ray ray, const t_cylinder *cyl)
 {
 	t_vec3	oc;
 
 	oc = vec3_subtract(ray.origin, cyl->pos);
-	abc[A] = vec3_squared_length(ray.direction) -
-		vec3_dot(ray.direction, cyl->axis) *
-		vec3_dot(ray.direction, cyl->axis);
-	abc[C] = vec3_squared_length(oc) - (vec3_dot(oc, cyl->axis) *
-			vec3_dot(oc, cyl->axis)) - cyl->radius * cyl->radius;
-	abc[B] = 2 * (vec3_dot(ray.direction, oc) -
-			vec3_dot(ray.direction, cyl->axis) * vec3_dot(oc, cyl->axis));
+	abc[A] = vec3_squared_length(ray.direction) 
+		-vec3_dot(ray.direction, cyl->axis) 
+		* vec3_dot(ray.direction, cyl->axis);
+	abc[C] = vec3_squared_length(oc) - (vec3_dot(oc, cyl->axis) 
+			* vec3_dot(oc, cyl->axis)) - cyl->radius * cyl->radius;
+	abc[B] = 2 * (vec3_dot(ray.direction, oc) 
+			- vec3_dot(ray.direction, cyl->axis) * vec3_dot(oc, cyl->axis));
 	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 }
 
-bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, float *o_dist, t_vec3 *o_pt)
+bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, 
+								float *o_dist, t_vec3 *o_pt)
 {
 	t_vec3	hit_point[2];
 	float	hit_dist[2];
@@ -135,7 +138,8 @@ bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, float *o_dist, t_v
 	return (true);
 }
 
-bool	circle_intersect(t_circle circle, t_ray ray, float *o_dist, t_vec3 *o_pt)
+bool	circle_intersect(t_circle circle, t_ray ray, 
+						float *o_dist, t_vec3 *o_pt)
 {
 	float	t;
 	float	denom;
@@ -150,8 +154,8 @@ bool	circle_intersect(t_circle circle, t_ray ray, float *o_dist, t_vec3 *o_pt)
 		return (false);
 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
 	// the (1.0f + EPSILON) is to account for floating point errors, can be taken out
-	if (vec3_squared_length(vec3_subtract(hit_point, circle.pos)) <=
-		circle.radius * circle.radius * (1.0f + EPSILON))
+	if (vec3_squared_length(vec3_subtract(hit_point, circle.pos))
+		<= circle.radius * circle.radius * (1.0f + EPSILON))
 	{
 		*o_dist = t;
 		*o_pt = hit_point;
