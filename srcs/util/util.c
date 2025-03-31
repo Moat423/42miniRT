@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:31 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/27 16:22:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:28:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	scene_destroy(t_scene *scene)
 	scene->plane_count = 0;
 	free(scene->cylinders);
 	scene->cylinder_count = 0;
+	free(scene->cones);
+	scene->cone_count = 0;
 }
 
 float	image_aspect_ratio(t_scene *scene)

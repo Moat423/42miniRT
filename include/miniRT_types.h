@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/27 15:41:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:26:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,18 @@ typedef struct s_cylinder
 	float	height;
 }	t_cylinder;
 
+typedef struct s_cone
+{
+	t_vec3	top;
+	t_vec3	bottom;
+	/// normalized
+	t_vec3	axis;
+	t_color	color;
+	float	slant;
+	float	radius;
+	float	height;
+}	t_cone;
+
 typedef struct s_ray
 {
 	t_vec3		origin;
@@ -135,6 +147,7 @@ typedef enum e_object_type
 	PLANE,
 	CYLINDER,
 	LIGHT,
+	CONE,
 }	t_object_type;
 
 typedef struct s_object
@@ -143,6 +156,7 @@ typedef struct s_object
 		t_sphere	*sphere;
 		t_plane		*plane;
 		t_cylinder	*cylinder;
+		t_cone		*cone;
 		void		*any;
 	};
 	t_object_type	type;
@@ -174,10 +188,12 @@ typedef struct s_scene
 	t_sphere	*spheres;
 	t_plane		*planes;
 	t_cylinder	*cylinders;
+	t_cone		*cones;
 	size_t		light_count;
 	size_t		sphere_count;
 	size_t		plane_count;
 	size_t		cylinder_count;
+	size_t		cone_count;
 	uint32_t	image_width;
 	uint32_t	image_height;
 }	t_scene;

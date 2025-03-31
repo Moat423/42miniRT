@@ -31,8 +31,8 @@ int	ft_malloc_scene_arrays(t_scene *scene)
 	if (!ft_malloc_array(scene->cylinder_count, sizeof(t_cylinder), 
 			(void **)&(scene->cylinders)))
 		return (0);
-	// if (!ft_malloc_array(s->cone_count, sizeof(t_cone), 
-	// (void **)&(s->cones)))
-	// 	return (0);
+	if (!ft_malloc_array(scene->cone_count, sizeof(t_cone), 
+			(void **)&(scene->cones)))
+		return (0);
 	return (1);
 }

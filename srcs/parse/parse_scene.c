@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 12:48:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:25:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static void	count_obj(char *line, t_scene *scene)
 	else if (!ft_strncmp(line, "pl ", 3))
 		scene->plane_count++;
 	else if (!ft_strncmp(line, "cy ", 3))
+		scene->cylinder_count++;
+	else if (!ft_strncmp(line, "co ", 3))
 		scene->cylinder_count++;
 }
 
@@ -99,6 +101,8 @@ static int	set_obj(char *line, t_scene *scene, int *indexi)
 		return (set_ambient(line, &(scene->ambient)));
 	else if (!ft_strncmp(line, "C ", 2))
 		return (set_camera(line, &(scene->camera)));
+	else if (!ft_strncmp(line, "co ", 3))
+		return (set_cone(line, &(scene->cones[indexi[CONE]++])));
 	return (ft_parseerror("invalid object", line));
 }
 

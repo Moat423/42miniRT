@@ -6,12 +6,57 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 12:08:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:34:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
+
+static t_vec3	move_point(t_vec3 point, t_vec3 dir, float dist)
+{
+	return (vec3_add(point, vec3_multiply(dir, dist)));
+}
+
+/*
+ * co 0.0,4.0,2.0 0.0,0.0,1.0 14.2 21.42 10,0,255
+ *  |	|			|			|	|		|
+ * identifier: co	|			|	|		|
+ * 		|			|			|	|		|
+ * x, y, z coordinates of the top point of the cone
+ * 					|			|	|		|
+∗ 3D normalized vector of axis of cone, in range [-1,1] for each x, y, z axis
+								|	|		|
+∗ 				  the cone diameter	|		|
+∗ 						the cone height		|
+∗					R, G, B colors in the range [0,255]
+*/
+int	set_cone(char *line, t_cone *cone)
+{
+	int			i;
+
+	i = 3;
+	i = set_vec(line, i, &(cone->top));
+	if (!i)
+		return (0);
+	i = ft_skip_space(line, i);
+	i = set_vec(line, i, &(cone->axis));
+	if (!i)
+		return (0);
+	i = ft_substrtof(&(cone->radius), i, line);
+	if (!i)
+		return (0);
+	cone->radius /= 2;
+	i = ft_substrtof(&(cone->height), i, line);
+	if (!i)
+		return (0);
+	i = set_color(line, i, &(cone->color));
+	if (!i)
+		return (0);
+	cone->bottom = move_point(cone->top, cone->axis, cone->height / 2);
+	cone->slant = ft_hypothenuse(cone->radius, cone->height);
+	return (1);
+}
 
 /*
 * sp 0.0,0.0,20.6 12.6 10,0,255
@@ -19,7 +64,7 @@
 ∗ x, y, z coordinates of the sphere center: 0.0,0.0,20.6
 ∗ the sphere diameter: 12.6
 ∗ R,G,B colors in the range [0-255]: 10, 0, 255
-* */
+*/
 int	set_sphere(char *line, t_sphere *sphere)
 {
 	int		i;
@@ -64,11 +109,6 @@ int	set_plane(char *line, t_plane *plane)
 	if (line[i] != '\n')
 		i = set_color(line, i, &(plane->color));
 	return (1);
-}
-
-static t_vec3	move_point(t_vec3 point, t_vec3 dir, float dist)
-{
-	return (vec3_add(point, vec3_multiply(dir, dist)));
 }
 
 /*
