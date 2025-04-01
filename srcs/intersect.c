@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:58:18 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 13:07:17 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:38:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,19 @@ static void	find_closest_obj_intersect(t_scene *scene, t_ray ray, t_intersection
 		object_count = scene->plane_count;
 		elem_size = sizeof(t_plane);
 	}
-	else //if (type == CYLINDER)
+	else if (type == CYLINDER)
 	{
 		intersect_fn = (t_intersect_fn)cylinder_intersect;
 		objects = (void *)scene->cylinders;
 		object_count = scene->cylinder_count;
 		elem_size = sizeof(t_cylinder);
+	}
+	else 
+	{
+		intersect_fn = (t_intersect_fn)cone_intersect;
+		objects = (void *)scene->cones;
+		object_count = scene->cone_count;
+		elem_size = sizeof(t_cone);
 	}
 	while (i < object_count)
 	{
@@ -59,6 +66,7 @@ bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closes
 	find_closest_obj_intersect(scene, ray, closest, SPHERE);
 	find_closest_obj_intersect(scene, ray, closest, PLANE);
 	find_closest_obj_intersect(scene, ray, closest, CYLINDER);
+	find_closest_obj_intersect(scene, ray, closest, CONE);
 	return (closest->object.any != NULL);
 }
 

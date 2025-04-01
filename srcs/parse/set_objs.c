@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/31 13:34:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:19:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	set_cone(char *line, t_cone *cone)
 	if (!i)
 		return (0);
 	cone->bottom = move_point(cone->top, cone->axis, cone->height / 2);
-	cone->slant = ft_hypothenuse(cone->radius, cone->height);
+	cone->slant = cone->radius / cone->height;
 	return (1);
 }
 

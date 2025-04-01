@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/01 13:52:18 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:10:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,18 @@
 // 	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 // }
 
+// Calculate normal at hit point
+// static t_vec3	calc_normal(const t_ray ray, const t_cone *cone, 
+// 							float t, t_cone_calc cc)
+// {
+// 	t_vec3	hit_point;
+// 	t_vec3	axis_point;
+//
+// 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
+// 	axis_point = vec3_add(cone->top, vec3_multiply(cone->axis, cc.m));
+// 	return (vec3_normalize(vec3_subtract(hit_point, axis_point)));
+// }
+
 // gets discriminant of cone
 // the axis is normalized and therefore the normal of the cone
 // coeff: 1 + slant * slant
@@ -49,7 +61,7 @@ static	float	get_discriminant(const t_vec3 ray_dir, const t_cone_calc cc,
 	abc[C] = vec3_squared_length(cc.oc) - cc.coeff * cc.oc_dot_n * cc.oc_dot_n;
 	abc[B] = 2 * (vec3_dot(ray_dir, cc.oc) 
 			- cc.coeff * cc.d_dot_n * cc.oc_dot_n);
-	return (abc[B] - 4 * abc[A] * abc[C]);
+	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 }
 
 static t_cone_calc	prep_cone_calc(const t_ray ray, const t_cone *cone)
@@ -63,18 +75,6 @@ static t_cone_calc	prep_cone_calc(const t_ray ray, const t_cone *cone)
 	return (cc);
 }
 
-// Calculate normal at hit point
-// static t_vec3	calc_normal(const t_ray ray, const t_cone *cone, 
-// 							float t, t_cone_calc cc)
-// {
-// 	t_vec3	hit_point;
-// 	t_vec3	axis_point;
-//
-// 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
-// 	axis_point = vec3_add(cone->top, vec3_multiply(cone->axis, cc.m));
-// 	return (vec3_normalize(vec3_subtract(hit_point, axis_point)));
-// }
-
 static bool	cone_calc(const t_cone *cone, const t_ray ray, float t[2], t_cone_calc *cc)
 {
 	float		abc[3];
@@ -83,8 +83,17 @@ static bool	cone_calc(const t_cone *cone, const t_ray ray, float t[2], t_cone_ca
 
 	*cc = prep_cone_calc(ray, cone);
 	discriminant = get_discriminant(ray.direction, *cc, abc);
-	if (discriminant < 0)
+	if (discriminant < EPSILON)
 		return (false);
+	if (fabs(abc[A]) < EPSILON)
+	{
+		// Special case - solve linear equation
+		if (fabs(abc[B]) < EPSILON)
+			return (false);  // No solution
+		t[0] = -abc[C] / abc[B];
+		t[1] = t[0]; // Both solutions are the same
+		return (true);
+	}
 	sqrt_d = sqrtf(discriminant);
 	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
 	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
@@ -100,6 +109,8 @@ bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
 	float		closest_t;
 	bool		hit_found;
 
+	hit_found = false;
+	closest_t = INFINITY;
 	if (!cone_calc(cone, ray, t, &cc))
 		return (false);
 	out->object = (t_object){.cone = cone, .type = CONE};
@@ -113,8 +124,7 @@ bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
 			// Calculate hit point
 			hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[i]));
 			// Calculate m = (D·V)*t + (X·V)
-			t_vec3 X = vec3_subtract(ray.origin, cone->top);
-			cc.m = vec3_dot(ray.direction, cone->axis) * t[i] + vec3_dot(X, cone->axis);
+			cc.m = cc.d_dot_n * t[i] + cc.oc_dot_n;
 			// Check if hit point is within the height bounds
 			if (cc.m >= 0 && cc.m <= cone->height)
 			{

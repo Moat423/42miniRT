@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/31 14:51:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:27:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,13 @@ static void	count_obj(char *line, t_scene *scene)
 		scene->sphere_count++;
 	else if (!ft_strncmp(line, "pl ", 3))
 		scene->plane_count++;
-	else if (!ft_strncmp(line, "cy ", 3))
-		scene->cylinder_count++;
-	else if (!ft_strncmp(line, "co ", 3))
-		scene->cylinder_count++;
+	else if (line[0] == 'c')
+	{
+		if (line[1] == 'y' && line[2] == ' ')
+			scene->cylinder_count++;
+		else if (line[1] == 'o' && line[2] == ' ')
+			scene->cone_count++;
+	}
 }
 
 static int	parse_file(int fd, t_scene *scene)
