@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/01 15:10:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:46:08 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static t_cone_calc	prep_cone_calc(const t_ray ray, const t_cone *cone)
 	return (cc);
 }
 
-static bool	cone_calc(const t_cone *cone, const t_ray ray, float t[2], t_cone_calc *cc)
+static bool	cone_calc(const t_cone *cone, const t_ray ray,
+						float t[2], t_cone_calc *cc)
 {
 	float		abc[3];
 	float		discriminant;
@@ -87,11 +88,10 @@ static bool	cone_calc(const t_cone *cone, const t_ray ray, float t[2], t_cone_ca
 		return (false);
 	if (fabs(abc[A]) < EPSILON)
 	{
-		// Special case - solve linear equation
 		if (fabs(abc[B]) < EPSILON)
-			return (false);  // No solution
+			return (false);
 		t[0] = -abc[C] / abc[B];
-		t[1] = t[0]; // Both solutions are the same
+		t[1] = t[0];
 		return (true);
 	}
 	sqrt_d = sqrtf(discriminant);
@@ -155,11 +155,11 @@ bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
 		closest_t = t[2];
 		out->distance = t[2];
 		out->point = hit_point;
-		out->normal = vec3_multiply(cone->axis, -1);  // Normal points outward from the cap
+		out->normal = (cone->axis);  // Normal points outward from the cap
 		out->normal_calculated = true;
 		hit_found = true;
 	}
-	return hit_found;
+	return (hit_found);
 }
 
 // bool	old_cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)

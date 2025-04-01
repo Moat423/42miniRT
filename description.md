@@ -289,3 +289,18 @@ but in our case, when dealing with rays, discriminant says the following:
     If discriminant < 0, the ray misses the cone completely (no real solutions)
     If discriminant = 0, the ray grazes the cone (exactly one intersection point)
     If discriminant > 0, the ray intersects the cone at two points
+
+
+this check when calculating the discriminator:
+```
+	if (fabs(abc[A]) < EPSILON)
+	{
+		// Special case - solve linear equation
+		if (fabs(abc[B]) < EPSILON)
+			return (false);  // No solution
+		t[0] = -abc[C] / abc[B];
+		t[1] = t[0]; // Both solutions are the same
+		return ();
+	}
+```
+is an optimization, since when A is 0, we don't have to do a root, we can solve a liniare equation.

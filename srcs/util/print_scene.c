@@ -120,26 +120,23 @@ void print_image_dimensions(unsigned int width, unsigned int height) {
 }
 
 // Main function to print all scene contents
-void print_scene(const t_scene *scene) {
-	if (!scene) {
+void	print_scene(const t_scene *scene)
+{
+	if (!scene)
+	{
 		printf("Error: NULL scene pointer\n");
-		return;
+		return ;
 	}
-
 	printf("\n==================================\n");
 	printf("SCENE CONTENTS (Date: %s)\n", __DATE__ " " __TIME__);
 	printf("==================================\n\n");
-
 	print_camera(&scene->camera);
 	print_ambient_light(&scene->ambient);
 	print_lights(scene->lights, scene->light_count);
 	print_spheres(scene->spheres, scene->sphere_count);
 	print_planes(scene->planes, scene->plane_count);
 	print_cylinders(scene->cylinders, scene->cylinder_count);
-	
-	// Add this line if cones are part of your scene
 	print_cones(scene->cones, scene->cone_count);
-
 	print_image_dimensions(scene->image_width, scene->image_height);
 	printf("==================================\n\n");
 }
