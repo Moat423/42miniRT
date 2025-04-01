@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/31 14:38:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:40:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,23 @@ typedef struct s_intersection
 	/// a vec that may be unnormalized, meaning it has to be normalized before use
 	bool			normal_calculated;
 }	t_intersection;
+
+// struct used in cone calculation to prepare values for discriminant
+// calculation and not double calculate these dot products:
+// oc: vector origin to center of object
+// d dot n: ray directiond dot normal of the object
+// oc dot n: oc vector dot  normal of the object
+// coeff: for cone: coeff = 1 + cone->slant * cone->slant;
+// m: hit point projected onto the normal.
+// 	m is the scalar that normal gets scaled by to reach the projected hit point
+typedef struct s_cone_calc
+{
+	t_vec3	oc;
+	float	d_dot_n;
+	float	oc_dot_n;
+	float	coeff;
+	float	m;
+}	t_cone_calc;
 
 typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);
 

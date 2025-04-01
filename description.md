@@ -284,21 +284,8 @@ b = root((d dot oc) - (1 + slant * slant) * (d dot axis) (oc dot axis)
 c = (oc dot oc) - (1 + slant * slant) * (oc dot axis)^2
 ```
 
-https://www.onemathematicalcat.org/Math/Precalculus_obj/conicDiscriminant.htm :
-Conic Discriminant 	B2−4AC<0
-Type of Conic Section 	Ellipse (possibly degenerate)
+but in our case, when dealing with rays, discriminant says the following:
 
-If, in addition, A=C,
-
-then it's a circle.
-Possible Memory Device 	Look at the letters in the word ellipse! There's an L. There's an E. There's an S. It practically spells out ‘less’!
-
-When the discriminant is less than zero, it's an ellipse.
-Conic Discriminant 	B2−4AC=0
-Type of Conic Section 	Parabola (possibly degenerate)
-Possible Memory Device 	(no memory device)
-Conic Discriminant 	B2−4AC>0
-Type of Conic Section 	Hyperbola (possibly degenerate)
-Possible Memory Device 	If you're hyper, then you have a great deal of energy.
-
-When the discriminant is GREATer than zero, it's a HYPERbola. 
+    If discriminant < 0, the ray misses the cone completely (no real solutions)
+    If discriminant = 0, the ray grazes the cone (exactly one intersection point)
+    If discriminant > 0, the ray intersects the cone at two points

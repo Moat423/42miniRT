@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 11:53:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:48:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	set_ambient(char *line, t_ambient *ambient);
 int	set_cylinder(char *line, t_cylinder *cylinder);
 int	set_sphere(char *line, t_sphere *sphere);
 int	set_plane(char *line, t_plane *plane);
+int	set_cone(char *line, t_cone *cone);
 
 // input_check
 

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/31 14:22:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:48:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, float *o_dist, t_v
 
 /* CONE */
 
-int		set_cone(char *line, t_cone *cone);
+bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out);
 
 /* OBJECT */
 
