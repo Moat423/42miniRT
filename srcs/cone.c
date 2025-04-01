@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/01 15:46:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:26:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,13 @@
 // }
 
 // Calculate normal at hit point
-// static t_vec3	calc_normal(const t_ray ray, const t_cone *cone, 
-// 							float t, t_cone_calc cc)
-// {
-// 	t_vec3	hit_point;
-// 	t_vec3	axis_point;
-//
-// 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
-// 	axis_point = vec3_add(cone->top, vec3_multiply(cone->axis, cc.m));
-// 	return (vec3_normalize(vec3_subtract(hit_point, axis_point)));
-// }
+static t_vec3	calc_cone_normal(const t_vec3 hit_point, t_vec3 top, t_vec3 axis, float m)
+{
+	t_vec3	axis_point;
+
+	axis_point = vec3_add(top, vec3_multiply(axis, m));
+	return (vec3_normalize(vec3_subtract(hit_point, axis_point)));
+}
 
 // gets discriminant of cone
 // the axis is normalized and therefore the normal of the cone
@@ -86,6 +83,8 @@ static bool	cone_calc(const t_cone *cone, const t_ray ray,
 	discriminant = get_discriminant(ray.direction, *cc, abc);
 	if (discriminant < EPSILON)
 		return (false);
+	if (fabs(abc[C]) < EPSILON) // ray origin on cone surface!
+		return (false);
 	if (fabs(abc[A]) < EPSILON)
 	{
 		if (fabs(abc[B]) < EPSILON)
@@ -106,11 +105,10 @@ bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
 	float		t[3];
 	int			i;
 	t_vec3		hit_point;
-	float		closest_t;
-	bool		hit_found;
+	float		hit_proj;
+	int			closest_t_i;
 
-	hit_found = false;
-	closest_t = INFINITY;
+	closest_t_i = -1;
 	if (!cone_calc(cone, ray, t, &cc))
 		return (false);
 	out->object = (t_object){.cone = cone, .type = CONE};
@@ -121,45 +119,30 @@ bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
 	{
 		if (interval_contains(ray.range, t[i]))
 		{
-			// Calculate hit point
 			hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[i]));
 			// Calculate m = (D·V)*t + (X·V)
-			cc.m = cc.d_dot_n * t[i] + cc.oc_dot_n;
+			hit_proj = cc.d_dot_n * t[i] + cc.oc_dot_n;
 			// Check if hit point is within the height bounds
-			if (cc.m >= 0 && cc.m <= cone->height)
+			if (hit_proj >= 0 && hit_proj <= cone->height)
 			{
-				// This is a valid hit
-				if (t[i] < closest_t)
-				{
-					closest_t = t[i];
-					out->distance = t[i];
-					out->point = hit_point;
-					// Calculate the normal at the hit point
-					t_vec3 hit_to_axis = vec3_add(cone->top, vec3_multiply(cone->axis, cc.m));
-					out->normal = vec3_normalize(vec3_subtract(hit_point, hit_to_axis));
-					out->normal_calculated = true;
-					hit_found = true;
-				}
+				closest_t_i = i;
+				break ;
 			}
 		}
 	}
-	// Check bottom cap (circle) intersection
-	bool cap_hit = circle_intersect(
-			(t_circle){cone->bottom, cone->axis, cone->radius}, 
-			ray, 
-			&t[2], 
-			&hit_point
-			);
-	if (cap_hit && interval_contains(ray.range, t[2]) && t[2] < closest_t)
-	{
-		closest_t = t[2];
-		out->distance = t[2];
-		out->point = hit_point;
-		out->normal = (cone->axis);  // Normal points outward from the cap
-		out->normal_calculated = true;
-		hit_found = true;
-	}
-	return (hit_found);
+	out->normal = cone->axis;
+	out->normal_calculated = true;
+	if (closest_t_i == -1)
+		return (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
+				ray, &(out->distance), &(out->point)));
+	else if (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
+				ray, &(out->distance), &(out->point)) && t[closest_t_i] > out->distance)
+		return (true);
+	out->distance = t[closest_t_i];
+	out->point = hit_point;
+	out->normal = calc_cone_normal(hit_point, cone->top, cone->axis, hit_proj);
+	out->normal_calculated = true;
+	return (true);
 }
 
 // bool	old_cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)

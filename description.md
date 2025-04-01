@@ -291,7 +291,10 @@ but in our case, when dealing with rays, discriminant says the following:
     If discriminant > 0, the ray intersects the cone at two points
 
 
+If a=0a=0, it implies that the ray is parallel to one of the cone's sides.
+A larger value of a indicates that the ray direction diverges more from the cone's axis.
 this check when calculating the discriminator:
+
 ```
 	if (fabs(abc[A]) < EPSILON)
 	{
