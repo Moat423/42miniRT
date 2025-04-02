@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 12:48:13 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:46:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	set_light(char *line, t_light *light)
 	number = ft_substr(line, i, floatlen);
 	if (!number)
 		return (ft_rperror("malloc)"));
+	free(number);
 	light->brightness = ft_strtof(number, &error);
 	if (!light->brightness && error)
 		return (ft_parseerror("invalid number", line));
@@ -52,6 +53,7 @@ int	set_ambient(char *line, t_ambient *ambient)
 	number = ft_substr(line, i, floatlen);
 	if (!number)
 		return (ft_rperror("malloc)"));
+	free(number);
 	ambient->brightness = ft_strtof(number, &error);
 	if (!ambient->brightness && error)
 		return (ft_parseerror("invalid number", line));
