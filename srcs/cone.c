@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/01 17:26:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:15:37 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static t_cone_calc	prep_cone_calc(const t_ray ray, const t_cone *cone)
 	cc.d_dot_n = vec3_dot(ray.direction, cone->axis);
 	cc.oc_dot_n = vec3_dot(cc.oc, cone->axis);
 	cc.coeff = 1 + cone->slant * cone->slant;
+	cc.height = cone->height;
 	return (cc);
 }
 
@@ -99,78 +100,59 @@ static bool	cone_calc(const t_cone *cone, const t_ray ray,
 	return (true);
 }
 
-bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
+//returns the hit projection along the normal
+//or -1 if none was found
+float	cone_body_hit(t_cone_calc cc, t_ray ray, t_intersection *out, float *t)
 {
-	t_cone_calc	cc;
-	float		t[3];
-	int			i;
 	t_vec3		hit_point;
 	float		hit_proj;
-	int			closest_t_i;
+	int			i;
 
-	closest_t_i = -1;
-	if (!cone_calc(cone, ray, t, &cc))
-		return (false);
-	out->object = (t_object){.cone = cone, .type = CONE};
-	out->normal = cone->axis;
-	out->normal_calculated = true;
 	i = -1;
 	while (++i < 2)
 	{
 		if (interval_contains(ray.range, t[i]))
 		{
-			hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[i]));
-			// Calculate m = (D·V)*t + (X·V)
+			hit_point = vec3_add(ray.origin, 
+					vec3_multiply(ray.direction, t[i]));
 			hit_proj = cc.d_dot_n * t[i] + cc.oc_dot_n;
-			// Check if hit point is within the height bounds
-			if (hit_proj >= 0 && hit_proj <= cone->height)
+			if (hit_proj >= 0 && hit_proj <= cc.height)
 			{
-				closest_t_i = i;
-				break ;
+				out->distance = t[i];
+				out->point = hit_point;
+				return (hit_proj);
 			}
 		}
 	}
+	out->distance = 0;
+	return (-1);
+}
+
+bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
+{
+	t_cone_calc	cc;
+	float		t[2];
+	t_vec3		hit_point;
+	float		hit_proj;
+
+	out->object = (t_object){.cone = cone, .type = CONE};
 	out->normal = cone->axis;
 	out->normal_calculated = true;
-	if (closest_t_i == -1)
+	if (!cone_calc(cone, ray, t, &cc))
 		return (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
-				ray, &(out->distance), &(out->point)));
-	else if (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
-				ray, &(out->distance), &(out->point)) && t[closest_t_i] > out->distance)
+			ray, &(out->distance), &(out->point)));
+	hit_proj = cone_body_hit(cc, ray, out, t);
+	if (!(out->distance))
+		return (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
+			ray, &(out->distance), &(out->point)));
+	if (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
+		ray, &(t[1]), &(hit_point)) && t[0] > t[1])
+	{
+		out->distance = t[1];
+		out->point = hit_point;
 		return (true);
-	out->distance = t[closest_t_i];
-	out->point = hit_point;
-	out->normal = calc_cone_normal(hit_point, cone->top, cone->axis, hit_proj);
+	}
+	out->normal = calc_cone_normal(out->point, cone->top, cone->axis, hit_proj);
 	out->normal_calculated = true;
 	return (true);
 }
-
-// bool	old_cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
-// {
-// 	float	discriminant;
-// 	float	abc[3];
-// 	float	sqrt_d;
-// 	float	t[3];
-// 	int		i;
-// 	t_vec3	hit_point;
-//
-// 	i = -1;
-// 	discriminant = get_discriminant(abc, ray, cone);
-// 	if (discriminant < 0)
-// 		return (false);
-// 	out->object = (t_object){.cone = cone, .type = CONE};
-// 	out->normal = cone->axis;
-// 	out->normal_calculated = true;
-// 	sqrt_d = sqrtf(discriminant);
-// 	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
-// 	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
-// 	circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, ray, &t[2], &(out->point));
-// 	// if (t[2] <= t[0] && t[2] <= t[1])
-// 	while (++i < 2)
-// 	{
-// 		if (interval_contains(ray.range, t[i]))
-// 		{
-//
-// 		}
-// 	}
-// }
