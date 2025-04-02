@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:28 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 14:45:42 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:26:21 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_color	color_new(float r, float g, float b)
 {
-	return ((t_color){.x=r, .y=g, .z=b});
+	return ((t_color){.x = r, .y = g, .z = b});
 }
 
 /// Convert Color to RGB

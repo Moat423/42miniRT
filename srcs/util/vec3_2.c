@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:28:37 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/26 14:05:06 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:27:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,3 @@ t_vec3	vec3_pow(t_vec3 v, int scalar)
 	}
 	return (result);
 }
-

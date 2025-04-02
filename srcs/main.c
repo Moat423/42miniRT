@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/02 11:22:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:25:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "../include/parse.h"
 
 //TODO: valgrind!!
-//TODO: implement more options for dynamic camera movement or also object movement/rotation
-// for example pgup/pgdown to move the camera up and down and mouse for rotation
+//TODO: implement more options for dynamic camera movement or also object
+// movement/rotation for example pgup/pgdown to move the camera up and down 
+// and mouse for rotation
 //TODO: lazy\deferred rendering can be optimized to
 // not wait x milliseconds after last render request but rather request that
 // the rendering must be deferred to only the next frame if
@@ -27,13 +28,15 @@
 // Quadratic slowdown per light on the scene.
 //TODO: bvh tree
 //TODO: shadow not get closest, but get any intersect
-//TODO: for bvh where we have arrays of pointers to generic objects, we want to store their specific intersection function inside the generic object struct
+//TODO: for bvh where we have arrays of pointers to generic objects, 
+// we want to store their specific intersection function inside
+// the generic object struct
 
 int	main(int argc, char **argv)
 {
 	t_minirt	minirt;
 	t_scene		*scene;
-	int	exit_code;
+	int			exit_code;
 
 	minirt = (t_minirt){0};
 	minirt.last_render_request_time = INFINITY;
