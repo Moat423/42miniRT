@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/01 12:40:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/02 10:55:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ typedef struct s_ray
 
 typedef struct s_circle
 {
-	t_vec3	pos;
+	t_vec3	center;
 	t_vec3	normal;
 	float	radius;
 } t_circle;
@@ -196,7 +196,7 @@ typedef struct s_cone_calc
 	float	d_dot_n;
 	float	oc_dot_n;
 	float	coeff;
-	float	m;
+	float	height;
 }	t_cone_calc;
 
 typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);
