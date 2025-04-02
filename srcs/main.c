@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 13:13:47 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:22:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "../include/parse.h"
 
 //TODO: valgrind!!
-//TODO: implement specular reflection
-//TODO: implement cone shape
 //TODO: implement more options for dynamic camera movement or also object movement/rotation
 // for example pgup/pgdown to move the camera up and down and mouse for rotation
 //TODO: lazy\deferred rendering can be optimized to
