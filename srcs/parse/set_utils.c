@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/02 12:45:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:25:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	ft_substrtof(float *num, int start, char *line)
 		perror("malloc)");
 		return (0);
 	}
-	free(number);
 	*(num) = ft_strtof(number, &error);
+	free(number);
 	if (!*(num) && error)
 		return (ft_parseerror("invalid number", line));
 	return (ft_skip_space(line, start + floatlen));
