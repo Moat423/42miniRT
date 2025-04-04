@@ -219,13 +219,22 @@ typedef struct s_scene
 	uint32_t	image_height;
 }	t_scene;
 
+typedef enum e_loop_state
+{
+	NO_ACTION,
+	RESIZING,
+	DEFERRED_RENDER,
+	RENDER_NOW,
+}	t_loop_state;
+
 typedef struct s_minirt
 {
-	t_scene	scene;
+	t_scene			scene;
 	/// must be initialized to null
-	mlx_t		*mlx;
-	mlx_image_t	*image;
-	double		last_render_request_time;
+	mlx_t			*mlx;
+	mlx_image_t		*image;
+	double			last_resize_time;
+	t_loop_state	loop_state;
 }	t_minirt;
 
 typedef struct s_light_ray

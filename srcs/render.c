@@ -12,8 +12,6 @@
 
 #include "../include/miniRT.h"
 
-// TODO allow pressing esc to exit
-
 static int32_t	rgb_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
@@ -76,7 +74,11 @@ void	render_random(void *param)
 
 void	render(void *param)
 {
+	double		before_render;
+
+	before_render = mlx_get_time();
 	render_raytraced(param);
+	printf("Rendered frame in %f seconds\n", mlx_get_time() - before_render);
 }
 
 void	window_resize(int32_t width, int32_t height, void* param)
@@ -92,7 +94,8 @@ void	window_resize(int32_t width, int32_t height, void* param)
 		mlx_delete_image(minirt->mlx, minirt->image);
 		minirt->image = mlx_new_image(minirt->mlx, minirt->scene.image_width, minirt->scene.image_height);
 		mlx_image_to_window(minirt->mlx, minirt->image, 0, 0);
-		minirt->last_render_request_time = mlx_get_time();
+		minirt->loop_state = RESIZING;
+		minirt->last_resize_time = mlx_get_time();
 		printf("Resized window to %dx%d\n", width, height);
 	}
 	else
@@ -111,15 +114,14 @@ void	window_close(void *param)
 void	render_on_request(void *param)
 {
 	t_minirt	*minirt;
-	double		before_render;
 
 	minirt = param;
-	before_render = mlx_get_time();
-	if (minirt->last_render_request_time + 0.1 < before_render)
+	if (minirt->loop_state == RENDER_NOW
+		|| (minirt->loop_state == RESIZING
+			&& mlx_get_time() - minirt->last_resize_time > 0.5))
 	{
 		render((void*)minirt);
-		printf("Rendered frame in %f seconds\n", mlx_get_time() - before_render);
-		minirt->last_render_request_time = INFINITY;
+		minirt->loop_state = NO_ACTION;
 	}
 }
 
@@ -142,9 +144,11 @@ void	cam_movement(void *param)
 		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.up), 0.1));
 	if (prev != vec3_squared_length(scene->camera.pos))
 	{
-		minirt->last_render_request_time = mlx_get_time();
+		minirt->loop_state = DEFERRED_RENDER;
 		printf("Moved camera to %f %f %f\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
 	}
+	else if (minirt->loop_state == DEFERRED_RENDER)
+		minirt->loop_state = RENDER_NOW;
 }
 
 void	key_press(void *param)

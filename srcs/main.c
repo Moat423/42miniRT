@@ -15,7 +15,7 @@
 
 //TODO: valgrind!!
 //TODO: implement more options for dynamic camera movement or also object
-// movement/rotation for example pgup/pgdown to move the camera up and down 
+// movement/rotation for example pgup/pgdown to move the camera up and down
 // and mouse for rotation
 //TODO: lazy\deferred rendering can be optimized to
 // not wait x milliseconds after last render request but rather request that
@@ -28,7 +28,7 @@
 // Quadratic slowdown per light on the scene.
 //TODO: bvh tree
 //TODO: shadow not get closest, but get any intersect
-//TODO: for bvh where we have arrays of pointers to generic objects, 
+//TODO: for bvh where we have arrays of pointers to generic objects,
 // we want to store their specific intersection function inside
 // the generic object struct
 
@@ -39,7 +39,6 @@ int	main(int argc, char **argv)
 	int			exit_code;
 
 	minirt = (t_minirt){0};
-	minirt.last_render_request_time = INFINITY;
 	scene = &minirt.scene;
 	if (!(input_check(argc) && !parse_scene(argv[1], scene)))
 	{
