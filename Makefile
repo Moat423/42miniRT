@@ -164,6 +164,13 @@ $(LIBFT):
 		printf "$(BOLD)Updating libft...$(RESET)\n"; \
 		git submodule update --init --recursive -- $(LIBFT_DIR); \
 	fi
+	@printf "$(BOLD)Ensuring libft is at the correct commit...$(RESET)\n"
+	@( cd $(LIBFT_DIR) && \
+	  git fetch origin && \
+	  git checkout 1f993f86640a94efe15aaedfb3c22b530f86cbab && \
+	  printf "$(GREEN)Successfully checked out target commit.$(RESET)\n" ) || \
+	  printf "$(RED)Failed to checkout specific commit. Manual intervention required.$(RESET)\n"
+	@printf "$(BOLD)Building libft...$(RESET)\n"
 	@make -s -C $(LIBFT_DIR) > /dev/null 2>&1
 
 # Targets for different sanitizer builds

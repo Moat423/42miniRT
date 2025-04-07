@@ -72,6 +72,7 @@ int	set_sphere(char *line, t_sphere *sphere)
 
 	i = 3;
 	error = 0;
+	(void)error;
 	i = set_vec(line, i, &(sphere->pos));
 	if (!i)
 		return (0);
