@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/02 11:20:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:41:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,11 @@ bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
 		return (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
 			ray, &(out->distance), &(out->point)));
 	hit_proj = cone_body_hit(cc, ray, out, t);
-	if (!(out->distance))
+	if (hit_proj == -1)
 		return (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
 			ray, &(out->distance), &(out->point)));
 	if (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
-		ray, &(t[1]), &(hit_point)) && t[0] > t[1])
+		ray, &(t[1]), &(hit_point)) && out->distance > t[1])
 	{
 		out->distance = t[1];
 		out->point = hit_point;
