@@ -64,9 +64,9 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 		l.lambert = lambertian(normal, l.direction);
 		if (l.lambert > 0)
 		{
-			if (!is_in_shadow(scene, (t_ray){intersection.point, 
-					l.direction, interval_new(EPSILON, l.distance)}))
-				color = vec3_add(color, 
+			if (!is_in_shadow(scene, (t_ray){vec3_add(intersection.point, vec3_multiply(intersect_normal(&intersection), EPSILON)),
+					l.direction, interval_new(0, l.distance)}))
+				color = vec3_add(color,
 						calc_lights(scene->lights[i], ray, intersection, l));
 		}
 		i++;

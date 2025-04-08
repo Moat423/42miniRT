@@ -17,10 +17,6 @@
 //TODO: implement more options for dynamic camera movement or also object
 // movement/rotation for example pgup/pgdown to move the camera up and down
 // and mouse for rotation
-//TODO: lazy\deferred rendering can be optimized to
-// not wait x milliseconds after last render request but rather request that
-// the rendering must be deferred to only the next frame if
-// there isnt another key/mouse input on the next frame before rendering
 //TODO: checkerboard pattern
 //TODO: optimization for light calculation.
 // We currently try to check for every point if it is in shadow of
