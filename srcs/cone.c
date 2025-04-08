@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/07 11:41:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:43:38 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_vec3	calc_cone_normal(const t_vec3 hit_point, t_vec3 top, t_vec3 axis, 
 // a = (d dot d) - (1 + slant * slant) * (d dot axis)^2
 // b = root((d dot oc) - (1 + slant * slant) * (d dot axis) (oc dot axis)
 // c = (oc dot oc) - (1 + slant * slant) * (oc dot axis)^2
-static	float	get_discriminant(const t_vec3 ray_dir, const t_cone_calc cc,
+static	float	get_discriminant(const t_vec3 ray_dir, const t_calc cc,
 							float abc[3])
 {
 	abc[A] = vec3_squared_length(ray_dir) - cc.coeff * cc.d_dot_n * cc.d_dot_n;
@@ -37,9 +37,9 @@ static	float	get_discriminant(const t_vec3 ray_dir, const t_cone_calc cc,
 	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 }
 
-static t_cone_calc	prep_cone_calc(const t_ray ray, const t_cone *cone)
+static t_calc	prep_cone_calc(const t_ray ray, const t_cone *cone)
 {
-	t_cone_calc	cc;
+	t_calc	cc;
 
 	cc.oc = vec3_subtract(ray.origin, cone->top);
 	cc.d_dot_n = vec3_dot(ray.direction, cone->axis);
@@ -50,7 +50,7 @@ static t_cone_calc	prep_cone_calc(const t_ray ray, const t_cone *cone)
 }
 
 static bool	cone_calc(const t_cone *cone, const t_ray ray,
-						float t[2], t_cone_calc *cc)
+						float t[2], t_calc *cc)
 {
 	float		abc[3];
 	float		discriminant;
@@ -78,7 +78,7 @@ static bool	cone_calc(const t_cone *cone, const t_ray ray,
 
 //returns the hit projection along the normal
 //or -1 if none was found
-float	cone_body_hit(t_cone_calc cc, t_ray ray, t_intersection *out, float *t)
+float	cone_body_hit(t_calc cc, t_ray ray, t_intersection *out, float *t)
 {
 	t_vec3		hit_point;
 	float		hit_proj;
@@ -106,7 +106,7 @@ float	cone_body_hit(t_cone_calc cc, t_ray ray, t_intersection *out, float *t)
 
 bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out)
 {
-	t_cone_calc	cc;
+	t_calc		cc;
 	float		t[2];
 	t_vec3		hit_point;
 	float		hit_proj;

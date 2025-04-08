@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/02 10:55:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:53:35 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,12 @@ typedef enum e_object_type
 	CONE,
 }	t_object_type;
 
+enum e_hit_type
+{
+	FALSE,
+	TRUE,
+	CIRCLE
+};
 typedef struct s_object
 {
 	union {
@@ -190,14 +196,14 @@ typedef struct s_intersection
 // coeff: for cone: coeff = 1 + cone->slant * cone->slant;
 // m: hit point projected onto the normal.
 // 	m is the scalar that normal gets scaled by to reach the projected hit point
-typedef struct s_cone_calc
+typedef struct s_calc
 {
 	t_vec3	oc;
 	float	d_dot_n;
 	float	oc_dot_n;
 	float	coeff;
 	float	height;
-}	t_cone_calc;
+}	t_calc;
 
 typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);
 
