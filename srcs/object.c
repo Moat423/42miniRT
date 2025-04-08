@@ -21,6 +21,6 @@ t_color	object_color(t_object object)
 	if (object.type == CYLINDER)
 		return (object.cylinder->color);
 	if (object.type == CONE)
-		return (object.cylinder->color);
+		return (object.cone->color);
 	return (color_new(0, 0, 0));
 }

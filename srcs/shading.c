@@ -20,13 +20,13 @@ static float	lambertian(t_vec3 normal, t_vec3 light_dir)
 
 // OBSOLETE FUNCTION RIGHT HERE!!!!!!!!!!!
 // // Diffuse = Kd * Id * max(0, N·L)
-// static t_color	light_diffuse(t_light light, t_object object, float lambertian, 
+// static t_color	light_diffuse(t_light light, t_object object, float lambertian,
 // 							float light_dist_sq)
 // {
 // 	t_color	color;
 //
 // 	color = vec3_component_mul(object_color(object), light.color);
-// 	color = vec3_multiply(color, lambertian * 
+// 	color = vec3_multiply(color, lambertian *
 // 			light.brightness / (light_dist_sq / 5.0));
 // 	return (color);
 // }
@@ -65,7 +65,7 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 		if (l.lambert > 0)
 		{
 			if (!is_in_shadow(scene, (t_ray){vec3_add(intersection.point, vec3_multiply(intersect_normal(&intersection), EPSILON)),
-					l.direction, interval_new(0, l.distance)}))
+					l.direction, interval_new(EPSILON, l.distance)}))
 				color = vec3_add(color,
 						calc_lights(scene->lights[i], ray, intersection, l));
 		}

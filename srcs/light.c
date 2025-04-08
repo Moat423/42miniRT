@@ -17,7 +17,7 @@
 *  Specular = Ks * Is * (max(0, N·H))^shininess
 *  where H = normalize(L + V)
 */
-// static t_color	blinn_phong(const t_vec3 half_dir, const t_vec3 hit_normal, 
+// static t_color	blinn_phong(const t_vec3 half_dir, const t_vec3 hit_normal,
 // 							const float l_attenuation, const t_vec3 l_color)
 // {
 // 	t_color	spec_color;
@@ -60,7 +60,7 @@ t_color	calc_lights(const t_light light, const t_ray ray, t_intersection its, t_
 	t_color	diffuse;
 	t_color	spec_color;
 
-	l.attenuation = light.brightness / (l.distance * l.distance / 25.0f);
+	l.attenuation = light.brightness / (l.distance * l.distance / 6.0f);
 	diffuse = vec3_component_mul(object_color(its.object), light.color);
 	diffuse = vec3_multiply(object_color(its.object), l.lambert * l.attenuation);
 
@@ -69,7 +69,7 @@ t_color	calc_lights(const t_light light, const t_ray ray, t_intersection its, t_
 	// 		its.normal, l.attenuation, light.color);
 
 	spec_color = original_phong(
-			vec3_multiply(ray.direction, -1.0), 
+			vec3_multiply(ray.direction, -1.0),
 			its.normal, l.attenuation, light.color,
 			l.direction);
 
