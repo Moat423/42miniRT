@@ -162,8 +162,18 @@ we calculate the length of a, then we scale it with cos(θ) and now that our a i
         If C = 0: Ray starts exactly on the cylinder surface
         If C < 0: Ray starts inside the cylinder
 
+	(fabs(abc[C]) < EPSILON)) 
+means the ray origin on surface and therefore if we return false here, we prevent shadow acne
+
+	if (fabs(abc[A]) < EPSILON)
+means a is basically zero and the whole things turns into a linear quations instead! that is more easily solvable and doesn't require a root.
+but if B is 
+		if (fabs(abc[B]) < EPSILON)
+then that would mean a divigion by zero or something really small, which would be bad or impossible.
+
+
 The standard quadratic formula can produce completely incorrect results in some edge cases due to catastrophic cancellation.
-therefore,
+therefore we could use the citardauq formula.
 
     When B is negative, we compute q using (-B - √(...))
     When B is positive, we compute q using (-B + √(...))
@@ -176,10 +186,11 @@ therefore,
 	t[0] = q / coef[0];
 	t[1] = coef[2] / q;
 
-because normally:
+but this works well for us:
 
 	t[0] = (-coef[1] + sqrt(discriminant)) / (2 * coef[0]);
 	t[1] = (-coef[1] - sqrt(discriminant)) / (2 * coef[0]);
+
 	If B is very large compared to the discriminant, we lose precision.
 
 ## plane

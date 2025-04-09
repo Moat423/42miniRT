@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/08 16:06:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:15:26 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ static bool	cone_calc(const t_cone *cone, const t_ray ray,
 
 	*cc = prep_cone_calc(ray, cone);
 	discriminant = get_discriminant(ray.direction, *cc, abc);
-	if (discriminant < EPSILON)
-		// TODO:: do circle intersection JUST in this case
-		return (false);
-	if (fabs(abc[C]) < EPSILON) // ray origin on cone surface!
+	if (discriminant < EPSILON || (fabs(abc[C]) < EPSILON))
 		return (false);
 	if (fabs(abc[A]) < EPSILON)
 	{
