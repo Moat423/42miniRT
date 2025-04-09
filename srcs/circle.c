@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:57:20 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/09 13:23:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:32:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray,
 	t_vec3	hit_point[2];
 	float	hit_dist[2];
 
-	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	out->normal = cylinder->axis;
 	out->normal_calculated = true;
 	if (!circle_intersect((t_circle){cylinder->top, cylinder->axis, cylinder->radius}, ray, &(hit_dist[0]), &(hit_point[0])))

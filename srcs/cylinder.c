@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/09 13:30:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:32:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	float	abc[3];
 	int		is_circle_hit;
 
+	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	cylinder_body_quadr_coeff_calc(abc, ray, cylinder);
 	is_circle_hit = solve_quadratic_eq_cylinder(abc, t);
 	if (is_circle_hit == FALSE)
