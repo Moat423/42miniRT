@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/09 11:58:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:30:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,6 @@ static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray, const 
 	return ;
 }
 
-//alternative reverse quadratic citardauq
-	// if (abc[1] < 0)
-	// 	q = -0.5 * (abc[1] - discriminant);
-	// else
-	// 	q = -0.5 * (abc[1] + discriminant);
-	// t[0] = q / abc[0];
-	// if (fabs(q) > EPSILON)
-	// 	t[1] = abc[2] / q;
-	// else
-	// 	t[1] = INFINITY;
-	// return (1);
 static int	solve_quadratic_eq_cylinder(float abc[3], float t[2])
 {
 	float		discriminant;
@@ -69,7 +58,7 @@ static int	solve_quadratic_eq_cylinder(float abc[3], float t[2])
 	discriminant = (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 	if (discriminant < EPSILON && discriminant > -EPSILON)
 		return (CIRCLE);
-	if (discriminant < 0 || (fabs(abc[C]) < EPSILON)) // ray origin on surface
+	if (discriminant < 0 || (fabs(abc[C]) < EPSILON))
 		return (FALSE);
 	if (fabs(abc[A]) < EPSILON)
 	{
@@ -101,12 +90,7 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	if (is_circle_hit == FALSE)
 		return (false);
 	else if (is_circle_hit == CIRCLE)
-	{
-		out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
-		out->normal = cylinder->axis;
-		out->normal_calculated = true;
-		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
-	}
+		return (closer_circle_intersect(cylinder, ray, out));
 	// cylinder body finite range lock
 	if (interval_contains(ray.range, t[0]))
 	{
@@ -121,37 +105,18 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 		}
 	}
 	if (!interval_contains(ray.range, t[1]))
-	{
-		out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
-		out->normal = cylinder->axis;
-		out->normal_calculated = true;
-		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
-	}
+		return (closer_circle_intersect(cylinder, ray, out));
 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[1]));
 	hit_proj = projected_len_on_axis(cylinder, hit_point);
 	if (hit_proj >= 0 && hit_proj <= cylinder->height)
 	{
 		// circle true hit
-		if (closer_circle_intersect(cylinder, ray, &t[0], &(out->point)))
-		{
-			if (t[0] < t[1])
-			{
-				out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
-				out->normal = cylinder->axis;
-				out->normal_calculated = true;
-				out->distance = t[0];
+		if (closer_circle_intersect(cylinder, ray, out))
+			if (out->distance < t[1])
 				return (true);
-			}
-		}
 	}
 	else
-	{
-		out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
-		out->normal = cylinder->axis;
-		out->normal_calculated = true;
-		out->distance = t[0];
-		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
-	}
+		return (closer_circle_intersect(cylinder, ray, out));
 	out->distance = t[1];
 	out->point = hit_point;
 	set_intersect_normal(out, hit_proj);

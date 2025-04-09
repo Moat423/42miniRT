@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/01 13:48:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:22:22 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out);
 /* CIRCLE */
 
 bool	circle_intersect(t_circle circle, t_ray ray, float *out_dist, t_vec3 *out_point);
-bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, float *o_dist, t_vec3 *o_pt);
+bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out);
 
 /* CONE */
 
