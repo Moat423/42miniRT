@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/08 18:18:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:39:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,18 +151,27 @@ static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray, const 
 // 	return (1);
 // }
 
+
+//alternative reverse quadratic citardauq
+	// if (abc[1] < 0)
+	// 	q = -0.5 * (abc[1] - discriminant);
+	// else
+	// 	q = -0.5 * (abc[1] + discriminant);
+	// t[0] = q / abc[0];
+	// if (fabs(q) > EPSILON)
+	// 	t[1] = abc[2] / q;
+	// else
+	// 	t[1] = INFINITY;
+	// return (1);
 static int	solve_quadratic_eq_cylinder(float abc[3], float t[2])
 {
 	float		discriminant;
-	float		sqrt_d;
-	float		q;
+	// float		q;
 
 	discriminant = (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 	if (discriminant < EPSILON && discriminant > -EPSILON)
 		return (CIRCLE);
-	if (discriminant < 0)
-		return (FALSE);
-	if (fabs(abc[C]) < EPSILON) // ray origin on surface
+	if (discriminant < 0 || (fabs(abc[C]) < EPSILON)) // ray origin on surface
 		return (FALSE);
 	if (fabs(abc[A]) < EPSILON)
 	{
@@ -173,61 +182,10 @@ static int	solve_quadratic_eq_cylinder(float abc[3], float t[2])
 		return (TRUE);
 	}
 	discriminant = sqrtf(discriminant);
-	if (abc[1] < 0)
-		q = -0.5 * (abc[1] - discriminant);
-	else
-		q = -0.5 * (abc[1] + discriminant);
-	t[0] = q / abc[0];
-	if (fabs(q) > EPSILON)
-		t[1] = abc[2] / q;
-	else
-		t[1] = INFINITY;
-	return (1);
-	// if (fabs(abc[C]) < EPSILON)
-	// 	return (false);
-	// if (fabs(abc[A]) < EPSILON)
-	// {
-	// 	if (fabs(abc[B]) < EPSILON)
-	// 		return (false);
-	// 	t[0] = -abc[C] / abc[B];
-	// 	t[1] = t[0];
-	// 	return (true);
-	// }
-	sqrt_d = sqrtf(discriminant);
-	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
-	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
-	return (true);
+	t[0] = (-abc[B] - discriminant) / (2 * abc[A]);
+	t[1] = (-abc[B] + discriminant) / (2 * abc[A]);
+	return (TRUE);
 }
-
-// static int	cylinder_calc(const t_cylinder *cyl, const t_ray ray,
-// 						float t[2])
-// {
-// 	float		abc[3];
-// 	float		discriminant;
-// 	float		sqrt_d;
-//
-// 	cylinder_body_quadr_coeff_calc(abc, ray, cyl);
-// 	solve_quadratic_eq_cylinder(abc, t);
-// 	discriminant = 
-// 	if (discriminant < EPSILON && discriminant > -EPSILON)
-// 		return (CIRCLE);
-// 	if (discriminant < 0)
-// 		return (FALSE);
-// 	// if (fabs(abc[C]) < EPSILON)
-// 	// 	return (false);
-// 	// if (fabs(abc[A]) < EPSILON)
-// 	// {
-// 	// 	if (fabs(abc[B]) < EPSILON)
-// 	// 		return (false);
-// 	// 	t[0] = -abc[C] / abc[B];
-// 	// 	t[1] = t[0];
-// 	// 	return (true);
-// 	// }
-// 	sqrt_d = sqrtf(discriminant);
-// 	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
-// 	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
-// 	return (true);
-// }
 
 bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 {
@@ -240,7 +198,6 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	float	abc[3];
 	int		is_circle_hit;
 
-	// discriminant = get_discriminant(abc, ray, cylinder);
 	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	out->normal = cylinder->axis;
 	out->normal_calculated = true;
@@ -291,4 +248,3 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	set_intersect_normal(out, hit_proj);
 	return (true);
 }
-
