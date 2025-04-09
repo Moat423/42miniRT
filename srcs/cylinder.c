@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/09 11:39:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:58:32 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray, const 
 static int	solve_quadratic_eq_cylinder(float abc[3], float t[2])
 {
 	float		discriminant;
-	// float		q;
 
 	discriminant = (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 	if (discriminant < EPSILON && discriminant > -EPSILON)
@@ -88,9 +87,6 @@ static int	solve_quadratic_eq_cylinder(float abc[3], float t[2])
 
 bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 {
-	// float	abc[3];
-	// float	discriminant;
-	// float	sqrt_d;
 	float	t[2];
 	t_vec3	hit_point;
 	float	hit_proj;
@@ -125,7 +121,12 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 		}
 	}
 	if (!interval_contains(ray.range, t[1]))
+	{
+		out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
+		out->normal = cylinder->axis;
+		out->normal_calculated = true;
 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
+	}
 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[1]));
 	hit_proj = projected_len_on_axis(cylinder, hit_point);
 	if (hit_proj >= 0 && hit_proj <= cylinder->height)
@@ -135,13 +136,22 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 		{
 			if (t[0] < t[1])
 			{
+				out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
+				out->normal = cylinder->axis;
+				out->normal_calculated = true;
 				out->distance = t[0];
 				return (true);
 			}
 		}
 	}
 	else
+	{
+		out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
+		out->normal = cylinder->axis;
+		out->normal_calculated = true;
+		out->distance = t[0];
 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
+	}
 	out->distance = t[1];
 	out->point = hit_point;
 	set_intersect_normal(out, hit_proj);
