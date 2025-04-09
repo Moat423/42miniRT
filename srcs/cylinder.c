@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/09 11:39:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:39:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,107 +50,6 @@ static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray, const 
 			- d_dot_ax * oc_dot_ax);
 	return ;
 }
-
-// bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
-// {
-// 	float	abc[3];
-// 	float	discriminant;
-// 	float	sqrt_d;
-// 	float	t[2];
-// 	t_vec3	hit_point;
-// 	float	hit_proj;
-//
-// 	discriminant = get_discriminant(abc, ray, cylinder);
-// 	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
-// 	out->normal = cylinder->axis;
-// 	out->normal_calculated = true;
-// 	if (discriminant < EPSILON && discriminant > -EPSILON)
-// 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
-// 	if (discriminant < 0)
-// 		return (false);
-// 	sqrt_d = sqrtf(discriminant);
-// 	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
-// 	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
-// 	// cylinder body finite range lock
-// 	if (interval_contains(ray.range, t[0]))
-// 	{
-// 		hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[0]));
-// 		hit_proj = projected_len_on_axis(cylinder, hit_point);
-// 		if (hit_proj >= 0 && hit_proj <= cylinder->height)
-// 		{
-// 			out->distance = t[0];
-// 			out->point = hit_point;
-// 			set_intersect_normal(out, hit_proj);
-// 			return (true);
-// 		}
-// 	}
-// 	if (!interval_contains(ray.range, t[1]))
-// 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
-// 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[1]));
-// 	hit_proj = projected_len_on_axis(cylinder, hit_point);
-// 	if (hit_proj >= 0 && hit_proj <= cylinder->height)
-// 	{
-// 		// circle true hit
-// 		if (closer_circle_intersect(cylinder, ray, &t[0], &(out->point)))
-// 		{
-// 			if (t[0] < t[1])
-// 			{
-// 				out->distance = t[0];
-// 				return (true);
-// 			}
-// 		}
-// 	}
-// 	else
-// 		return (closer_circle_intersect(cylinder, ray, &(out->distance), &(out->point)));
-// 	out->distance = t[1];
-// 	out->point = hit_point;
-// 	set_intersect_normal(out, hit_proj);
-// 	return (true);
-// }
-
-// static t_calc	prep_cyl_calc(const t_ray ray, const t_cylinder *cyl)
-// {
-// 	t_calc	cc;
-//
-// 	cc.oc = vec3_subtract(ray.origin, cyl->top);
-// 	cc.d_dot_n = vec3_dot(ray.direction, cyl->axis);
-// 	cc.oc_dot_n = vec3_dot(cc.oc, cyl->axis);
-// 	cc.coeff = cyl->radius * cyl->radius;
-// 	cc.height = cyl->height;
-// 	return (cc);
-// }
-//
-// static float	get_discriminant(const t_vec3 ray_dir, const t_calc cc,
-// 							float abc[3])
-// {
-// 	abc[A] = vec3_squared_length(ray_dir) - cc.d_dot_n * cc.d_dot_n;
-// 	abc[C] = vec3_squared_length(cc.oc) - (cc.oc_dot_n * cc.oc_dot_n) - cc.coeff;
-// 	abc[B] = 2 * (vec3_dot(ray_dir, cc.oc) 
-// 			- cc.d_dot_n * cc.oc_dot_n);
-// 	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
-// }
-
-// static int	solve_quadratic_eq_cylinder(double coef[3], double t[2])
-// {
-// 	double	discriminant;
-// 	double	q;
-//
-// 	discriminant = coef[B] * coef[B] - 4 * coef[A] * coef[C];
-// 	if (discriminant < 0)
-// 		return (0);
-// 	discriminant = sqrtf(discriminant);
-// 	if (coef[B] < 0)
-// 		q = -0.5 * (coef[B] - discriminant);
-// 	else
-// 		q = -0.5 * (coef[B] + discriminant);
-// 	t[0] = q / coef[A];
-// 	if (q != 0)
-// 		t[B] = coef[C] / q;
-// 	else
-// 		t[B] = INFINITY;
-// 	return (1);
-// }
-
 
 //alternative reverse quadratic citardauq
 	// if (abc[1] < 0)
