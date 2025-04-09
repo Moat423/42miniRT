@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/09 13:32:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:42:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,24 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	out->point = hit_point;
 	set_intersect_normal(out, hit_proj);
 	return (true);
+}
+
+bool	check_body_hit(t_cylinder *cylinder, t_ray ray, float t[2],
+						t_intersection *out)
+{
+	t_vec3	hit_point;
+	float	hit_proj;
+
+	if (interval_contains(ray.range, t[0]))
+	{
+		hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[0]));
+		hit_proj = projected_len_on_axis(cylinder, hit_point);
+		if (hit_proj >= 0 && hit_proj <= cylinder->height)
+		{
+			out->distance = t[0];
+			out->point = hit_point;
+			set_intersect_normal(out, hit_proj);
+			return (true);
+		}
+	}
 }
