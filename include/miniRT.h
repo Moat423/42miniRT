@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/10 10:11:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:29:16 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out);
 /* CYLINDER */
 
 bool	cylinder_intersect(t_cylinder *cylinder, const t_ray ray, t_intersection *out);
+bool	cylinder_check_body_hit(t_cylinder *cylinder, const t_ray ray,
+							const float t, t_intersection *out);
+bool	cylinder_second_hit(t_cylinder *cylinder, const t_ray ray,
+							const float t, t_intersection *out);
 
 /* PLANE */
 

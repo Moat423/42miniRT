@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/04/01 13:49:11 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/04/10 10:30:53 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		shading.c \
 		plane.c \
 		cylinder.c \
+		cylinder_utils.c \
 		light.c \
 		circle.c \
 		cone.c \
