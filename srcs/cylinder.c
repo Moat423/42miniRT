@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 10:12:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:26:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray, const 
 	return ;
 }
 
-static int	solve_quadratic_eq_cylinder(float abc[3], float t[2])
+static int	cylinder_solve_quadratic_eq(float abc[3], float t[2])
 {
 	float		discriminant;
 
@@ -126,34 +126,17 @@ bool	cylinder_intersect(t_cylinder *cylinder,
 							const t_ray ray, t_intersection *out)
 {
 	float	t[2];
-	t_vec3	hit_point;
-	float	hit_proj;
 	float	abc[3];
 	int		is_circle_hit;
 
 	out->object = (t_object){.cylinder = cylinder, .type = CYLINDER};
 	cylinder_body_quadr_coeff_calc(abc, ray, cylinder);
-	is_circle_hit = solve_quadratic_eq_cylinder(abc, t);
+	is_circle_hit = cylinder_solve_quadratic_eq(abc, t);
 	if (is_circle_hit == FALSE)
 		return (false);
 	else if (is_circle_hit == CIRCLE)
 		return (closer_circle_intersect(cylinder, ray, out));
 	if (check_body_hit(cylinder, ray, t[0], out))
 		return (true);
-	if (!interval_contains(ray.range, t[1]))
-		return (closer_circle_intersect(cylinder, ray, out));
-	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[1]));
-	hit_proj = projected_len_on_axis(cylinder, hit_point);
-	if (hit_proj >= 0 && hit_proj <= cylinder->height)
-	{
-		if (closer_circle_intersect(cylinder, ray, out))
-			if (out->distance < t[1])
-				return (true);
-	}
-	else
-		return (closer_circle_intersect(cylinder, ray, out));
-	out->distance = t[1];
-	out->point = hit_point;
-	set_intersect_normal(out, hit_proj);
-	return (true);
+	return (cylinder_second_hit(cylinder, ray, out, t[1]));
 }
