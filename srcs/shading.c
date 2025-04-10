@@ -38,9 +38,19 @@ static t_color	ambient(t_scene *scene, t_object object)
 			scene->ambient.brightness));
 }
 
-static bool	is_in_shadow(t_scene *scene, t_ray ray)
+static bool	is_in_shadow(t_scene *scene, t_ray ray, t_light light)
 {
 	t_intersection	intersection;
+//	static	size_t	skip_counter = 0;
+
+	// we cannot cancel all lighting calculations if this is the case. This will prevent specular highlights from rendering on far away objects.
+	if (ray.range.max > light.max_dist)
+	{
+		//skip_counter++;
+		//if (skip_counter % 10 == 0)
+		//	printf("skipped %lu\n", skip_counter);
+		return (true);
+	}
 
 	return (find_closest_intersection(scene, ray, &intersection));
 }
@@ -64,8 +74,9 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 		l.lambert = lambertian(normal, l.direction);
 		if (l.lambert > 0)
 		{
+			// TODO reevaluate if these ray calculations are always correct. Is the normal always in the correct direction? Do we want ray min and max to be epsilon and distance? why not 0 and distance - epsilon to accurately prevent accidental intersection with the source?
 			if (!is_in_shadow(scene, (t_ray){vec3_add(intersection.point, vec3_multiply(intersect_normal(&intersection), EPSILON)),
-					l.direction, interval_new(EPSILON, l.distance)}))
+					l.direction, interval_new(EPSILON, l.distance)}, scene->lights[i]))
 				color = vec3_add(color,
 						calc_lights(scene->lights[i], ray, intersection, l));
 		}

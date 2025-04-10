@@ -104,6 +104,8 @@ typedef struct s_light
 	t_color	color;
 	/// 0.0-1.0
 	float	brightness;
+	/// Cutoff distance after which this light will have no effect on any object
+	float	max_dist;
 }	t_light;
 
 typedef struct s_sphere

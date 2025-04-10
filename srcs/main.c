@@ -33,6 +33,37 @@
 //TODO: parallelize the raytracing (bonus only)
 //TODO: shadow not get closest, but instead get any intersect (bool)
 
+/// Returns the distance² after which there is no light contribution from this light
+float max_light_distance_sq(t_light light) {
+	// Light contributions below 1/512 are considered negligible
+    float threshold = 0.0019;
+
+    // Get maximum brightness component from light color
+    float max_color_component = fmaxf(light.color.x, fmaxf(light.color.y, light.color.z));
+
+    // If your light has color components, use the maximum component for brightness
+
+    // Calculate effective brightness (intensity × brightest color component)
+    float effective_brightness = light.brightness * max_color_component;
+
+    // Calculate the squared distance where attenuation falls below threshold
+    // Based on formula: attenuation = light.brightness / (distance² / LIGHT_DIST)
+    float max_distance_squared = effective_brightness * LIGHT_DIST / threshold;
+    return max_distance_squared;
+}
+
+void calc_max_light_distances(t_scene *scene)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < scene->light_count)
+	{
+		scene->lights[i].max_dist = sqrtf(max_light_distance_sq(scene->lights[i]));
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_minirt	minirt;
@@ -46,6 +77,7 @@ int	main(int argc, char **argv)
 		scene_destroy(scene);
 		return (1);
 	}
+	calc_max_light_distances(scene);
 	print_scene(scene);
 	scene->image_width = 800;
 	scene->image_height = 600;
