@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/10 14:00:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:09:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,38 @@ static t_color	ambient(t_scene *scene, t_object object)
 			scene->ambient.brightness));
 }
 
-bool	shadow_iterate_over_obj((bool)hit_anywhere(object, ray), (void *)(char *)objects, size_t count)
+typedef bool	(*t_hit_anywhere_func)(void *object, t_ray ray);
+
+static bool	shadow_iterate_over_obj(t_hit_anywhere_func hit_func, void *objects,
+									size_t elem_size, size_t count, const t_ray ray)
 {
 	size_t		i;
 
 	i = 0;
 	while (i < count)
 	{
-		if (hit_anywhere((void *)((char *)objects + i * elem_size), ray, &intersection))
+		if (hit_func((void *)((char *)objects + i * elem_size), ray))
 			return (true);
 		i++;
 	}
+	return (false);
 }
 
 static bool	is_in_shadow(t_scene *scene, t_ray ray)
 {
-	// t_intersection	intersection;
-	//
-	// return (find_closest_intersection(scene, ray, &intersection));
-	if (shadow_iterate_over_obj(plane_hit_anywhere(), scene->planes, scene->plane_count))
+	if (shadow_iterate_over_obj((t_hit_anywhere_func)plane_hit_anywhere,
+			scene->planes, sizeof(t_plane), scene->plane_count, ray))
 		return (true);
-	if (shadow_iterate_over_obj(circle_hit_anywhere(), scene->spheres, scene->sphere_count))
+	if (shadow_iterate_over_obj((t_hit_anywhere_func)sphere_hit_anywhere,
+			scene->spheres, sizeof(t_sphere), scene->sphere_count, ray))
 		return (true);
+	if (shadow_iterate_over_obj((t_hit_anywhere_func)cone_hit_anywhere,
+			scene->cones, sizeof(t_cone), scene->cone_count, ray))
+		return (true);
+	if (shadow_iterate_over_obj((t_hit_anywhere_func)cylinder_hit_anywhere,
+			scene->cylinders, sizeof(t_cylinder), scene->cylinder_count, ray))
+		return (true);
+	return (false);
 }
 
 t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)

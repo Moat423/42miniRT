@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/04/10 11:24:11 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/04/10 15:12:38 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		cone_utils.c \
 		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c vec3_2.c scene_malloc.c print_scene.c interval.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c set_utils.c) \
+		$(addprefix shadow/, circle_shadow.c cone_shadow.c cylinder_shadow.c plane_shadow.c sphere_shadow.c) \
 		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)

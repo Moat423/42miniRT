@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:00:42 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 12:23:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:13:19 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ bool	sphere_hit_anywhere(t_sphere *sphere, t_ray ray)
 	t_vec3			oc;
 	float			abc[3];
 	float			discriminant;
-	float			sqrt_d;
-	float			t[2];
 
 	oc = vec3_subtract(ray.origin, sphere->pos);
 	abc[B] = 2 * vec3_dot(oc, ray.direction);

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/10 13:59:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:11:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	cone_calc(const t_cone *cone, const t_ray ray,
 
 /* SHADOW */
 
-bool	cylinder_was_hit_anywhere(t_cylinder *cylinder, const t_ray ray);
+bool	cylinder_hit_anywhere(t_cylinder *cylinder, const t_ray ray);
 bool	circle_hit_anywhere(t_circle circle, const t_ray ray);
 bool	plane_hit_anywhere(t_plane *plane, t_ray ray);
 bool	cone_hit_anywhere(t_cone *cone, const t_ray ray);

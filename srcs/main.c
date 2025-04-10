@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/03 14:22:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:35:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 //TODO: for bvh where we have arrays of pointers to generic objects,
 // we want to store their specific intersection function inside
 // the generic object struct
+//
+// shadow functions could return the colour of the object hit, then we have this
+// kind of reflection effect.
+// then we still wouldn't need to know which part of the body was hit, just that
+// is was hit, but it should reflect the colour of the closest object.
 
 int	main(int argc, char **argv)
 {
