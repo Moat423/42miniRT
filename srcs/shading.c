@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/28 12:55:30 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:00:32 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,28 @@ static t_color	ambient(t_scene *scene, t_object object)
 			scene->ambient.brightness));
 }
 
+bool	shadow_iterate_over_obj((bool)hit_anywhere(object, ray), (void *)(char *)objects, size_t count)
+{
+	size_t		i;
+
+	i = 0;
+	while (i < count)
+	{
+		if (hit_anywhere((void *)((char *)objects + i * elem_size), ray, &intersection))
+			return (true);
+		i++;
+	}
+}
+
 static bool	is_in_shadow(t_scene *scene, t_ray ray)
 {
-	t_intersection	intersection;
-
-	return (find_closest_intersection(scene, ray, &intersection));
+	// t_intersection	intersection;
+	//
+	// return (find_closest_intersection(scene, ray, &intersection));
+	if (shadow_iterate_over_obj(plane_hit_anywhere(), scene->planes, scene->plane_count))
+		return (true);
+	if (shadow_iterate_over_obj(circle_hit_anywhere(), scene->spheres, scene->sphere_count))
+		return (true);
 }
 
 t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
