@@ -48,7 +48,7 @@ static	t_color	original_phong(const t_vec3 view_dir, const t_vec3 hit_normal,
         light_dir
     );
 	mixed_color = vec3_component_mul(MATERIAL_COLOR, l_color);
-	specular = powi(fmaxf(vec3_dot(reflection, view_dir), 0.0f), 32);
+	specular = powi(fmaxf(vec3_dot(reflection, view_dir), 0.0f), SHININESS);
 	spec_color = vec3_multiply(mixed_color, (specular * l_attenuation));
 	return (spec_color);
 }
@@ -60,7 +60,7 @@ t_color	calc_lights(const t_light light, const t_ray ray, t_intersection its, t_
 	t_color	diffuse;
 	t_color	spec_color;
 
-	l.attenuation = light.brightness / (l.distance * l.distance / 6.0f);
+	l.attenuation = light.brightness / (l.distance * l.distance / LIGHT_DIST);
 	diffuse = vec3_component_mul(object_color(its.object), light.color);
 	diffuse = vec3_multiply(object_color(its.object), l.lambert * l.attenuation);
 
