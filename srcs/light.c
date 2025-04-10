@@ -62,7 +62,7 @@ t_color	calc_lights(const t_light light, const t_ray ray, t_intersection its, t_
 
 	l.attenuation = light.brightness / (l.distance * l.distance / LIGHT_DIST);
 	diffuse = vec3_component_mul(object_color(its.object), light.color);
-	diffuse = vec3_multiply(object_color(its.object), l.lambert * l.attenuation);
+	diffuse = vec3_multiply(diffuse, l.lambert * l.attenuation);
 
 	// spec_color = blinn_phong(vec3_normalize(
 	// 		vec3_add(l.direction, vec3_multiply(ray.direction, -1.0))),
