@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:29:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 12:24:57 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:25:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ bool	cylinder_body_hit_anywhere(t_cylinder *cylinder, const t_ray ray,
 	}
 	return (false);
 }
-
 
 // check if cylinder cant  be hit and return cirlce hit,
 // but circle hit is harder to calc,
