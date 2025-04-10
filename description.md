@@ -144,7 +144,54 @@ so what we and up with is a scaled projection of the vector onto the axis of the
 
 we calculate the length of a, then we scale it with cos(θ) and now that our a is kind of normalized, and we scaled it, it acutally is the corresponding projection
 
-```C++
+### meaning of the coeficcients
+
+    A coefficient (coef[A]):
+        Represents the squared length of the ray direction vector perpendicular to the cylinder axis
+        Geometrically: How fast the ray is moving toward/away from the cylinder axis
+        If A = 0: Ray is traveling parallel to the cylinder surface (special case)
+
+    B coefficient (coef[B]):
+        Represents twice the initial "approach velocity" - how quickly the ray is initially approaching/leaving the cylinder axis
+        Combines the ray direction and the initial position relative to the cylinder
+        If B = 0: Ray starts at a point where its distance to the cylinder axis is momentarily constant
+
+    C coefficient (coef[C]):
+        Represents the initial squared distance between ray origin and cylinder surface
+        Specifically: (distance from ray origin to cylinder axis)² - (cylinder radius)²
+        If C = 0: Ray starts exactly on the cylinder surface
+        If C < 0: Ray starts inside the cylinder
+
+	(fabs(abc[C]) < EPSILON)) 
+means the ray origin on surface and therefore if we return false here, we prevent shadow acne
+
+	if (fabs(abc[A]) < EPSILON)
+means a is basically zero and the whole things turns into a linear quations instead! that is more easily solvable and doesn't require a root.
+but if B is 
+		if (fabs(abc[B]) < EPSILON)
+then that would mean a divigion by zero or something really small, which would be bad or impossible.
+
+
+The standard quadratic formula can produce completely incorrect results in some edge cases due to catastrophic cancellation.
+therefore we could use the citardauq formula.
+
+    When B is negative, we compute q using (-B - √(...))
+    When B is positive, we compute q using (-B + √(...))
+    Then we use q to compute both roots in a way that maintains precision
+
+	if (coef[1] < 0)
+		q = -0.5 * (coef[1] - discriminant);
+	else
+		q = -0.5 * (coef[1] + discriminant);
+	t[0] = q / coef[0];
+	t[1] = coef[2] / q;
+
+but this works well for us:
+
+	t[0] = (-coef[1] + sqrt(discriminant)) / (2 * coef[0]);
+	t[1] = (-coef[1] - sqrt(discriminant)) / (2 * coef[0]);
+
+	If B is very large compared to the discriminant, we lose precision.
 
 ## plane
 
