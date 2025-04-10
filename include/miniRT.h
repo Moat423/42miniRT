@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/10 11:23:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:53:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out);
 
 /* CYLINDER */
 
+int	cylinder_solve_quadratic_eq(float abc[3], float t[2]);
+void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray,
+											const t_cylinder *cyl);
 bool	cylinder_intersect(t_cylinder *cylinder, const t_ray ray, t_intersection *out);
 bool	cylinder_check_body_hit(t_cylinder *cylinder, const t_ray ray,
 							const float t, t_intersection *out);
@@ -57,8 +60,17 @@ bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *ou
 /* CONE */
 
 bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out);
-t_vec3	calc_cone_normal(const t_vec3 hit_point, const t_vec3 top,
-									const t_vec3 axis, const float m);
+float	cone_get_discriminant(const t_vec3 ray_dir, const t_calc cc,
+							float abc[3]);
+t_calc	prep_cone_calc(const t_ray ray, const t_cone *cone);
+bool	cone_calc(const t_cone *cone, const t_ray ray,
+						float t[2], t_calc *cc);
+
+/* SHADOW */
+
+bool	cylinder_was_hit_anywhere(t_cylinder *cylinder, const t_ray ray);
+bool	circle_hit_anywhere(t_circle circle, const t_ray ray);
+
 
 /* OBJECT */
 

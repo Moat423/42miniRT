@@ -6,13 +6,13 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 10:32:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:42:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray,
+void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray,
 											const t_cylinder *cyl)
 {
 	t_vec3	oc;
@@ -30,7 +30,7 @@ static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray,
 	return ;
 }
 
-static int	cylinder_solve_quadratic_eq(float abc[3], float t[2])
+int	cylinder_solve_quadratic_eq(float abc[3], float t[2])
 {
 	float		discriminant;
 
