@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 11:29:51 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 12:09:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:24:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ bool	cylinder_body_hit_anywhere(t_cylinder *cylinder, const t_ray ray,
 }
 
 
-// check if cylinder cant  be hit and return cirlce hit, but circle hit is ahrder to calc,
+// check if cylinder cant  be hit and return cirlce hit,
+// but circle hit is harder to calc,
 // therefore if body is hit, return there, else calc the cicle hits
 bool	cylinder_hit_anywhere(t_cylinder *cylinder, const t_ray ray)
 {
@@ -44,15 +45,19 @@ bool	cylinder_hit_anywhere(t_cylinder *cylinder, const t_ray ray)
 		return (false);
 	else if (is_circle_hit == CIRCLE)
 	{
-		if (circle_hit_anywhere((t_circle){cylinder->top, cylinder->axis, cylinder->radius}, ray))
+		if (circle_hit_anywhere((t_circle){cylinder->top, cylinder->axis,
+				cylinder->radius}, ray))
 			return (true);
-		return (circle_hit_anywhere((t_circle){cylinder->bottom, cylinder->axis, cylinder->radius}, ray));
+		return (circle_hit_anywhere((t_circle){cylinder->bottom, cylinder->axis,
+				cylinder->radius}, ray));
 	}
 	if (cylinder_body_hit_anywhere(cylinder, ray, t[0]))
 		return (true);
 	if (cylinder_body_hit_anywhere(cylinder, ray, t[1]))
 		return (true);
-	if (circle_hit_anywhere((t_circle){cylinder->top, cylinder->axis, cylinder->radius}, ray))
+	if (circle_hit_anywhere((t_circle){cylinder->top, cylinder->axis,
+			cylinder->radius}, ray))
 		return (true);
-	return (circle_hit_anywhere((t_circle){cylinder->bottom, cylinder->axis, cylinder->radius}, ray));
+	return (circle_hit_anywhere((t_circle){cylinder->bottom, cylinder->axis,
+			cylinder->radius}, ray));
 }
