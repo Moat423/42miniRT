@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 10:30:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:32:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,3 @@ bool	cylinder_second_hit(t_cylinder *cylinder, const t_ray ray,
 	set_intersect_normal(out, hit_proj);
 	return (true);
 }
-

@@ -6,13 +6,14 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 10:30:18 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:32:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray, const t_cylinder *cyl)
+static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray,
+											const t_cylinder *cyl)
 {
 	t_vec3	oc;
 	float	d_dot_ax;
@@ -22,7 +23,8 @@ static void	cylinder_body_quadr_coeff_calc(float abc[3], const t_ray ray, const 
 	d_dot_ax = vec3_dot(ray.direction, cyl->axis);
 	oc_dot_ax = vec3_dot(oc, cyl->axis);
 	abc[A] = vec3_squared_length(ray.direction) - d_dot_ax * d_dot_ax;
-	abc[C] = vec3_squared_length(oc) - (oc_dot_ax * oc_dot_ax) - cyl->radius * cyl->radius;
+	abc[C] = vec3_squared_length(oc) - (oc_dot_ax * oc_dot_ax)
+		- cyl->radius * cyl->radius;
 	abc[B] = 2 * (vec3_dot(ray.direction, oc) 
 			- d_dot_ax * oc_dot_ax);
 	return ;
