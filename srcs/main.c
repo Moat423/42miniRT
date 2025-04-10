@@ -13,6 +13,20 @@
 #include "../include/miniRT.h"
 #include "../include/parse.h"
 
+// trace_ray_intersection_t_total
+// intersect_t_avg_sphere
+// intersect_t_avg_plane
+// intersect_t_avg_cylinder
+// intersect_t_avg_cone
+// trace_ray_shade_t_total
+// shade_light_contribution[light_count]
+// // display percentage and totals
+// shade_light_contribution[].lambert_skips
+// // display percentage and totals
+// shade_light_contribution[].shadow_test_culled_objects
+// shade_light_contribution[].shadow_test_closest_intersect_tested_total
+// shade_light_contribution[].shadow_test_t
+
 // MANDATORY PART
 //TODO: valgrind!!
 //TODO: implement more options for dynamic camera movement for example
