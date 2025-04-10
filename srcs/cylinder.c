@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/09 13:42:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:12:25 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,56 @@ static int	solve_quadratic_eq_cylinder(float abc[3], float t[2])
 	return (TRUE);
 }
 
-bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
+bool	check_body_hit(t_cylinder *cylinder, const t_ray ray, const float t,
+						t_intersection *out)
+{
+	t_vec3	hit_point;
+	float	hit_proj;
+
+	if (interval_contains(ray.range, t))
+	{
+		hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
+		hit_proj = projected_len_on_axis(cylinder, hit_point);
+		if (hit_proj >= 0 && hit_proj <= cylinder->height)
+		{
+			out->distance = t;
+			out->point = hit_point;
+			set_intersect_normal(out, hit_proj);
+			return (true);
+		}
+	}
+	return (false);
+}
+
+// if the first hit was not a true hit on the cylinder body 
+// or the ray was not aligned with the axis
+// then this functions is used to check wich next closest hit is viable
+bool	cylinder_second_hit(t_cylinder *cylinder, const t_ray ray,
+							t_intersection *out, const float t)
+{
+	t_vec3	hit_point;
+	float	hit_proj;
+
+	if (!interval_contains(ray.range, t))
+		return (closer_circle_intersect(cylinder, ray, out));
+	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
+	hit_proj = projected_len_on_axis(cylinder, hit_point);
+	if (hit_proj >= 0 && hit_proj <= cylinder->height)
+	{
+		if (closer_circle_intersect(cylinder, ray, out))
+			if (out->distance < t)
+				return (true);
+	}
+	else
+		return (closer_circle_intersect(cylinder, ray, out));
+	out->distance = t;
+	out->point = hit_point;
+	set_intersect_normal(out, hit_proj);
+	return (true);
+}
+
+bool	cylinder_intersect(t_cylinder *cylinder,
+							const t_ray ray, t_intersection *out)
 {
 	float	t[2];
 	t_vec3	hit_point;
@@ -89,26 +138,14 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 		return (false);
 	else if (is_circle_hit == CIRCLE)
 		return (closer_circle_intersect(cylinder, ray, out));
-	// cylinder body finite range lock
-	if (interval_contains(ray.range, t[0]))
-	{
-		hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[0]));
-		hit_proj = projected_len_on_axis(cylinder, hit_point);
-		if (hit_proj >= 0 && hit_proj <= cylinder->height)
-		{
-			out->distance = t[0];
-			out->point = hit_point;
-			set_intersect_normal(out, hit_proj);
-			return (true);
-		}
-	}
+	if (check_body_hit(cylinder, ray, t[0], out))
+		return (true);
 	if (!interval_contains(ray.range, t[1]))
 		return (closer_circle_intersect(cylinder, ray, out));
 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[1]));
 	hit_proj = projected_len_on_axis(cylinder, hit_point);
 	if (hit_proj >= 0 && hit_proj <= cylinder->height)
 	{
-		// circle true hit
 		if (closer_circle_intersect(cylinder, ray, out))
 			if (out->distance < t[1])
 				return (true);
@@ -119,24 +156,4 @@ bool	cylinder_intersect(t_cylinder *cylinder, t_ray ray, t_intersection *out)
 	out->point = hit_point;
 	set_intersect_normal(out, hit_proj);
 	return (true);
-}
-
-bool	check_body_hit(t_cylinder *cylinder, t_ray ray, float t[2],
-						t_intersection *out)
-{
-	t_vec3	hit_point;
-	float	hit_proj;
-
-	if (interval_contains(ray.range, t[0]))
-	{
-		hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t[0]));
-		hit_proj = projected_len_on_axis(cylinder, hit_point);
-		if (hit_proj >= 0 && hit_proj <= cylinder->height)
-		{
-			out->distance = t[0];
-			out->point = hit_point;
-			set_intersect_normal(out, hit_proj);
-			return (true);
-		}
-	}
 }
