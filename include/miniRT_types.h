@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/08 13:53:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:07:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@
 
 # ifndef OBJ_NUM // number of different object-kinds we can parse in general
 #  define OBJ_NUM 5
+# endif
+
+# ifndef SPEED // movement speed for keyboard motions
+#  define SPEED 0.01f
 # endif
 
 typedef enum e_abc
@@ -231,6 +235,7 @@ typedef enum e_loop_state
 	RESIZING,
 	DEFERRED_RENDER,
 	RENDER_NOW,
+	NO_CHANGE,
 }	t_loop_state;
 
 typedef struct s_minirt
