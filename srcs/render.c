@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 16:41:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/14 13:11:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,18 @@ void	cam_movement(void *param)
 	minirt = param;
 	scene = &minirt->scene;
 	prev = vec3_squared_length(scene->camera.pos);
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN) || mlx_is_key_down(minirt->mlx, MLX_KEY_S))
 		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(scene->camera.dir, -0.1));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_UP))
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_UP) || mlx_is_key_down(minirt->mlx, MLX_KEY_W))
 		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(scene->camera.dir, 0.1));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT) || mlx_is_key_down(minirt->mlx, MLX_KEY_A))
 		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.up), -0.1));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT) || mlx_is_key_down(minirt->mlx, MLX_KEY_D))
 		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.up), 0.1));
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_Q))
+		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.right), -0.1));
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_E))
+		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.right), 0.1));
 	if (prev != vec3_squared_length(scene->camera.pos))
 	{
 		minirt->loop_state = DEFERRED_RENDER;
