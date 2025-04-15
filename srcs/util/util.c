@@ -18,21 +18,44 @@ float	clamp(float value, float min, float max)
 	return (fminf(fmaxf(value, min), max));
 }
 
+void	objects_destroy(t_objects* objects)
+{
+	size_t	i;
+
+	if (!objects)
+		return ;
+	i = 0;
+	while (i < objects->sphere_count)
+		free(objects->spheres[i++].lights);
+	free(objects->spheres);
+	objects->sphere_count = 0;
+	free(objects->planes);
+	objects->plane_count = 0;
+	i = 0;
+	while (i < objects->cylinder_count)
+		free(objects->cylinders[i++].lights);
+	free(objects->cylinders);
+	objects->cylinder_count = 0;
+	i = 0;
+	while (i < objects->cone_count)
+		free(objects->cones[i++].lights);
+	free(objects->cones);
+	objects->cone_count = 0;
+}
+
 /// Free memory allocated for a scene
 void	scene_destroy(t_scene *scene)
 {
+	size_t	i;
+
 	if (!scene)
 		return ;
+	i = 0;
+	while (i < scene->light_count)
+		objects_destroy(&scene->lights[i++].objects);
 	free(scene->lights);
 	scene->light_count = 0;
-	free(scene->spheres);
-	scene->sphere_count = 0;
-	free(scene->planes);
-	scene->plane_count = 0;
-	free(scene->cylinders);
-	scene->cylinder_count = 0;
-	free(scene->cones);
-	scene->cone_count = 0;
+	objects_destroy(&scene->objects);
 }
 
 float	image_aspect_ratio(t_scene *scene)

@@ -48,15 +48,15 @@ static void	count_obj(char *line, t_scene *scene)
 	if (!ft_strncmp(line, "L ", 2))
 		scene->light_count++;
 	else if (!ft_strncmp(line, "sp ", 3))
-		scene->sphere_count++;
+		scene->objects.sphere_count++;
 	else if (!ft_strncmp(line, "pl ", 3))
-		scene->plane_count++;
+		scene->objects.plane_count++;
 	else if (line[0] == 'c')
 	{
 		if (line[1] == 'y' && line[2] == ' ')
-			scene->cylinder_count++;
+			scene->objects.cylinder_count++;
 		else if (line[1] == 'o' && line[2] == ' ')
-			scene->cone_count++;
+			scene->objects.cone_count++;
 	}
 }
 
@@ -95,13 +95,13 @@ static int	set_obj(char *line, t_scene *scene, int *indexi)
 	if (!ft_strncmp(line, "L ", 2))
 		return (set_light(line, &(scene->lights[indexi[LIGHT]++])));
 	else if (!ft_strncmp(line, "sp ", 3))
-		return (set_sphere(line, &(scene->spheres[indexi[SPHERE]++])));
+		return (set_sphere(line, &(scene->objects.spheres[indexi[SPHERE]++])));
 	else if (!ft_strncmp(line, "pl ", 3))
-		return (set_plane(line, &(scene->planes[indexi[PLANE]++])));
+		return (set_plane(line, &(scene->objects.planes[indexi[PLANE]++])));
 	else if (!ft_strncmp(line, "cy ", 3))
-		return (set_cylinder(line, &(scene->cylinders[indexi[CYLINDER]++])));
+		return (set_cylinder(line, &(scene->objects.cylinders[indexi[CYLINDER]++])));
 	else if (!ft_strncmp(line, "co ", 3))
-		return (set_cone(line, &(scene->cones[indexi[CONE]++])));
+		return (set_cone(line, &(scene->objects.cones[indexi[CONE]++])));
 	else if (!ft_strncmp(line, "A ", 2))
 		return (set_ambient(line, &(scene->ambient)));
 	else if (!ft_strncmp(line, "C ", 2))

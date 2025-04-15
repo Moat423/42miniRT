@@ -45,7 +45,7 @@ CFLAGS := -Werror -Wall -Wextra #-g
 LDFLAGS += -L./$(MLX_DIR)/build -lmlx42 #-g
 # Ofast might instroduce race conditions in multithreading
 # 03 is fast and safer
-OPTIM_FLAGS := -O3
+OPTIM_FLAGS := -g3 # -O3
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
@@ -81,7 +81,8 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		circle.c \
 		cone.c \
 		cone_utils.c \
-		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c vec3_2.c scene_malloc.c print_scene.c interval.c) \
+		aabb.c \
+		$(addprefix util/, color.c util.c vec3_0.c vec3_1.c vec3_2.c scene_malloc.c print_scene.c interval.c preprocess.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c set_utils.c) \
 		)
 

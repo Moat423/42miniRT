@@ -60,6 +60,14 @@ bool	cone_intersect(t_cone *cone, t_ray ray, t_intersection *out);
 t_vec3	calc_cone_normal(const t_vec3 hit_point, const t_vec3 top,
 									const t_vec3 axis, const float m);
 
+/* AABB */
+
+t_aabb create_aabb_from_object(t_object object);
+t_vec3 aabb_closest_point(t_aabb aabb, t_vec3 point);
+t_aabb	sphere_aabb(t_sphere *sphere);
+t_aabb	cylinder_aabb(t_cylinder *cylinder);
+t_aabb	cone_aabb(t_cone *cone);
+
 /* OBJECT */
 
 t_color	object_color(t_object object);
@@ -68,6 +76,13 @@ t_color	object_color(t_object object);
 
 t_camera	camera_new(t_vec3 pos, t_vec3 dir, uint32_t fov);
 t_ray		get_viewport_ray(t_scene *scene, float u, float v);
+
+/* PREPROCESS */
+void	set_lights_shining_dist(t_light *lights, size_t n);
+bool	malloc_light_objects(t_scene *scene);
+bool	fill_lights_for_objects(t_scene *scene);
+bool	fill_objects_for_lights(t_scene *scene);
+
 
 /* VEC3 */
 

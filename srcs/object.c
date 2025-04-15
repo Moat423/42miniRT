@@ -24,3 +24,14 @@ t_color	object_color(t_object object)
 		return (object.cone->color);
 	return (color_new(0, 0, 0));
 }
+
+t_light	**object_lights(t_object object)
+{
+	if (object.type == SPHERE)
+		return (object.sphere->lights);
+	if (object.type == CYLINDER)
+		return (object.cylinder->lights);
+	if (object.type == CONE)
+		return (object.cone->lights);
+	return (NULL);
+}

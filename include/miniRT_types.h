@@ -56,6 +56,8 @@
 #  define LIGHT_DIST 6.0f
 # endif
 
+typedef struct s_light t_light;
+
 typedef enum e_abc
 {
 	A,
@@ -71,6 +73,12 @@ typedef struct s_vec3
 }	t_vec3;
 
 typedef t_vec3	t_color;
+
+typedef struct s_aabb
+{
+	t_vec3	min;
+	t_vec3	max;
+} t_aabb;
 
 typedef struct s_interval
 {
@@ -98,20 +106,11 @@ typedef struct s_camera
 	uint32_t	fov;
 }	t_camera;
 
-typedef struct s_light
-{
-	t_vec3	pos;
-	t_color	color;
-	/// 0.0-1.0
-	float	brightness;
-	/// Cutoff distance after which this light will have no effect on any object
-	float	max_dist;
-}	t_light;
-
 typedef struct s_sphere
 {
 	t_vec3	pos;
 	t_color	color;
+	t_light	**lights;
 	float	radius;
 }	t_sphere;
 
@@ -130,6 +129,7 @@ typedef struct s_cylinder
 	/// normalized
 	t_vec3	axis;
 	t_color	color;
+	t_light	**lights;
 	float	radius;
 	float	height;
 }	t_cylinder;
@@ -141,10 +141,34 @@ typedef struct s_cone
 	/// normalized
 	t_vec3	axis;
 	t_color	color;
+	t_light	**lights;
 	float	slant;
 	float	radius;
 	float	height;
 }	t_cone;
+
+typedef struct s_objects
+{
+	t_sphere	*spheres;
+	t_plane		*planes;
+	t_cylinder	*cylinders;
+	t_cone		*cones;
+	size_t		sphere_count;
+	size_t		plane_count;
+	size_t		cylinder_count;
+	size_t		cone_count;
+}	t_objects;
+
+typedef struct s_light
+{
+	t_objects	objects;
+	t_vec3	pos;
+	t_color	color;
+	/// 0.0-1.0
+	float	brightness;
+	/// Cutoff distance after which this light will have no effect on any object
+	float	max_dist;
+}	t_light;
 
 typedef struct s_ray
 {
@@ -225,18 +249,11 @@ typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);
 
 typedef struct s_scene
 {
+	t_objects	objects;
 	t_camera	camera;
 	t_ambient	ambient;
 	t_light		*lights;
-	t_sphere	*spheres;
-	t_plane		*planes;
-	t_cylinder	*cylinders;
-	t_cone		*cones;
 	size_t		light_count;
-	size_t		sphere_count;
-	size_t		plane_count;
-	size_t		cylinder_count;
-	size_t		cone_count;
 	uint32_t	image_width;
 	uint32_t	image_height;
 }	t_scene;

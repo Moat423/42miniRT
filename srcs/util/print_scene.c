@@ -133,10 +133,10 @@ void	print_scene(const t_scene *scene)
 	print_camera(&scene->camera);
 	print_ambient_light(&scene->ambient);
 	print_lights(scene->lights, scene->light_count);
-	print_spheres(scene->spheres, scene->sphere_count);
-	print_planes(scene->planes, scene->plane_count);
-	print_cylinders(scene->cylinders, scene->cylinder_count);
-	print_cones(scene->cones, scene->cone_count);
+	print_spheres(scene->objects.spheres, scene->objects.sphere_count);
+	print_planes(scene->objects.planes, scene->objects.plane_count);
+	print_cylinders(scene->objects.cylinders, scene->objects.cylinder_count);
+	print_cones(scene->objects.cones, scene->objects.cone_count);
 	print_image_dimensions(scene->image_width, scene->image_height);
 	printf("==================================\n\n");
 }

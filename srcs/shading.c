@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
-#include <stdbool.h>
 
 static float	lambertian(t_vec3 normal, t_vec3 light_dir)
 {
@@ -38,22 +37,63 @@ static t_color	ambient(t_scene *scene, t_object object)
 			scene->ambient.brightness));
 }
 
-static bool	is_in_shadow(t_scene *scene, t_ray ray, t_light light)
+bool	any_intersect(t_scene *scene, t_ray ray);
+
+static bool is_in_shadow(t_scene *scene, t_ray ray, t_light light)
 {
-	t_intersection	intersection;
-//	static	size_t	skip_counter = 0;
+    t_intersection   intersection;
+    size_t           i;
+    void            *object_ptr;
 
-	// we cannot cancel all lighting calculations if this is the case. This will prevent specular highlights from rendering on far away objects.
-	if (ray.range.max > light.max_dist)
-	{
-		//skip_counter++;
-		//if (skip_counter % 10 == 0)
-		//	printf("skipped %lu\n", skip_counter);
-		return (true);
-	}
+    // Check only objects that are associated with this light
+    // For spheres
+    i = 0;
+    while (i < light.objects.sphere_count)
+    {
+        object_ptr = (void *)&light.objects.spheres[i];
+        if (sphere_intersect(object_ptr, ray, &intersection) &&
+            intersection.distance > 0.001f && intersection.distance < ray.range.max)
+            return (true);
+        i++;
+    }
 
-	return (find_closest_intersection(scene, ray, &intersection));
+    // For planes (we need to check all planes since they don't have bounding boxes)
+    i = 0;
+    while (i < scene->objects.plane_count)
+    {
+        object_ptr = (void *)&scene->objects.planes[i];
+        if (plane_intersect(object_ptr, ray, &intersection) &&
+            intersection.distance > 0.001f && intersection.distance < ray.range.max)
+            return (true);
+        i++;
+    }
+
+    // For cylinders
+    i = 0;
+    while (i < light.objects.cylinder_count)
+    {
+        object_ptr = (void *)&light.objects.cylinders[i];
+        if (cylinder_intersect(object_ptr, ray, &intersection) &&
+            intersection.distance > 0.001f && intersection.distance < ray.range.max)
+            return (true);
+        i++;
+    }
+
+    // For cones
+    i = 0;
+    while (i < light.objects.cone_count)
+    {
+        object_ptr = (void *)&light.objects.cones[i];
+        if (cone_intersect(object_ptr, ray, &intersection) &&
+            intersection.distance > 0.001f && intersection.distance < ray.range.max)
+            return (true);
+        i++;
+    }
+
+    return (false);
 }
+
+t_light	**object_lights(t_object object);
 
 t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 {
@@ -61,24 +101,43 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 	t_vec3		normal;
 	size_t		i;
 	t_light_ray	l;
+	t_light		*light;
 
 	(void) ray;
 	color = ambient(scene, intersection.object);
 	normal = intersect_normal(&intersection);
 	i = 0;
-	while (i < scene->light_count)
+	while (intersection.object.type != PLANE && object_lights(intersection.object)[i])
 	{
+		light = object_lights(intersection.object)[i];
 		l.direction = vec3_calc_length_and_normalize(
-				vec3_subtract(scene->lights[i].pos, intersection.point),
+				vec3_subtract(light->pos, intersection.point),
 				&(l.distance));
 		l.lambert = lambertian(normal, l.direction);
 		if (l.lambert > 0)
 		{
 			// TODO reevaluate if these ray calculations are always correct. Is the normal always in the correct direction? Do we want ray min and max to be epsilon and distance? why not 0 and distance - epsilon to accurately prevent accidental intersection with the source?
-			if (!is_in_shadow(scene, (t_ray){vec3_add(intersection.point, vec3_multiply(intersect_normal(&intersection), EPSILON)),
-					l.direction, interval_new(EPSILON, l.distance)}, scene->lights[i]))
+			if (!is_in_shadow(scene, (t_ray){vec3_add(intersection.point, vec3_multiply(normal, EPSILON)),
+					l.direction, interval_new(EPSILON, l.distance)}, *light))
 				color = vec3_add(color,
-						calc_lights(scene->lights[i], ray, intersection, l));
+						calc_lights(*light, ray, intersection, l));
+		}
+		i++;
+	}
+	while (intersection.object.type == PLANE && i < scene->light_count)
+	{
+		light = &scene->lights[i];
+		l.direction = vec3_calc_length_and_normalize(
+				vec3_subtract(light->pos, intersection.point),
+				&(l.distance));
+		l.lambert = lambertian(normal, l.direction);
+		if (l.lambert > 0)
+		{
+			// TODO reevaluate if these ray calculations are always correct. Is the normal always in the correct direction? Do we want ray min and max to be epsilon and distance? why not 0 and distance - epsilon to accurately prevent accidental intersection with the source?
+			if (!is_in_shadow(scene, (t_ray){vec3_add(intersection.point, vec3_multiply(normal, EPSILON)),
+					l.direction, interval_new(EPSILON, l.distance)}, *light))
+				color = vec3_add(color,
+						calc_lights(*light, ray, intersection, l));
 		}
 		i++;
 	}
