@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/01 14:27:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:33:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,15 @@ static void	count_obj(char *line, t_scene *scene)
 			scene->cone_count++;
 	}
 }
+
+// static	int	check_count(t_scene *scene, bool camera, bool ambient)
+// {
+// 	if (camera != 1 || ambient != 1)
+// 		return (ft_parseerror("need 1 camera (C) & 1 ambient light (A)", NULL));
+// 	if (scene->light_count > MAX_LIGHTS)
+// 		return (false);
+// 	return (true);
+// }
 
 static int	parse_file(int fd, t_scene *scene)
 {

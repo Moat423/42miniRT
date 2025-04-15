@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/15 15:37:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:28:10 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@
 
 # ifndef SENSITIVITY // mouse movement SENSITIVITY
 #  define SENSITIVITY 0.002f
+# endif
+
+# ifndef BONUS
+#  define MAX_LIGHTS 1
+# else
+#  define MAX_LIGHTS UINT_MAX
 # endif
 
 typedef enum e_abc
