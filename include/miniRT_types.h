@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/15 15:37:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:43:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,18 @@
 #  define M_PI 3.14159265358979323846
 # endif
 
-# ifndef EPSILON // tollerance value for floating point comparisons
+# ifndef EPSILON
+/// tolerance value for floating point comparisons
 #  define EPSILON 0.0001
 # endif
 
-# ifndef MATERIAL_COLOR // default object specular color as specular coefficient
+# ifndef MATERIAL_COLOR
+/// default object specular color as specular coefficient
 #  define MATERIAL_COLOR (t_color){0.9, 0.9, 0.9}
 # endif
 
-# ifndef OBJ_NUM // number of different object-kinds we can parse in general
+# ifndef OBJ_NUM
+/// number of different object-kinds we can parse in general
 #  define OBJ_NUM 5
 # endif
 
@@ -48,6 +51,17 @@
 
 # ifndef SENSITIVITY // mouse movement SENSITIVITY
 #  define SENSITIVITY 0.002f
+# endif
+
+# ifndef SHININESS
+/// a higher value makes the material more metallic
+/// -> the specular reflection gets more concentrated at one spot
+#  define SHININESS 32
+# endif
+
+# ifndef LIGHT_DIST
+/// a higher value will make lights shine further
+#  define LIGHT_DIST 6.0f
 # endif
 
 typedef enum e_abc
