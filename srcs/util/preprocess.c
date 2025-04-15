@@ -41,7 +41,7 @@ static bool	lights_for_aabb(t_scene *scene, t_aabb aabb, t_light ***out)
 	size_t	j;
 
 	lights = scene->lights;
-	*out = malloc(sizeof(t_light *) * scene->light_count);
+	*out = malloc(sizeof(t_light *) * (scene->light_count + 1));
 	if (!*out)
 		return (false);
 	i = 0;
