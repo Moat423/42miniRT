@@ -70,7 +70,6 @@ static	bool	camera_movement(t_minirt *minirt,
 
 static void	movement(t_minirt *minirt)
 {
-	t_scene		*scene;
 	t_vec3		right_direction;
 	t_vec3		up_direction;
 
@@ -78,7 +77,6 @@ static void	movement(t_minirt *minirt)
 			minirt->scene.camera.up);
 	up_direction = vec3_cross(minirt->scene.camera.dir,
 			minirt->scene.camera.right);
-	scene = &minirt->scene;
 	if (camera_movement(minirt, right_direction, up_direction))
 		minirt->loop_state = DEFERRED_RENDER;
 	if (key_movement(minirt, right_direction, up_direction))
