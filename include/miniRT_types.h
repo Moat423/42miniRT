@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/14 14:07:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:37:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@
 #  define SPEED 0.01f
 # endif
 
+# ifndef SENSITIVITY // mouse movement SENSITIVITY
+#  define SENSITIVITY 0.002f
+# endif
+
 typedef enum e_abc
 {
 	A,
@@ -61,6 +65,20 @@ typedef struct s_vec3
 }	t_vec3;
 
 typedef t_vec3	t_color;
+
+typedef struct s_quat
+{
+	float	w;  // Real part
+	float	x;  // i component
+	float	y;  // j component
+	float	z;  // k component
+}	t_quat;
+
+typedef struct s_coords
+{
+	int32_t	x;
+	int32_t	y;
+}	t_coords;
 
 typedef struct s_interval
 {
@@ -245,6 +263,8 @@ typedef struct s_minirt
 	mlx_t			*mlx;
 	mlx_image_t		*image;
 	double			last_resize_time;
+	int32_t			mouse_pos_x;
+	int32_t			mouse_pos_y;
 	t_loop_state	loop_state;
 }	t_minirt;
 
