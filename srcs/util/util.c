@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:31 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:49:52 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:38:45 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	objects_destroy(t_objects* objects, bool free_inner)
 
 	if (!objects)
 		return ;
-	ssize_t ii = -1;
+	i = 0;
 	if (free_inner)
 	{
-		while (++ii < (ssize_t)objects->sphere_count)
-			free(objects->spheres[ii].lights);
+		while (i < objects->sphere_count)
+			free(objects->spheres[i++].lights);
 	}
 	free(objects->spheres);
 	objects->sphere_count = 0;
