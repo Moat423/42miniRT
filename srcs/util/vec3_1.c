@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:37 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/02 11:27:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:39:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ t_vec3	vec3_divide(t_vec3 v, float scalar)
 	result.x = v.x / scalar;
 	result.y = v.y / scalar;
 	result.z = v.z / scalar;
-    return (result);
+	return (result);
 }
