@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/14 14:08:18 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:21:12 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	render_raytraced(void *param)
 	uint32_t	y;
 	t_ray		ray;
 	size_t		i;
+	t_intersection	ix;
 
 	minirt = param;
 	y = 0;
@@ -36,7 +37,7 @@ void	render_raytraced(void *param)
 			ray = get_viewport_ray(&minirt->scene,
 				(float)x / (float)minirt->scene.image_width,
 				(float)y / (float)minirt->scene.image_height);
-			color_to_rgb(trace_ray(&minirt->scene, ray),
+			color_to_rgb(trace_ray(&minirt->scene, ray, &ix),
 				&minirt->image->pixels[i],
 				&minirt->image->pixels[i + 1],
 				&minirt->image->pixels[i + 2]);
@@ -125,6 +126,48 @@ void	render_on_request(void *param)
 	}
 }
 
+void	print_intersect_at_screen_coord(void *param, uint32_t x, uint32_t y)
+{
+	t_minirt	*minirt;
+	t_intersection	ix;
+	t_ray		ray;
+
+	minirt = param;
+	ray = get_viewport_ray(&minirt->scene,
+		(float)x / (float)minirt->scene.image_width,
+		(float)y / (float)minirt->scene.image_height);
+	if (vec3_squared_length(trace_ray(&minirt->scene, ray, &ix)) == 0)
+	{
+		printf("No intersection found\n");
+		return ;
+	}
+	// print info: ix.distance, ix.point, ix.object, intersect_normal(&ix)
+	printf("---------------\n");
+	printf("Screen Coordinate: %d %d\n", x, y);
+	printf("Ray origin: %f %f %f\n", ray.origin.x, ray.origin.y, ray.origin.z);
+	printf("Distance: %f\n", ix.distance);
+	printf("Point: %f %f %f\n", ix.point.x, ix.point.y, ix.point.z);
+	printf("Object type: %d\n", ix.object.type);
+	printf("Normal: %f %f %f\n", intersect_normal(&ix).x,
+		intersect_normal(&ix).y,
+		intersect_normal(&ix).z);
+	printf("---------------\n");
+}
+
+void	click_object(void *param)
+{
+	t_minirt	*minirt;
+	int			x;
+	int			y;
+
+	minirt = param;
+	if (mlx_is_mouse_down(minirt->mlx, MLX_MOUSE_BUTTON_LEFT))
+	{
+		mlx_get_mouse_pos(minirt->mlx, &x, &y);
+		print_intersect_at_screen_coord(param, x, y);
+	}
+}
+
 /// @brief Render loop
 /// @param scene The scene to render
 /// @return Exit code. EXIT_SUCCESS on success, EXIT_FAILURE on failure
@@ -155,6 +198,7 @@ int	render_loop(t_minirt *minirt)
 	}
 	//mlx_loop_hook(mlx, ft_randomize, scene);
 	//mlx_loop_hook(mlx, ft_hook, scene);
+	mlx_loop_hook(minirt->mlx, click_object, minirt);
 	mlx_loop_hook(minirt->mlx, key_press, minirt);
 	mlx_loop_hook(minirt->mlx, render_on_request, minirt);
 	mlx_resize_hook(minirt->mlx, window_resize, minirt);

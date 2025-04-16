@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:35:34 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:11:51 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		render_loop(t_minirt *minirt);
 
 /* TRACE_RAY */
 
-t_color	trace_ray(t_scene *scene, t_ray ray);
+t_color	trace_ray(t_scene *scene, t_ray ray, t_intersection *out);
 
 /* SHADING */
 
