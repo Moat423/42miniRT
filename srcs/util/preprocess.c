@@ -6,10 +6,10 @@ int	ft_malloc_objects(t_objects *objects);
 /// Returns the distance² after which there is no light contribution from
 /// this light
 /// Based on formula: attenuation = light.brightness / (distance² / LIGHT_DIST)
-/// Light contributions below 1/512 are considered negligible
+/// Light contributions below 1/512=0.0019 are considered negligible
 float	max_light_distance_sq(t_light light)
 {
-	static const float	threshold = 0.0019;
+	static const float	threshold = 0.005;
 	float				max_color_component;
 	float				effective_brightness;
 	float				max_distance_squared;

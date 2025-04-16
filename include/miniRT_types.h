@@ -32,7 +32,7 @@
 
 # ifndef EPSILON
 /// tolerance value for floating point comparisons
-#  define EPSILON 0.0001
+#  define EPSILON 0.001
 # endif
 
 # ifndef MATERIAL_COLOR
@@ -53,7 +53,7 @@
 
 # ifndef LIGHT_DIST
 /// a higher value will make lights shine further
-#  define LIGHT_DIST 6.0f
+#  define LIGHT_DIST 30.0f
 # endif
 
 typedef struct s_light t_light;
