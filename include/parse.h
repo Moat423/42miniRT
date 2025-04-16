@@ -6,9 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/01 13:48:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:22:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "miniRT_types.h"
 
 // parse_file.c
 
@@ -37,3 +39,4 @@ int	set_cone(char *line, t_cone *cone);
 
 int	ft_parseerror(char *error, char *line);
 int	input_check(int argc);
+int	check_count(t_scene *scene, int camera, int ambient);
