@@ -6,11 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:47:40 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/26 12:47:57 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:24:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/miniRT.h"
+#include "../../lib/libft/libft_full.h"
 
 int	input_check(int argc)
 {
