@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/04/15 16:23:55 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/04/16 11:56:07 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -200,7 +200,7 @@ debug: FINAL_LDFLAGS += -g
 debug: fclean $(NAME)
 
 bonus: FINAL_CFLAGS += -DBONUS
-bonus: all
+bonus: re
 
 clean_submodules:
 	@printf "$(BOLD)Cleaning submodule object files...$(RESET)\n"

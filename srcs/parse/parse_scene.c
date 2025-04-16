@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/15 16:33:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:54:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,32 @@ static void	count_obj(char *line, t_scene *scene)
 	}
 }
 
-// static	int	check_count(t_scene *scene, bool camera, bool ambient)
-// {
-// 	if (camera != 1 || ambient != 1)
-// 		return (ft_parseerror("need 1 camera (C) & 1 ambient light (A)", NULL));
-// 	if (scene->light_count > MAX_LIGHTS)
-// 		return (false);
-// 	return (true);
-// }
+static	int	check_count(t_scene *scene, int camera, int ambient)
+{
+	if (camera != 1)
+	{
+		ft_fprintf (2, "Need one single camera (C), have %d\n", camera);
+		return (0);
+	}
+	if (ambient != 1)
+	{
+		ft_fprintf (2, "Need one single ambient light (A), have %d\n", ambient);
+		return (0);
+	}
+	if (scene->light_count == 0)
+	{
+		ft_fprintf (2, "Need at least one single light (L), have 0\n");
+		return (0);
+	}
+	if (scene->light_count > MAX_LIGHTS)
+	{
+		ft_fprintf(2, "Have too many lights (L)\n");
+		ft_fprintf(2, "if you intend to have more lights,\
+								please 'make bonus'\n");
+		return (0);
+	}
+	return (1);
+}
 
 static int	parse_file(int fd, t_scene *scene)
 {
@@ -92,10 +110,11 @@ static int	parse_file(int fd, t_scene *scene)
 			count_obj(line, scene);
 		free(line);
 	}
-	if (got_camera != 1 || got_ambient != 1)
-		return (ft_parseerror("need 1 camera (C) & 1 ambient light (A)", NULL));
 	get_next_line(-1);
-	return (1);
+	// if (got_camera != 1 || got_ambient != 1)
+	// 	return (ft_parseerror("need 1 camera (C) & 1 ambient light (A)", NULL));
+	return (check_count(scene, got_camera, got_ambient));
+	// return (1);
 }
 
 // checks for object type and sets object (except camera and ambient)
