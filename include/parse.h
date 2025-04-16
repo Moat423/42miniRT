@@ -6,9 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/01 13:48:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:54:31 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "miniRT_types.h"
 
 // parse_file.c
 
@@ -37,3 +39,17 @@ int	set_cone(char *line, t_cone *cone);
 
 int	ft_parseerror(char *error, char *line);
 int	input_check(int argc);
+
+
+// print_scene
+
+void	print_vec3(const char *name, t_vec3 vec);
+void	print_color(const char *name, t_color color);
+void	print_camera(const t_camera *camera);
+void	print_ambient_light(const t_ambient *ambient);
+void	print_lights(const t_light *lights, size_t light_count);
+void	print_image_dimensions(unsigned int width, unsigned int height);
+void	print_spheres(const t_sphere *spheres, size_t sphere_count);
+void	print_planes(const t_plane *planes, size_t plane_count);
+void	print_cylinders(const t_cylinder *cylinders, size_t cylinder_count);
+void	print_cones(const t_cone *cones, size_t cone_count);
