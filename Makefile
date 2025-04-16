@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/04/16 14:34:25 by kwurster         ###   ########.fr        #
+#    Updated: 2025/04/16 14:50:17 by kwurster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		cone.c \
 		cone_utils.c \
 		aabb.c \
-		$(addprefix util/, quaternion.c color.c util.c vec3_0.c vec3_1.c vec3_2.c scene_malloc.c print_scene.c interval.c preprocess.c) \
+		$(addprefix util/, quaternion.c color.c util.c vec3_0.c vec3_1.c vec3_2.c scene_malloc.c print_scene.c interval.c preprocess.c preprocess2.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c set_utils.c) \
 		)
 

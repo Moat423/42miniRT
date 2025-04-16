@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   preprocess.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 14:38:14 by kwurster          #+#    #+#             */
+/*   Updated: 2025/04/16 14:49:52 by kwurster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/miniRT.h"
 #include <stdbool.h>
 
@@ -53,60 +65,19 @@ bool	malloc_light_objects(t_scene *scene)
 	i = 0;
 	while (i < scene->light_count)
 	{
-		scene->lights[i].objects.sphere_count = scene->objects.sphere_count;
-		scene->lights[i].objects.cylinder_count = scene->objects.cylinder_count;
-		scene->lights[i].objects.cone_count = scene->objects.cone_count;
-		scene->lights[i].objects.plane_count = scene->objects.plane_count;
-		if (!ft_malloc_objects(&scene->lights[i].objects))
+		scene->lights[i].objs.sphere_count = scene->objs.sphere_count;
+		scene->lights[i].objs.cylinder_count = scene->objs.cylinder_count;
+		scene->lights[i].objs.cone_count = scene->objs.cone_count;
+		scene->lights[i].objs.plane_count = scene->objs.plane_count;
+		if (!ft_malloc_objects(&scene->lights[i].objs))
 			return (false);
-		scene->lights[i].objects.sphere_count = 0;
-		scene->lights[i].objects.cylinder_count = 0;
-		scene->lights[i].objects.cone_count = 0;
-		scene->lights[i].objects.plane_count = 0;
+		scene->lights[i].objs.sphere_count = 0;
+		scene->lights[i].objs.cylinder_count = 0;
+		scene->lights[i].objs.cone_count = 0;
+		scene->lights[i].objs.plane_count = 0;
 		i++;
 	}
 	i = 0;
-	return (true);
-}
-
-bool	fill_objects_for_lights(t_scene *scene)
-{
-	ssize_t	i;
-	ssize_t	j;
-
-	i = -1;
-	while (++i < (ssize_t)scene->objects.sphere_count)
-	{
-		j = -1;
-		while (scene->objects.spheres[i].lights[++j])
-		{
-			scene->objects.spheres[i].lights[j]->objects. \
-				spheres[scene->objects.spheres[i].lights[j] \
-					->objects.sphere_count++] = scene->objects.spheres[i];
-		}
-	}
-	i = -1;
-	while (++i < (ssize_t)scene->objects.cylinder_count)
-	{
-		j = -1;
-		while (scene->objects.cylinders[i].lights[++j])
-		{
-			scene->objects.cylinders[i].lights[j]->objects. \
-				cylinders[scene->objects.cylinders[i].lights[j] \
-					->objects.cylinder_count++] = scene->objects.cylinders[i];
-		}
-	}
-	i = -1;
-	while (++i < (ssize_t)scene->objects.cone_count)
-	{
-		j = -1;
-		while (scene->objects.cones[i].lights[++j])
-		{
-			scene->objects.cones[i].lights[j]->objects. \
-				cones[scene->objects.cones[i].lights[j] \
-					->objects.cone_count++] = scene->objects.cones[i];
-		}
-	}
 	return (true);
 }
 
@@ -115,24 +86,24 @@ bool	fill_lights_for_objects(t_scene *scene)
 	ssize_t	i;
 
 	i = -1;
-	while (++i < (ssize_t)scene->objects.sphere_count)
+	while (++i < (ssize_t)scene->objs.sphere_count)
 	{
-		if (!lights_for_aabb(scene, sphere_aabb(&scene->objects.spheres[i]),
-				&scene->objects.spheres[i].lights))
+		if (!lights_for_aabb(scene, sphere_aabb(&scene->objs.spheres[i]),
+				&scene->objs.spheres[i].lights))
 			return (false);
 	}
 	i = -1;
-	while (++i < (ssize_t)scene->objects.cylinder_count)
+	while (++i < (ssize_t)scene->objs.cylinder_count)
 	{
-		if (!lights_for_aabb(scene, cylinder_aabb(&scene->objects.cylinders[i]),
-				&scene->objects.cylinders[i].lights))
+		if (!lights_for_aabb(scene, cylinder_aabb(&scene->objs.cylinders[i]),
+				&scene->objs.cylinders[i].lights))
 			return (false);
 	}
 	i = -1;
-	while (++i < (ssize_t)scene->objects.cone_count)
+	while (++i < (ssize_t)scene->objs.cone_count)
 	{
-		if (!lights_for_aabb(scene, cone_aabb(&scene->objects.cones[i]),
-				&scene->objects.cones[i].lights))
+		if (!lights_for_aabb(scene, cone_aabb(&scene->objs.cones[i]),
+				&scene->objs.cones[i].lights))
 			return (false);
 	}
 	return (true);

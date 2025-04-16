@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:31 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:05:23 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:49:52 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ void	scene_destroy(t_scene *scene)
 		return ;
 	i = 0;
 	while (i < scene->light_count)
-		objects_destroy(&scene->lights[i++].objects, false);
+		objects_destroy(&scene->lights[i++].objs, false);
 	free(scene->lights);
 	scene->light_count = 0;
-	objects_destroy(&scene->objects, true);
+	objects_destroy(&scene->objs, true);
 }
 
 float	image_aspect_ratio(t_scene *scene)

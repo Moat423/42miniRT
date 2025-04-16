@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:27:18 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/02 11:27:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:48:07 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_malloc_scene_arrays(t_scene *scene)
 	if (!ft_malloc_array(scene->light_count, sizeof(t_light),
 			(void **)&(scene->lights)))
 		return (0);
-	if (!ft_malloc_objects(&(scene->objects)))
+	if (!ft_malloc_objects(&(scene->objs)))
 		return (0);
 	return (1);
 }

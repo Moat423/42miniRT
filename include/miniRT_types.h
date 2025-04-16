@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:35:11 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:49:56 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,11 +185,11 @@ typedef struct s_light
 {
 	/// Objects here are scene objects copied by value,
 	/// be careful about double free!!
-	t_objects	objects;
-	t_vec3	pos;
-	t_color	color;
+	t_objects	objs;
+	t_vec3		pos;
+	t_color		color;
 	/// 0.0-1.0
-	float	brightness;
+	float		brightness;
 }	t_light;
 
 typedef struct s_ray
@@ -271,7 +271,7 @@ typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);
 
 typedef struct s_scene
 {
-	t_objects	objects;
+	t_objects	objs;
 	t_camera	camera;
 	t_ambient	ambient;
 	t_light		*lights;

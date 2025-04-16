@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/28 12:55:30 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:49:52 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ static bool is_in_shadow(t_scene *scene, t_ray ray, t_light light)
     // Check only objects that are associated with this light
     // For spheres
     i = 0;
-    while (i < light.objects.sphere_count)
+    while (i < light.objs.sphere_count)
     {
-        object_ptr = (void *)&light.objects.spheres[i];
+        object_ptr = (void *)&light.objs.spheres[i];
         if (sphere_intersect(object_ptr, ray, &intersection) &&
             intersection.distance > 0.001f && intersection.distance < ray.range.max)
             return (true);
@@ -59,9 +59,9 @@ static bool is_in_shadow(t_scene *scene, t_ray ray, t_light light)
 
     // For planes (we need to check all planes since they don't have bounding boxes)
     i = 0;
-    while (i < scene->objects.plane_count)
+    while (i < scene->objs.plane_count)
     {
-        object_ptr = (void *)&scene->objects.planes[i];
+        object_ptr = (void *)&scene->objs.planes[i];
         if (plane_intersect(object_ptr, ray, &intersection) &&
             intersection.distance > 0.001f && intersection.distance < ray.range.max)
             return (true);
@@ -70,9 +70,9 @@ static bool is_in_shadow(t_scene *scene, t_ray ray, t_light light)
 
     // For cylinders
     i = 0;
-    while (i < light.objects.cylinder_count)
+    while (i < light.objs.cylinder_count)
     {
-        object_ptr = (void *)&light.objects.cylinders[i];
+        object_ptr = (void *)&light.objs.cylinders[i];
         if (cylinder_intersect(object_ptr, ray, &intersection) &&
             intersection.distance > 0.001f && intersection.distance < ray.range.max)
             return (true);
@@ -81,9 +81,9 @@ static bool is_in_shadow(t_scene *scene, t_ray ray, t_light light)
 
     // For cones
     i = 0;
-    while (i < light.objects.cone_count)
+    while (i < light.objs.cone_count)
     {
-        object_ptr = (void *)&light.objects.cones[i];
+        object_ptr = (void *)&light.objs.cones[i];
         if (cone_intersect(object_ptr, ray, &intersection) &&
             intersection.distance > 0.001f && intersection.distance < ray.range.max)
             return (true);

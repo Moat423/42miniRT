@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:58:18 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/01 14:38:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:48:07 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ bool	find_closest_intersection(t_scene *scene, t_ray ray, t_intersection *closes
 {
 	*closest = (t_intersection){0};
 	closest->distance = INFINITY;
-	find_closest_obj_intersect(&scene->objects, ray, closest, SPHERE);
-	find_closest_obj_intersect(&scene->objects, ray, closest, PLANE);
-	find_closest_obj_intersect(&scene->objects, ray, closest, CYLINDER);
-	find_closest_obj_intersect(&scene->objects, ray, closest, CONE);
+	find_closest_obj_intersect(&scene->objs, ray, closest, SPHERE);
+	find_closest_obj_intersect(&scene->objs, ray, closest, PLANE);
+	find_closest_obj_intersect(&scene->objs, ray, closest, CYLINDER);
+	find_closest_obj_intersect(&scene->objs, ray, closest, CONE);
 	return (closest->object.any != NULL);
 }
 
@@ -177,13 +177,13 @@ bool any_intersect(t_scene *scene, t_ray ray)
 {
     // Check each object type for any intersection
     // Return immediately if found
-    if (any_obj_intersect(&scene->objects, ray, SPHERE))
+    if (any_obj_intersect(&scene->objs, ray, SPHERE))
         return (true);
-    if (any_obj_intersect(&scene->objects, ray, PLANE))
+    if (any_obj_intersect(&scene->objs, ray, PLANE))
         return (true);
-    if (any_obj_intersect(&scene->objects, ray, CYLINDER))
+    if (any_obj_intersect(&scene->objs, ray, CYLINDER))
         return (true);
-    if (any_obj_intersect(&scene->objects, ray, CONE))
+    if (any_obj_intersect(&scene->objs, ray, CONE))
         return (true);
 
     return (false);
