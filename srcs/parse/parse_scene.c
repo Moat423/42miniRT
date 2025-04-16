@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/01 14:27:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:24:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static int	parse_file(int fd, t_scene *scene)
 		if (!line)
 			break ;
 		if (line[0] == '\n')
-			continue ;
-		if (!ft_strncmp(line, "A ", 2))
+			;
+		else if (!ft_strncmp(line, "A ", 2))
 			++got_ambient;
 		else if (!ft_strncmp(line, "C ", 2))
 			++got_camera;
@@ -126,8 +126,8 @@ static int	get_arrays(int fd, t_scene *scene)
 		if (!line)
 			break ;
 		if (line[0] == '\n')
-			continue ;
-		if (!set_obj(line, scene, indexi))
+			;
+		else if (!set_obj(line, scene, indexi))
 			return (0);
 		free(line);
 	}
