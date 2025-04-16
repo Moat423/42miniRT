@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/21 16:41:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:08:18 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,45 +123,6 @@ void	render_on_request(void *param)
 		render((void*)minirt);
 		minirt->loop_state = NO_ACTION;
 	}
-}
-
-void	cam_movement(void *param)
-{
-	t_minirt	*minirt;
-	t_scene		*scene;
-	float		prev;
-
-	minirt = param;
-	scene = &minirt->scene;
-	prev = vec3_squared_length(scene->camera.pos);
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN))
-		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(scene->camera.dir, -0.1));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_UP))
-		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(scene->camera.dir, 0.1));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
-		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.up), -0.1));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
-		scene->camera.pos = vec3_add(scene->camera.pos, vec3_multiply(vec3_cross(scene->camera.dir, scene->camera.up), 0.1));
-	if (prev != vec3_squared_length(scene->camera.pos))
-	{
-		minirt->loop_state = DEFERRED_RENDER;
-		printf("Moved camera to %f %f %f\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
-	}
-	else if (minirt->loop_state == DEFERRED_RENDER)
-		minirt->loop_state = RENDER_NOW;
-}
-
-void	key_press(void *param)
-{
-	t_minirt	*minirt;
-
-	minirt = param;
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
-	{
-		printf("Escape key pressed, closing window\n");
-		mlx_close_window(minirt->mlx);
-	}
-	cam_movement(param);
 }
 
 /// @brief Render loop

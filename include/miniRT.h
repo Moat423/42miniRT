@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:31:36 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:35:34 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ t_color	object_color(t_object object);
 
 t_camera	camera_new(t_vec3 pos, t_vec3 dir, uint32_t fov);
 t_ray		get_viewport_ray(t_scene *scene, float u, float v);
+void		key_press(void *param);
+bool	key_movement(t_minirt *minirt,
+						t_vec3 right_direction, t_vec3 up_direction);
 
 /* PREPROCESS */
 bool	malloc_light_objects(t_scene *scene);
@@ -97,6 +100,13 @@ t_vec3	vec3_component_mul(t_vec3 v1, t_vec3 v2);
 t_vec3	vec3_divide(t_vec3 v, float scalar);
 t_vec3	vec3_calc_length_and_normalize(t_vec3 v, float *length);
 t_vec3	vec3_pow(t_vec3 v, int scalar);
+
+/* QUATERNION */
+
+t_vec3	quat_rotate_vec3(t_quat q, t_vec3 v);
+t_quat	quat_from_axis_angle(t_vec3 axis, float angle);
+t_quat	quat_normalize(t_quat q);
+t_quat	quat_mul(t_quat a, t_quat b);
 
 /* COLOR */
 

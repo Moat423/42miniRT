@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:25:20 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:35:11 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@
 #  define OBJ_NUM 5
 # endif
 
+# ifndef SPEED // movement speed for keyboard motions
+#  define SPEED 0.01f
+# endif
+
+# ifndef SENSITIVITY // mouse movement SENSITIVITY
+#  define SENSITIVITY 0.002f
+# endif
+
 # ifndef SHININESS
 /// a higher value makes the material more metallic
 /// -> the specular reflection gets more concentrated at one spot
@@ -79,6 +87,20 @@ typedef struct s_aabb
 	t_vec3	min;
 	t_vec3	max;
 } t_aabb;
+
+typedef struct s_quat
+{
+	float	w;  // Real part
+	float	x;  // i component
+	float	y;  // j component
+	float	z;  // k component
+}	t_quat;
+
+typedef struct s_coords
+{
+	int32_t	x;
+	int32_t	y;
+}	t_coords;
 
 typedef struct s_interval
 {
@@ -264,6 +286,7 @@ typedef enum e_loop_state
 	RESIZING,
 	DEFERRED_RENDER,
 	RENDER_NOW,
+	NO_CHANGE,
 }	t_loop_state;
 
 typedef struct s_minirt
@@ -273,6 +296,8 @@ typedef struct s_minirt
 	mlx_t			*mlx;
 	mlx_image_t		*image;
 	double			last_resize_time;
+	int32_t			mouse_pos_x;
+	int32_t			mouse_pos_y;
 	t_loop_state	loop_state;
 }	t_minirt;
 
