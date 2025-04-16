@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:31 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/31 14:28:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:05:23 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,36 @@ float	clamp(float value, float min, float max)
 	return (fminf(fmaxf(value, min), max));
 }
 
-void	objects_destroy(t_objects* objects)
+void	objects_destroy(t_objects* objects, bool free_inner)
 {
 	size_t	i;
 
 	if (!objects)
 		return ;
-	i = 0;
-	while (i < objects->sphere_count)
-		free(objects->spheres[i++].lights);
+	ssize_t ii = -1;
+	if (free_inner)
+	{
+		while (++ii < (ssize_t)objects->sphere_count)
+			free(objects->spheres[ii].lights);
+	}
 	free(objects->spheres);
 	objects->sphere_count = 0;
 	free(objects->planes);
 	objects->plane_count = 0;
 	i = 0;
-	while (i < objects->cylinder_count)
-		free(objects->cylinders[i++].lights);
+	if (free_inner)
+	{
+		while (i < objects->cylinder_count)
+			free(objects->cylinders[i++].lights);
+	}
 	free(objects->cylinders);
 	objects->cylinder_count = 0;
 	i = 0;
-	while (i < objects->cone_count)
-		free(objects->cones[i++].lights);
+	if (free_inner)
+	{
+		while (i < objects->cone_count)
+			free(objects->cones[i++].lights);
+	}
 	free(objects->cones);
 	objects->cone_count = 0;
 }
@@ -52,10 +61,10 @@ void	scene_destroy(t_scene *scene)
 		return ;
 	i = 0;
 	while (i < scene->light_count)
-		objects_destroy(&scene->lights[i++].objects);
+		objects_destroy(&scene->lights[i++].objects, false);
 	free(scene->lights);
 	scene->light_count = 0;
-	objects_destroy(&scene->objects);
+	objects_destroy(&scene->objects, true);
 }
 
 float	image_aspect_ratio(t_scene *scene)
