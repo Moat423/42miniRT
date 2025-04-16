@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 15:48:49 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:33:22 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	printf("Scene loaded successfully\n");
-	set_lights_shining_dist(scene->lights, scene->light_count);
-	printf("Lights distance set\n");
 	if (!fill_lights_for_objects(scene) || !malloc_light_objects(scene)
 		|| !fill_objects_for_lights(scene))
 	{

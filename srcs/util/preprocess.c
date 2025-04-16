@@ -21,18 +21,6 @@ float	max_light_distance_sq(t_light light)
 	return (max_distance_squared);
 }
 
-void	set_lights_shining_dist(t_light *lights, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		lights[i].max_dist = max_light_distance_sq(lights[i]);
-		i++;
-	}
-}
-
 static bool	lights_for_aabb(t_scene *scene, t_aabb aabb, t_light ***out)
 {
 	t_light	*lights;
@@ -50,7 +38,7 @@ static bool	lights_for_aabb(t_scene *scene, t_aabb aabb, t_light ***out)
 	{
 		closest = aabb_closest_point(aabb, lights[i].pos);
 		if (vec3_squared_length(vec3_subtract(closest, lights[i].pos))
-			< lights[i].max_dist)
+			< max_light_distance_sq(lights[i]))
 			(*out)[j++] = &lights[i];
 		i++;
 	}

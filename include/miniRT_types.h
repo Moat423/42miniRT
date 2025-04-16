@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/08 13:53:35 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:25:20 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,13 @@ typedef struct s_objects
 
 typedef struct s_light
 {
+	/// Objects here are scene objects copied by value,
+	/// be careful about double free!!
 	t_objects	objects;
 	t_vec3	pos;
 	t_color	color;
 	/// 0.0-1.0
 	float	brightness;
-	/// Cutoff distance after which this light will have no effect on any object
-	float	max_dist;
 }	t_light;
 
 typedef struct s_ray
@@ -200,6 +200,7 @@ enum e_hit_type
 	TRUE,
 	CIRCLE
 };
+
 typedef struct s_object
 {
 	union {
@@ -210,7 +211,6 @@ typedef struct s_object
 		void		*any;
 	};
 	t_object_type	type;
-	//intersect_fn	intersect_fn;
 }	t_object;
 
 /// When successfully intersecting a Ray with an Object we can return

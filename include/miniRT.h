@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/10 11:23:41 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:31:36 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_camera	camera_new(t_vec3 pos, t_vec3 dir, uint32_t fov);
 t_ray		get_viewport_ray(t_scene *scene, float u, float v);
 
 /* PREPROCESS */
-void	set_lights_shining_dist(t_light *lights, size_t n);
 bool	malloc_light_objects(t_scene *scene);
 bool	fill_lights_for_objects(t_scene *scene);
 bool	fill_objects_for_lights(t_scene *scene);
