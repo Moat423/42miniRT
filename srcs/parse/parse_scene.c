@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/16 14:48:07 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:22:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,20 @@ static int	parse_file(int fd, t_scene *scene)
 }
 
 // checks for object type and sets object (except camera and ambient)
-static int	set_obj(char *line, t_scene *scene, int *indexi)
+static int	set_obj(char *line, t_scene *scene, int *arrray_of_i)
 {
 	if (!ft_strncmp(line, "L ", 2))
-		return (set_light(line, &(scene->lights[indexi[LIGHT]++])));
+		return (set_light(line, &(scene->lights[arrray_of_i[LIGHT]++])));
 	else if (!ft_strncmp(line, "sp ", 3))
-		return (set_sphere(line, &(scene->objs.spheres[indexi[SPHERE]++])));
+		return (set_sphere(line,
+				&(scene->objs.spheres[arrray_of_i[SPHERE]++])));
 	else if (!ft_strncmp(line, "pl ", 3))
-		return (set_plane(line, &(scene->objs.planes[indexi[PLANE]++])));
+		return (set_plane(line, &(scene->objs.planes[arrray_of_i[PLANE]++])));
 	else if (!ft_strncmp(line, "cy ", 3))
-		return (set_cylinder(line, &(scene->objs.cylinders[indexi[CYLINDER]++])));
+		return (set_cylinder(line,
+				&(scene->objs.cylinders[arrray_of_i[CYLINDER]++])));
 	else if (!ft_strncmp(line, "co ", 3))
-		return (set_cone(line, &(scene->objs.cones[indexi[CONE]++])));
+		return (set_cone(line, &(scene->objs.cones[arrray_of_i[CONE]++])));
 	else if (!ft_strncmp(line, "A ", 2))
 		return (set_ambient(line, &(scene->ambient)));
 	else if (!ft_strncmp(line, "C ", 2))
