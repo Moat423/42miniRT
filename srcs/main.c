@@ -6,27 +6,32 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/03 14:22:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:48:49 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 #include "../include/parse.h"
 
+// MANDATORY PART
 //TODO: valgrind!!
-//TODO: implement more options for dynamic camera movement or also object
-// movement/rotation for example pgup/pgdown to move the camera up and down
-// and mouse for rotation
+//TODO: implement more options for dynamic camera movement for example
+// pgup/pgdown to move the camera up and down and mouse for rotation
+//TODO: compile time checks for things that should be disabled if not compiling bonus
+// 1. single light
+// 2. cones
+//TODO: precalculate on scene parsing which lights might affect which objects
+// this will optimize large scenes with many lights which are scattered loosely around the scene
+// without this we will not be able to render large scenes with many lights sufficiently fast
+// for this we need to create bounding boxes for each object (except for the plane) and then
+// check if the bounding box is in range of a light source
+// the objects which are in range will be stored in another small scene struct specific to the light
+
+// BONUS PART (fork of mandatory)
 //TODO: checkerboard pattern
-//TODO: optimization for light calculation.
-// We currently try to check for every point if it is in shadow of
-// any/all lights no matter how far away the light is.
-// Quadratic slowdown per light on the scene.
-//TODO: bvh tree
-//TODO: shadow not get closest, but get any intersect
-//TODO: for bvh where we have arrays of pointers to generic objects,
-// we want to store their specific intersection function inside
-// the generic object struct
+//TODO: bump map textures
+//TODO: parallelize the raytracing (bonus only)
+//TODO: shadow not get closest, but instead get any intersect (bool)
 
 int	main(int argc, char **argv)
 {
