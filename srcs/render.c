@@ -12,21 +12,20 @@
 
 #include "../include/miniRT.h"
 
-static int32_t	rgb_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-{
-    return (r << 24 | g << 16 | b << 8 | a);
-}
+/* WINDOW_UTILS */
 
-void	render_raytraced(void *param)
+void	click_object(void *param);
+void	window_resize(int32_t width, int32_t height, void* param);
+void	window_close(void *param);
+
+static void	render_image(t_minirt *minirt)
 {
-	t_minirt	*minirt;
 	uint32_t	x;
 	uint32_t	y;
 	t_ray		ray;
 	size_t		i;
 	t_intersection	ix;
 
-	minirt = param;
 	y = 0;
 	while (y < minirt->scene.image_height)
 	{
@@ -48,71 +47,17 @@ void	render_raytraced(void *param)
 	}
 }
 
-// for now, fill all pixels with random RGB colors with full opacity
-void	render_random(void *param)
+static void	render(t_minirt *minirt)
 {
-	t_minirt	*minirt;
-	uint32_t	x;
-	uint32_t	y;
-	uint32_t	color;
-	uint32_t	*pixels;
-
-	minirt = param;
-	pixels = (uint32_t*)minirt->image->pixels;
-	y = 0;
-	while (y < minirt->scene.image_height)
-	{
-		x = 0;
-		while (x < minirt->scene.image_width)
-		{
-			color = rgb_pixel(rand() % 256, rand() % 256, rand() % 256, 255);
-			pixels[y * minirt->scene.image_width + x] = color;
-			x++;
-		}
-		y++;
-	}
-}
-
-void	render(void *param)
-{
-	double		before_render;
+	double	before_render;
 
 	before_render = mlx_get_time();
-	render_raytraced(param);
+	render_image(minirt);
 	printf("Rendered frame in %f seconds\n", mlx_get_time() - before_render);
 }
 
-void	window_resize(int32_t width, int32_t height, void* param)
-{
-	t_minirt	*minirt;
 
-	minirt = param;
-	if (minirt->image && minirt->mlx)
-	{
-		minirt->scene.image_width = width;
-		minirt->scene.image_height = height;
-		// TODO error handling like in render_loop
-		mlx_delete_image(minirt->mlx, minirt->image);
-		minirt->image = mlx_new_image(minirt->mlx, minirt->scene.image_width, minirt->scene.image_height);
-		mlx_image_to_window(minirt->mlx, minirt->image, 0, 0);
-		minirt->loop_state = RESIZING;
-		minirt->last_resize_time = mlx_get_time();
-		printf("Resized window to %dx%d\n", width, height);
-	}
-	else
-		printf("Tried to resize window with image or mlx == null.\n");
-}
-
-void	window_close(void *param)
-{
-	t_minirt	*minirt;
-
-	minirt = param;
-	(void)minirt;
-	printf("Window close hook called\n");
-}
-
-void	render_on_request(void *param)
+static void	render_on_request(void *param)
 {
 	t_minirt	*minirt;
 
@@ -121,50 +66,8 @@ void	render_on_request(void *param)
 		|| (minirt->loop_state == RESIZING
 			&& mlx_get_time() - minirt->last_resize_time > 0.5))
 	{
-		render((void*)minirt);
+		render(minirt);
 		minirt->loop_state = NO_ACTION;
-	}
-}
-
-void	print_intersect_at_screen_coord(void *param, uint32_t x, uint32_t y)
-{
-	t_minirt	*minirt;
-	t_intersection	ix;
-	t_ray		ray;
-
-	minirt = param;
-	ray = get_viewport_ray(&minirt->scene,
-		(float)x / (float)minirt->scene.image_width,
-		(float)y / (float)minirt->scene.image_height);
-	if (vec3_squared_length(trace_ray(&minirt->scene, ray, &ix)) == 0)
-	{
-		printf("No intersection found\n");
-		return ;
-	}
-	// print info: ix.distance, ix.point, ix.object, intersect_normal(&ix)
-	printf("---------------\n");
-	printf("Screen Coordinate: %d %d\n", x, y);
-	printf("Ray origin: %f %f %f\n", ray.origin.x, ray.origin.y, ray.origin.z);
-	printf("Distance: %f\n", ix.distance);
-	printf("Point: %f %f %f\n", ix.point.x, ix.point.y, ix.point.z);
-	printf("Object type: %d\n", ix.object.type);
-	printf("Normal: %f %f %f\n", intersect_normal(&ix).x,
-		intersect_normal(&ix).y,
-		intersect_normal(&ix).z);
-	printf("---------------\n");
-}
-
-void	click_object(void *param)
-{
-	t_minirt	*minirt;
-	int			x;
-	int			y;
-
-	minirt = param;
-	if (mlx_is_mouse_down(minirt->mlx, MLX_MOUSE_BUTTON_LEFT))
-	{
-		mlx_get_mouse_pos(minirt->mlx, &x, &y);
-		print_intersect_at_screen_coord(param, x, y);
 	}
 }
 
@@ -189,15 +92,13 @@ int	render_loop(t_minirt *minirt)
 		printf("Failed to create image: %s\n", mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	render((void*)minirt);
+	render(minirt);
 	if (mlx_image_to_window(minirt->mlx, minirt->image, 0, 0) == -1)
 	{
 		mlx_close_window(minirt->mlx);
 		printf("Failed to draw image to window: %s\n", mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	//mlx_loop_hook(mlx, ft_randomize, scene);
-	//mlx_loop_hook(mlx, ft_hook, scene);
 	mlx_loop_hook(minirt->mlx, click_object, minirt);
 	mlx_loop_hook(minirt->mlx, key_press, minirt);
 	mlx_loop_hook(minirt->mlx, render_on_request, minirt);
