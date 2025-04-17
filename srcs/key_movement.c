@@ -40,18 +40,17 @@ static bool	main_key_movement(t_minirt *minirt, t_vec3 right_direction)
 	return (true);
 }
 
-bool	key_movement(t_minirt *minirt,
-						t_vec3 right_direction, t_vec3 up_direction)
+bool	key_movement(t_minirt *minirt)
 {
 	t_camera	*camera;
 
 	camera = &minirt->scene.camera;
-	if (main_key_movement(minirt, right_direction))
+	if (main_key_movement(minirt, minirt->scene.camera.right))
 		return (true);
 	else if (mlx_is_key_down(minirt->mlx, MLX_KEY_Q))
-		camera->pos = update_camera_position(*camera, up_direction, -SPEED);
+		camera->pos = update_camera_position(*camera, minirt->scene.camera.up, -SPEED);
 	else if (mlx_is_key_down(minirt->mlx, MLX_KEY_E))
-		camera->pos = update_camera_position(*camera, up_direction, SPEED);
+		camera->pos = update_camera_position(*camera, minirt->scene.camera.up, SPEED);
 	else
 		return (false);
 	return (true);

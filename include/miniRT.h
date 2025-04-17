@@ -77,8 +77,7 @@ t_color	object_color(t_object object);
 t_camera	camera_new(t_vec3 pos, t_vec3 dir, uint32_t fov);
 t_ray		get_viewport_ray(t_scene *scene, float u, float v);
 void		key_press(void *param);
-bool	key_movement(t_minirt *minirt,
-						t_vec3 right_direction, t_vec3 up_direction);
+bool	key_movement(t_minirt *minirt);
 
 /* PREPROCESS */
 bool	malloc_light_objects(t_scene *scene);

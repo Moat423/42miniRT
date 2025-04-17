@@ -12,34 +12,48 @@
 
 #include "../include/miniRT.h"
 
-static bool	mouse_movement(t_camera *camera, t_coords delta,
-								t_vec3 right_direction, t_vec3 up_direction)
+static float limit_pitch_delta(t_vec3 dir, const float pitch_delta)
 {
-	float	pitch_delta;
-	float	yaw_delta;
-	t_quat	pitch_quat;
-	t_quat	yaw_quat;
-	t_quat	combined_rotation;
+	float				current_pitch;
+	float				new_pitch;
+	static const float	max_pitch = M_PI / 2 * 0.99f;
+
+	if (dir.y > 1.0)
+		dir.y = 1.0;
+	current_pitch = asinf(dir.y);
+	new_pitch = current_pitch + pitch_delta;
+	if (new_pitch > max_pitch)
+		return (max_pitch - current_pitch);
+	else if (new_pitch < -max_pitch)
+		return (-max_pitch - current_pitch);
+	return (pitch_delta);
+}
+
+static bool	mouse_movement(t_camera *camera, t_coords delta)
+{
+	float				pitch_delta;
+	t_quat				pitch_quat;
+	t_quat				yaw_quat;
+	t_quat				combined_rotation;
+	static const t_vec3	world_up = {0, 1, 0};
 
 	if (delta.x != 0 || delta.y != 0)
 	{
 		pitch_delta = -delta.y * SENSITIVITY;
-		yaw_delta = -delta.x * SENSITIVITY;
-		pitch_quat = quat_from_axis_angle(right_direction, pitch_delta);
-		yaw_quat = quat_from_axis_angle(up_direction, yaw_delta);
-		combined_rotation = quat_mul(yaw_quat, pitch_quat);
-		combined_rotation = quat_normalize(combined_rotation);
-		camera->dir = quat_rotate_vec3(combined_rotation, camera->dir);
-		camera->dir = vec3_normalize(camera->dir);
-		camera->right = vec3_cross(camera->dir, camera->up);
-		camera->right = vec3_normalize(camera->right);
+		pitch_delta = limit_pitch_delta(camera->dir, pitch_delta);
+		pitch_quat = quat_from_axis_angle(camera->right, pitch_delta);
+		yaw_quat = quat_from_axis_angle(world_up, -delta.x * SENSITIVITY);
+		combined_rotation = quat_normalize(quat_mul(yaw_quat, pitch_quat));
+		camera->dir = vec3_normalize(
+			quat_rotate_vec3(combined_rotation, camera->dir));
+		camera->right = vec3_normalize(vec3_cross(camera->dir, world_up));
+		camera->up = vec3_normalize(vec3_cross(camera->right, camera->dir));
 		return (true);
 	}
 	return (false);
 }
 
-static	bool	camera_movement(t_minirt *minirt,
-								t_vec3 right_direction, t_vec3 up_direction)
+static	bool	camera_movement(t_minirt *minirt)
 {
 	static t_coords	last = {-1, -1};
 	static bool		was_mouse_down = false;
@@ -62,7 +76,7 @@ static	bool	camera_movement(t_minirt *minirt,
 		return (false);
 	}
 	ret = mouse_movement(camera, (t_coords){(current.x - last.x),
-			(current.y - last.y)}, right_direction, up_direction);
+			(current.y - last.y)});
 	last.x = current.x;
 	last.y = current.y;
 	return (ret);
@@ -70,16 +84,9 @@ static	bool	camera_movement(t_minirt *minirt,
 
 static void	movement(t_minirt *minirt)
 {
-	t_vec3		right_direction;
-	t_vec3		up_direction;
-
-	right_direction = vec3_cross(minirt->scene.camera.dir,
-			minirt->scene.camera.up);
-	up_direction = vec3_cross(minirt->scene.camera.dir,
-			minirt->scene.camera.right);
-	if (camera_movement(minirt, right_direction, up_direction))
+	if (camera_movement(minirt))
 		minirt->loop_state = DEFERRED_RENDER;
-	if (key_movement(minirt, right_direction, up_direction))
+	if (key_movement(minirt))
 		minirt->loop_state = DEFERRED_RENDER;
 	else if (minirt->loop_state == DEFERRED_RENDER)
 		minirt->loop_state = RENDER_NOW;
