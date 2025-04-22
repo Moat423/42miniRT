@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 13:19:53 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/15 16:10:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:03:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static bool	mouse_movement(t_camera *camera, t_coords delta)
 		yaw_quat = quat_from_axis_angle(world_up, -delta.x * SENSITIVITY);
 		combined_rotation = quat_normalize(quat_mul(yaw_quat, pitch_quat));
 		camera->dir = vec3_normalize(
-			quat_rotate_vec3(combined_rotation, camera->dir));
+				quat_rotate_vec3(combined_rotation, camera->dir));
 		camera->right = vec3_normalize(vec3_cross(camera->dir, world_up));
 		camera->up = vec3_normalize(vec3_cross(camera->right, camera->dir));
 		return (true);
@@ -90,6 +90,11 @@ static void	movement(t_minirt *minirt)
 		minirt->loop_state = DEFERRED_RENDER;
 	else if (minirt->loop_state == DEFERRED_RENDER)
 		minirt->loop_state = RENDER_NOW;
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
+	{
+		printf("Escape key pressed, closing window\n");
+		mlx_close_window(minirt->mlx);
+	}
 }
 
 void	key_press(void *param)
@@ -97,10 +102,5 @@ void	key_press(void *param)
 	t_minirt	*minirt;
 
 	minirt = param;
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
-	{
-		printf("Escape key pressed, closing window\n");
-		mlx_close_window(minirt->mlx);
-	}
 	movement(minirt);
 }
