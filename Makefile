@@ -27,7 +27,7 @@ MLX_DIR		:= lib/mlx
 
 DIRS = $(addprefix $(OBJ_DIR)/, . util parse)
 
-CC := cc
+CC := clang
 NAME := miniRT
 INCLUDES := -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
