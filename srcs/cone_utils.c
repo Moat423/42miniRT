@@ -19,5 +19,5 @@ t_vec3	calc_cone_normal(const t_vec3 hit_point, const t_vec3 top,
 	t_vec3	axis_point;
 
 	axis_point = vec3_add(top, vec3_multiply(axis, m));
-	return (vec3_normalize(vec3_subtract(hit_point, axis_point)));
+	return (vec3_subtract(hit_point, axis_point));
 }

@@ -119,6 +119,6 @@ bool	cone_intersect(t_cone *cone, const t_ray ray, t_intersection *out)
 		return (true);
 	}
 	out->normal = calc_cone_normal(out->point, cone->top, cone->axis, hit_proj);
-	out->normal_calculated = true;
+	out->normal_calculated = false;
 	return (true);
 }
