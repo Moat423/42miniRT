@@ -6,13 +6,13 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 13:19:53 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/22 14:03:57 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:04:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-static float limit_pitch_delta(t_vec3 dir, const float pitch_delta)
+static float	limit_pitch_delta(t_vec3 dir, const float pitch_delta)
 {
 	float				current_pitch;
 	float				new_pitch;
