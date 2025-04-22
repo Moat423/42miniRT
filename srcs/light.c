@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:07:42 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/03/31 13:35:54 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:07:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,19 @@
 *where R = 2*(N·L)*N - L
 */
 static	t_color	original_phong(const t_vec3 view_dir, const t_vec3 hit_normal,
-							  const float l_attenuation, const t_color l_color, t_vec3 light_dir)
+							const float l_attenuation, const t_color l_color, t_vec3 light_dir)
 {
 	t_color	mixed_color;
 	float	specular;
 	t_color	spec_color;
-
-    float n_dot_l = vec3_dot(hit_normal, light_dir);
-    t_vec3 reflection = vec3_subtract(
-        vec3_multiply(hit_normal, 2.0f * n_dot_l),
-        light_dir
-    );
+	float	n_dot_l;
+	t_vec3	reflection;
+	
+	n_dot_l = vec3_dot(hit_normal, light_dir);
+	reflection = vec3_subtract(
+			vec3_multiply(hit_normal, 2.0f * n_dot_l),
+			light_dir
+			);
 	mixed_color = vec3_component_mul(MATERIAL_COLOR, l_color);
 	specular = powi(fmaxf(vec3_dot(reflection, view_dir), 0.0f), SHININESS);
 	spec_color = vec3_multiply(mixed_color, (specular * l_attenuation));
@@ -55,7 +57,8 @@ static	t_color	original_phong(const t_vec3 view_dir, const t_vec3 hit_normal,
 
 // Diffuse = Kd * Id * max(0, N·L)
 // Specular = Ks * Is * max(0, R·V)^shininess
-t_color	calc_lights(const t_light light, const t_ray ray, t_intersection its, t_light_ray l)
+t_color	calc_lights(const t_light light, const t_ray ray,
+					t_intersection its, t_light_ray l)
 {
 	t_color	diffuse;
 	t_color	spec_color;

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 15:21:12 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:01:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* WINDOW_UTILS */
 
 void	click_object(void *param);
-void	window_resize(int32_t width, int32_t height, void* param);
+void	window_resize(int32_t width, int32_t height, void *param);
 void	window_close(void *param);
 
 static void	render_image(t_minirt *minirt)
@@ -34,8 +34,8 @@ static void	render_image(t_minirt *minirt)
 		{
 			i = (y * minirt->scene.image_width + x) * 4;
 			ray = get_viewport_ray(&minirt->scene,
-				(float)x / (float)minirt->scene.image_width,
-				(float)y / (float)minirt->scene.image_height);
+					(float)x / (float)minirt->scene.image_width,
+					(float)y / (float)minirt->scene.image_height);
 			color_to_rgb(trace_ray(&minirt->scene, ray, &ix),
 				&minirt->image->pixels[i],
 				&minirt->image->pixels[i + 1],
@@ -55,7 +55,6 @@ static void	render(t_minirt *minirt)
 	render_image(minirt);
 	printf("Rendered frame in %f seconds\n", mlx_get_time() - before_render);
 }
-
 
 static void	render_on_request(void *param)
 {
@@ -79,25 +78,27 @@ int	render_loop(t_minirt *minirt)
 	t_scene	*scene;
 
 	scene = &minirt->scene;
-	minirt->mlx = mlx_init(scene->image_width, scene->image_height, "miniRT", true);
+	minirt->mlx = mlx_init(scene->image_width,
+			scene->image_height, "miniRT", true);
 	if (!minirt->mlx)
 	{
 		printf("Failed to initialize MLX: %s\n", mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
-	minirt->image = mlx_new_image(minirt->mlx, scene->image_width, scene->image_height);
+	minirt->image = mlx_new_image(minirt->mlx,
+			scene->image_width, scene->image_height);
 	if (!minirt->image)
 	{
 		mlx_close_window(minirt->mlx);
 		printf("Failed to create image: %s\n", mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	render(minirt);
 	if (mlx_image_to_window(minirt->mlx, minirt->image, 0, 0) == -1)
 	{
 		mlx_close_window(minirt->mlx);
 		printf("Failed to draw image to window: %s\n", mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	mlx_loop_hook(minirt->mlx, click_object, minirt);
 	mlx_loop_hook(minirt->mlx, key_press, minirt);

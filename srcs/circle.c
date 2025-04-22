@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:57:20 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/09 13:32:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:08:16 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ bool	circle_intersect(t_circle circle, t_ray ray,
 	if (!interval_contains(ray.range, t))
 		return (false);
 	hit_point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
-	// the (1.0f + EPSILON) is to account for floating point errors, can be taken out
 	if (vec3_squared_length(vec3_subtract(hit_point, circle.center))
 		<= circle.radius * circle.radius * (1.0f + EPSILON))
 	{

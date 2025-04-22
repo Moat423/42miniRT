@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:42 by kwurster          #+#    #+#             */
-/*   Updated: 2025/03/24 16:39:55 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:09:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ t_camera	camera_new(t_vec3 pos, t_vec3 dir, uint32_t fov)
 	return (result);
 }
 
+// does (degrees to randians) / 2 uses that to 
+// return height factor
 static float	get_height_factor(t_camera *cam)
 {
 	float	half_fov;
 
-	/// (degrees to radians) / 2
 	half_fov = (cam->fov * (M_PI / 180.0)) / 2;
-	/// height factor
 	return (tanf(half_fov));
 }
 
@@ -47,16 +47,13 @@ t_ray	get_viewport_ray(t_scene *scene, float u, float v)
 	float		view_width;
 	float		view_height;
 
-	/// Flip v coordinate to not produce a upside down mirrored image
 	v = 1.0 - v;
 	ray.origin = scene->camera.pos;
 	ray.direction = scene->camera.dir;
 	view_height = 2 * get_height_factor(&scene->camera);
 	view_width = view_height * image_aspect_ratio(scene);
-	// Calculate offset from center of viewport
 	view_u = vec3_multiply(scene->camera.right, view_width * (u - 0.5f));
 	view_v = vec3_multiply(scene->camera.up, view_height * (v - 0.5f));
-	// Apply offset to our ray direction
 	ray.direction = vec3_add(ray.direction, vec3_add(view_u, view_v));
 	ray.direction = vec3_normalize(ray.direction);
 	ray.range = interval_new(0.0f, INFINITY);

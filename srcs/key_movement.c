@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:10:13 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/15 16:11:22 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:07:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ bool	key_movement(t_minirt *minirt)
 	if (main_key_movement(minirt, minirt->scene.camera.right))
 		return (true);
 	else if (mlx_is_key_down(minirt->mlx, MLX_KEY_Q))
-		camera->pos = update_camera_position(*camera, minirt->scene.camera.up, -SPEED);
+		camera->pos = update_camera_position(*camera,
+				minirt->scene.camera.up, -SPEED);
 	else if (mlx_is_key_down(minirt->mlx, MLX_KEY_E))
-		camera->pos = update_camera_position(*camera, minirt->scene.camera.up, SPEED);
+		camera->pos = update_camera_position(*camera,
+				minirt->scene.camera.up, SPEED);
 	else
 		return (false);
 	return (true);

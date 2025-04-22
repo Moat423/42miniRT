@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   aabb.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 16:10:21 by lmeubrin          #+#    #+#             */
+/*   Updated: 2025/04/22 16:10:25 by lmeubrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/miniRT.h"
 
 /**
@@ -11,7 +23,6 @@ t_vec3	aabb_closest_point(t_aabb aabb, t_vec3 point)
 	result.x = fmaxf(aabb.min.x, fminf(point.x, aabb.max.x));
 	result.y = fmaxf(aabb.min.y, fminf(point.y, aabb.max.y));
 	result.z = fmaxf(aabb.min.z, fminf(point.z, aabb.max.z));
-
 	return (result);
 }
 
@@ -25,17 +36,15 @@ t_aabb	sphere_aabb(t_sphere *sphere)
 	t_aabb	aabb;
 
 	aabb.min = vec3_new(
-		sphere->pos.x - sphere->radius,
-		sphere->pos.y - sphere->radius,
-		sphere->pos.z - sphere->radius
-	);
-
+			sphere->pos.x - sphere->radius,
+			sphere->pos.y - sphere->radius,
+			sphere->pos.z - sphere->radius
+			);
 	aabb.max = vec3_new(
-		sphere->pos.x + sphere->radius,
-		sphere->pos.y + sphere->radius,
-		sphere->pos.z + sphere->radius
-	);
-
+			sphere->pos.x + sphere->radius,
+			sphere->pos.y + sphere->radius,
+			sphere->pos.z + sphere->radius
+			);
 	return (aabb);
 }
 
@@ -53,7 +62,6 @@ t_aabb	cylinder_aabb(t_cylinder *cylinder)
 	aabb.max.x = fmaxf(cylinder->top.x, cylinder->bottom.x) + cylinder->radius;
 	aabb.max.y = fmaxf(cylinder->top.y, cylinder->bottom.y) + cylinder->radius;
 	aabb.max.z = fmaxf(cylinder->top.z, cylinder->bottom.z) + cylinder->radius;
-
 	return (aabb);
 }
 
@@ -71,7 +79,6 @@ t_aabb	cone_aabb(t_cone *cone)
 	aabb.max.x = fmaxf(cone->top.x, cone->bottom.x) + cone->radius;
 	aabb.max.y = fmaxf(cone->top.y, cone->bottom.y) + cone->radius;
 	aabb.max.z = fmaxf(cone->top.z, cone->bottom.z) + cone->radius;
-
 	return (aabb);
 }
 
