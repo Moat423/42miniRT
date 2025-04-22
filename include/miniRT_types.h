@@ -171,14 +171,24 @@ typedef struct s_cone
 
 typedef struct s_objects
 {
-	t_sphere	*spheres;
-	t_plane		*planes;
-	t_cylinder	*cylinders;
-	t_cone		*cones;
-	size_t		sphere_count;
-	size_t		plane_count;
-	size_t		cylinder_count;
-	size_t		cone_count;
+	union {
+		struct {
+			t_sphere	*spheres;
+			t_plane		*planes;
+			t_cylinder	*cylinders;
+			t_cone		*cones;
+		};
+		void			*objs[4];
+	};
+	union {
+		struct {
+			size_t		sphere_count;
+			size_t		plane_count;
+			size_t		cylinder_count;
+			size_t		cone_count;
+		};
+		size_t			objs_n[4];
+	};
 }	t_objects;
 
 typedef struct s_light
@@ -212,8 +222,8 @@ typedef enum e_object_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
-	LIGHT,
 	CONE,
+	LIGHT,
 }	t_object_type;
 
 enum e_hit_type

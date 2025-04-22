@@ -37,8 +37,6 @@ static t_color	ambient(t_scene *scene, t_object object)
 			scene->ambient.brightness));
 }
 
-bool	any_intersect(t_scene *scene, t_ray ray);
-
 static bool is_in_shadow(t_scene *scene, t_ray ray, t_light light)
 {
     t_intersection   intersection;
