@@ -45,7 +45,7 @@ CFLAGS := -Werror -Wall -Wextra #-g
 LDFLAGS += -L./$(MLX_DIR)/build -lmlx42 #-g
 # Ofast might instroduce race conditions in multithreading
 # 03 is fast and safer
-OPTIM_FLAGS := -O3
+OPTIM_FLAGS := -O3 -march=native
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
