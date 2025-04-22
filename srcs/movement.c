@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 13:19:53 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/15 16:10:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/22 10:11:53 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ static void	movement(t_minirt *minirt)
 		minirt->loop_state = DEFERRED_RENDER;
 	else if (minirt->loop_state == DEFERRED_RENDER)
 		minirt->loop_state = RENDER_NOW;
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
+	{
+		printf("Escape key pressed, closing window\n");
+		mlx_close_window(minirt->mlx);
+	}
 }
 
 void	key_press(void *param)
@@ -90,10 +95,7 @@ void	key_press(void *param)
 	t_minirt	*minirt;
 
 	minirt = param;
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
-	{
-		printf("Escape key pressed, closing window\n");
-		mlx_close_window(minirt->mlx);
-	}
+  if (!minirt->mlx)
+    return ;
 	movement(minirt);
 }
