@@ -71,7 +71,6 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		render.c \
 		movement.c \
 		key_movement.c \
-		trace_ray.c \
 		intersect.c \
 		sphere.c \
 		object.c \

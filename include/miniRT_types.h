@@ -64,7 +64,9 @@
 #  define LIGHT_DIST 30.0f
 # endif
 
-typedef struct s_light t_light;
+typedef void			(*t_param_fn)(void *);
+
+typedef struct s_light	t_light;
 
 typedef enum e_abc
 {
@@ -80,13 +82,13 @@ typedef struct s_vec3
 	float	z;
 }	t_vec3;
 
-typedef t_vec3	t_color;
+typedef t_vec3			t_color;
 
 typedef struct s_aabb
 {
 	t_vec3	min;
 	t_vec3	max;
-} t_aabb;
+}	t_aabb;
 
 typedef struct s_quat
 {
