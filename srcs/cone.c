@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/22 17:36:30 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/23 13:51:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	float	get_discriminant(const t_vec3 ray_dir, const t_calc cc,
 	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 }
 
-static t_calc	prep_cone_calc(const t_ray ray, const t_cone *cone)
+static t_calc	prep_cone_calc(t_ray ray, const t_cone *cone)
 {
 	t_calc	cc;
 
@@ -49,16 +49,8 @@ static bool	cone_calc(const t_cone *cone, const t_ray ray,
 
 	*cc = prep_cone_calc(ray, cone);
 	discriminant = get_discriminant(ray.direction, *cc, abc);
-	if (discriminant < EPSILON || (fabs(abc[C]) < EPSILON))
+	if (discriminant < 0 || (fabs(abc[C]) < EPSILON))
 		return (false);
-	if (fabs(abc[A]) < EPSILON)
-	{
-		if (fabs(abc[B]) < EPSILON)
-			return (false);
-		t[0] = -abc[C] / abc[B];
-		t[1] = t[0];
-		return (true);
-	}
 	sqrt_d = sqrtf(discriminant);
 	t[0] = (-abc[B] - sqrt_d) / (2 * abc[A]);
 	t[1] = (-abc[B] + sqrt_d) / (2 * abc[A]);
@@ -94,31 +86,31 @@ static float	cone_body_hit(t_calc cc, const t_ray ray,
 	return (-1);
 }
 
-bool	cone_intersect(t_cone *cone, const t_ray ray, t_intersection *out)
+bool	cone_intersect(t_cone *co, const t_ray ray, t_intersection *out)
 {
 	t_calc		cc;
 	float		t[2];
 	t_vec3		hit_point;
 	float		hit_proj;
 
-	out->object = (t_object){.cone = cone, .type = CONE};
-	out->normal = cone->axis;
+	out->object = (t_object){.cone = co, .type = CONE};
+	out->normal = co->axis;
 	out->normal_calculated = true;
-	if (!cone_calc(cone, ray, t, &cc))
-		return (circle_intersect((t_circle){cone->bottom, cone->axis,
-				cone->radius}, ray, &(out->distance), &(out->point)));
+	if (!cone_calc(co, ray, t, &cc))
+		return (cc.d_dot_n < 0 && circle_intersect((t_circle){co->bottom,
+				co->axis, co->radius}, ray, &(out->distance), &(out->point)));
 	hit_proj = cone_body_hit(cc, ray, out, t);
 	if (hit_proj == -1)
-		return (circle_intersect((t_circle){cone->bottom, cone->axis,
-				cone->radius}, ray, &(out->distance), &(out->point)));
-	if (circle_intersect((t_circle){cone->bottom, cone->axis, cone->radius}, 
+		return (cc.d_dot_n < 0 && circle_intersect((t_circle){co->bottom,
+				co->axis, co->radius}, ray, &(out->distance), &(out->point)));
+	if (circle_intersect((t_circle){co->bottom, co->axis, co->radius}, 
 		ray, &(t[1]), &(hit_point)) && out->distance > t[1])
 	{
 		out->distance = t[1];
 		out->point = hit_point;
 		return (true);
 	}
-	out->normal = calc_cone_normal(out->point, cone->top, cone->axis, hit_proj);
+	out->normal = calc_cone_normal(out->point, co->top, co->axis, hit_proj);
 	out->normal_calculated = false;
 	return (true);
 }
