@@ -12,74 +12,93 @@
 
 #include "../include/miniRT.h"
 
-static void	print_intersect_at_screen_coord(void *param, uint32_t x, uint32_t y)
+void	window_image_init(t_minirt *minirt)
 {
-	t_minirt		*minirt;
+	minirt->image = mlx_new_image(minirt->mlx,
+			minirt->scene.image_width, minirt->scene.image_height);
+	if (!minirt->image)
+	{
+		printf("Failed to create image: %s\n", mlx_strerror(mlx_errno));
+		minirt_exit(minirt, EXIT_FAILURE);
+	}
+	if (mlx_image_to_window(minirt->mlx, minirt->image, 0, 0) == -1)
+	{
+		printf("Failed to draw image to window: %s\n", mlx_strerror(mlx_errno));
+		minirt_exit(minirt, EXIT_FAILURE);
+	}
+}
+
+void	window_init(t_minirt *minirt)
+{
+	t_scene	*scene;
+
+	scene = &minirt->scene;
+	minirt->mlx = mlx_init(scene->image_width,
+			scene->image_height, "miniRT", true);
+	if (!minirt->mlx)
+	{
+		printf("Failed to initialize MLX: %s\n", mlx_strerror(mlx_errno));
+		minirt_exit(minirt, EXIT_FAILURE);
+	}
+	window_image_init(minirt);
+}
+
+static void	print_intersect_at_screen_coord(t_minirt *minirt,
+	uint32_t x, uint32_t y)
+{
 	t_intersection	ix;
 	t_ray			ray;
 
-	minirt = param;
 	ray = get_viewport_ray(&minirt->scene,
 			(float) x / (float) minirt->scene.image_width,
 			(float) y / (float) minirt->scene.image_height);
-	if (vec3_squared_length(trace_ray(&minirt->scene, ray, &ix)) == 0)
+	trace_ray(&minirt->scene, ray, &ix);
+	if (ix.object.any == NULL)
 	{
 		printf("No intersection found\n");
 		return ;
 	}
 	printf("---------------\n");
-	printf("Screen Coordinate: %d %d\n", x, y);
-	printf("Ray origin: %f %f %f\n", ray.origin.x, ray.origin.y, ray.origin.z);
-	printf("Distance: %f\n", ix.distance);
-	printf("Point: %f %f %f\n", ix.point.x, ix.point.y, ix.point.z);
-	printf("Object type: %d\n", ix.object.type);
-	printf("Normal: %f %f %f\n", intersect_normal(&ix).x,
+	printf("pixel at %d %d\n", x, y);
+	printf("cam: %f %f %f\n", ray.origin.x, ray.origin.y, ray.origin.z);
+	printf("distance: %f\n", ix.distance);
+	printf("intersection: %f %f %f\n", ix.point.x, ix.point.y, ix.point.z);
+	printf("object type: %d\n", ix.object.type);
+	printf("surface normal: %f %f %f\n", intersect_normal(&ix).x,
 		intersect_normal(&ix).y,
 		intersect_normal(&ix).z);
 	printf("---------------\n");
 }
 
-void	click_object(void *param)
+void	click_object(t_minirt *minirt)
 {
-	t_minirt	*minirt;
-	int			x;
-	int			y;
+	static int		x[2] = {0, 0};
+	static int		y[2] = {0, 0};
+	static float	last_cam_pos[2] = {-INFINITY, -INFINITY};
 
-	minirt = param;
 	if (mlx_is_mouse_down(minirt->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
-		mlx_get_mouse_pos(minirt->mlx, &x, &y);
-		print_intersect_at_screen_coord(param, x, y);
+		mlx_get_mouse_pos(minirt->mlx, x, y);
+		last_cam_pos[0] = vec3_squared_length(vec3_add(minirt->scene.camera.pos,
+					minirt->scene.camera.dir));
+		if (x[0] != x[1] || y[0] != y[1] || last_cam_pos[1] != last_cam_pos[0])
+			print_intersect_at_screen_coord(minirt, x[0], y[0]);
+		x[1] = x[0];
+		y[1] = y[0];
+		last_cam_pos[1] = last_cam_pos[0];
 	}
 }
 
-void	window_resize(int32_t width, int32_t height, void *param)
+void	window_resize(int32_t width, int32_t height, t_minirt *minirt)
 {
-	t_minirt	*minirt;
-
-	minirt = param;
 	if (minirt->image && minirt->mlx)
 	{
 		minirt->scene.image_width = width;
 		minirt->scene.image_height = height;
-		// TODO: error handling like in render_loop
 		mlx_delete_image(minirt->mlx, minirt->image);
-		minirt->image = mlx_new_image(minirt->mlx,
-				minirt->scene.image_width, minirt->scene.image_height);
-		mlx_image_to_window(minirt->mlx, minirt->image, 0, 0);
+		window_image_init(minirt);
 		minirt->loop_state = RESIZING;
 		minirt->last_resize_time = mlx_get_time();
 		printf("Resized window to %dx%d\n", width, height);
 	}
-	else
-		printf("Tried to resize window with image or mlx == null.\n");
-}
-
-void	window_close(void *param)
-{
-	t_minirt	*minirt;
-
-	minirt = param;
-	(void)minirt;
-	printf("Window close hook called\n");
 }

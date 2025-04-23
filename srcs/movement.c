@@ -82,25 +82,28 @@ static	bool	camera_movement(t_minirt *minirt)
 	return (ret);
 }
 
-static void	movement(t_minirt *minirt)
+void	movement(t_minirt *minirt)
 {
+	bool	moved;
+
+	moved = false;
 	if (camera_movement(minirt))
-		minirt->loop_state = DEFERRED_RENDER;
+		moved = true;
 	if (key_movement(minirt))
-		minirt->loop_state = DEFERRED_RENDER;
-	else if (minirt->loop_state == DEFERRED_RENDER)
+		moved = true;
+	if (minirt->loop_state == DEFERRED_RENDER)
 		minirt->loop_state = RENDER_NOW;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
 	{
 		printf("Escape key pressed, closing window\n");
 		mlx_close_window(minirt->mlx);
 	}
-}
-
-void	key_press(void *param)
-{
-	t_minirt	*minirt;
-
-	minirt = param;
-	movement(minirt);
+	if (moved)
+	{
+		minirt->loop_state = DEFERRED_RENDER;
+		printf("Camera Position: (%f, %f, %f)\n", minirt->scene.camera.pos.x,
+			minirt->scene.camera.pos.y, minirt->scene.camera.pos.z);
+		printf("Camera Direction: (%f, %f, %f)\n", minirt->scene.camera.dir.x,
+			minirt->scene.camera.dir.y, minirt->scene.camera.dir.z);
+	}
 }

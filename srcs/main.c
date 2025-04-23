@@ -50,11 +50,25 @@
 //TODO: parallelize the raytracing (bonus only)
 //TODO: shadow not get closest, but instead get any intersect (bool)
 
+void	minirt_exit(t_minirt *minirt, int status)
+{
+	mlx_close_window(minirt->mlx);
+	if (minirt->image)
+		mlx_delete_image(minirt->mlx, minirt->image);
+	minirt->image = NULL;
+	mlx_terminate(minirt->mlx);
+	minirt->mlx = NULL;
+	scene_destroy(&minirt->scene);
+	exit(status);
+}
+
+void	calculate_derived_scene_values(t_scene *scene);
+void	fix_unnormalized_scene_vectors(t_scene *scene);
+
 int	main(int argc, char **argv)
 {
 	t_minirt	minirt;
 	t_scene		*scene;
-	int			exit_code;
 
 	minirt = (t_minirt){0};
 	scene = &minirt.scene;
@@ -71,15 +85,10 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	printf("Printing scene...\n");
+	fix_unnormalized_scene_vectors(scene);
+	calculate_derived_scene_values(scene);
 	print_scene(scene);
 	scene->image_width = 800;
 	scene->image_height = 600;
-	exit_code = render_loop(&minirt);
-	printf("exit code: %d\nCleaning up...", exit_code);
-	mlx_delete_image(minirt.mlx, minirt.image);
-	minirt.image = NULL;
-	mlx_terminate(minirt.mlx);
-	minirt.mlx = NULL;
-	scene_destroy(scene);
-	return (0);
+	minirt_exit(&minirt, render_loop(&minirt));
 }

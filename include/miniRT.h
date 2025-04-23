@@ -15,6 +15,10 @@
 
 # include "miniRT_types.h"
 
+/* MAIN */
+
+void	minirt_exit(t_minirt *minirt, int status);
+
 /* RENDER */
 
 int		render_loop(t_minirt *minirt);
