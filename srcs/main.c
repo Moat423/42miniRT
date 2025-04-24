@@ -78,6 +78,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	printf("Scene loaded successfully\n");
+	fix_unnormalized_scene_vectors(scene);
+	calculate_derived_scene_values(scene);
 	if (!fill_lights_for_objects(scene) || !malloc_light_objects(scene)
 		|| !fill_objects_for_lights(scene))
 	{
@@ -85,8 +87,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	printf("Printing scene...\n");
-	fix_unnormalized_scene_vectors(scene);
-	calculate_derived_scene_values(scene);
 	print_scene(scene);
 	scene->image_width = 800;
 	scene->image_height = 600;
