@@ -12,7 +12,7 @@
 
 #include "../include/miniRT.h"
 
-bool	circle_intersect(t_circle circle, t_ray ray, 
+bool	circle_intersect(t_circle circle, t_ray ray,
 						float *o_dist, t_vec3 *o_pt)
 {
 	float	t;
@@ -37,7 +37,7 @@ bool	circle_intersect(t_circle circle, t_ray ray,
 	return (false);
 }
 
-bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray, 
+bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray,
 								t_intersection *out)
 {
 	t_vec3	hit_point[2];
@@ -46,7 +46,10 @@ bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray,
 	out->normal = cylinder->axis;
 	out->normal_calculated = true;
 	if (!circle_intersect((t_circle){cylinder->top, cylinder->axis, cylinder->radius}, ray, &(hit_dist[0]), &(hit_point[0])))
+	{
+		out->normal = vec3_multiply(out->normal, -1);
 		return (circle_intersect((t_circle){cylinder->bottom, cylinder->axis, cylinder->radius}, ray, &(out->distance), &(out->point)));
+	}
 	if (!circle_intersect((t_circle){cylinder->bottom, cylinder->axis, cylinder->radius}, ray, &(hit_dist[1]), &(hit_point[1])))
 	{
 		out->distance = hit_dist[0];
@@ -59,6 +62,7 @@ bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray,
 		out->point = hit_point[0];
 		return (true);
 	}
+	out->normal = vec3_multiply(out->normal, -1);
 	out->distance = hit_dist[1];
 	out->point = hit_point[1];
 	return (true);
