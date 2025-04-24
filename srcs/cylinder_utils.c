@@ -18,17 +18,22 @@
 /// @param m The projection of the intersection point on the cylinder axis
 static void	set_intersect_normal(t_intersection *intersection, float m)
 {
-	intersection->normal = vec3_subtract(
-			intersection->point,
-			vec3_add(intersection->object.cylinder->bottom,
-				vec3_multiply(intersection->object.cylinder->axis, m))
-			);
-	intersection->normal_calculated = false;
+	const t_cylinder	*cylinder;
+
+	cylinder = intersection->object.cylinder;
+	intersection->normal = vec3_divide(
+			vec3_subtract(
+				intersection->point,
+				vec3_add(cylinder->bottom,
+					vec3_multiply(cylinder->axis, m))
+				),
+			cylinder->radius);
+	intersection->normal_calculated = true;
 }
 
 /// returns the projection of vector v on the axis of the cylinder
 /// also known as "m"
-/// if the resulting float value is between 0 and height, 
+/// if the resulting float value is between 0 and height,
 /// the point is on the cylinder body
 static float	projected_len_on_axis(t_cylinder *cyl, t_vec3 v)
 {
@@ -56,7 +61,7 @@ bool	cylinder_check_body_hit(t_cylinder *cylinder, const t_ray ray,
 	return (false);
 }
 
-// if the first hit was not a true hit on the cylinder body 
+// if the first hit was not a true hit on the cylinder body
 // or the ray was not aligned with the axis
 // then this functions is used to check wich next closest hit is viable
 bool	cylinder_second_hit(t_cylinder *cylinder, const t_ray ray,

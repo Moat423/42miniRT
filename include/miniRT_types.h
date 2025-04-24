@@ -32,7 +32,7 @@
 
 # ifndef EPSILON
 /// tolerance value for floating point comparisons
-#  define EPSILON 0.001
+#  define EPSILON 0.0001
 # endif
 
 # ifndef MATERIAL_COLOR
@@ -228,12 +228,12 @@ typedef enum e_object_type
 	LIGHT,
 }	t_object_type;
 
-enum e_hit_type
+typedef enum e_hit_type
 {
-	FALSE,
-	TRUE,
-	CIRCLE
-};
+	X_FALSE,
+	X_TRUE,
+	X_CIRCLE
+}	t_hit_type;
 
 typedef struct s_object
 {
