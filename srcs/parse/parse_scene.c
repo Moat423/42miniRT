@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/25 13:20:07 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:22:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,7 @@ static int	get_arrays(int fd, t_scene *scene)
 
 	ft_bzero(indexi, sizeof(int) * OBJ_NUM);
 	if (!ft_malloc_scene_arrays(scene))
-	{
-		scene_destroy(scene);
 		return (0);
-	}
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -128,10 +125,7 @@ static int	get_arrays(int fd, t_scene *scene)
 		if (line[0] == '\n')
 			;
 		else if (!set_obj(line, scene, indexi))
-		{
-			scene_destroy(scene);
 			return (0);
-		}
 		free(line);
 	}
 	get_next_line(-1);

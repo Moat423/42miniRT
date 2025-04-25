@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/02 10:22:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:54:42 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,21 @@ int	set_cone(char *line, t_cone *cone)
 
 	i = 3;
 	i = set_vec(line, i, &(cone->top));
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = ft_skip_space(line, i);
 	i = set_vec(line, i, &(cone->axis));
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = ft_substrtof(&(cone->radius), i, line);
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	cone->radius /= 2;
 	i = ft_substrtof(&(cone->height), i, line);
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = set_color(line, i, &(cone->color));
-	if (!i)
+	if (!i || line[i] != '\n')
 		return (0);
 	cone->bottom = move_point(cone->top, cone->axis, cone->height);
 	cone->slant = cone->radius / cone->height;
@@ -74,11 +74,11 @@ int	set_sphere(char *line, t_sphere *sphere)
 	error = 0;
 	(void)error;
 	i = set_vec(line, i, &(sphere->pos));
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = ft_skip_space(line, i);
 	i = ft_substrtof(&(sphere->radius), i, line);
-	if (!i)
+	if (!i || (line[i] != ' ' || line[i] != '\n'))
 		return (0);
 	sphere->radius /= 2;
 	if (line[i] != '\n')
@@ -100,11 +100,11 @@ int	set_plane(char *line, t_plane *plane)
 
 	i = 3;
 	i = set_vec(line, i, &(plane->pos));
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = ft_skip_space(line, i);
 	i = set_vec(line, i, &(plane->normal));
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = ft_skip_space(line, i);
 	if (line[i] != '\n')
@@ -130,21 +130,21 @@ int	set_cylinder(char *line, t_cylinder *cyl)
 
 	i = 3;
 	i = set_vec(line, i, &(cyl->pos));
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = ft_skip_space(line, i);
 	i = set_vec(line, i, &(cyl->axis));
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = ft_substrtof(&(cyl->radius), i, line);
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	cyl->radius /= 2;
 	i = ft_substrtof(&(cyl->height), i, line);
-	if (!i)
+	if (!i || line[i] != ' ')
 		return (0);
 	i = set_color(line, i, &(cyl->color));
-	if (!i)
+	if (!i || line[i] != '\n')
 		return (0);
 	cyl->top = move_point(cyl->pos, cyl->axis, cyl->height / 2);
 	cyl->bottom = move_point(cyl->pos, cyl->axis, -cyl->height / 2);
