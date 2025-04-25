@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/16 14:54:31 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:30:33 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	set_cone(char *line, t_cone *cone);
 
 int	ft_parseerror(char *error, char *line);
 int	input_check(int argc);
+int	check_count(t_scene *scene, int camera, int ambient);
 
 
 // print_scene

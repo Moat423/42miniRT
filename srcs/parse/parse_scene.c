@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/25 12:25:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:20:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ static int	parse_file(int fd, t_scene *scene)
 			count_obj(line, scene);
 		free(line);
 	}
-	if (got_camera != 1 || got_ambient != 1)
-		return (ft_parseerror("need 1 camera (C) & 1 ambient light (A)", NULL));
 	get_next_line(-1);
-	return (1);
+	return (check_count(scene, got_camera, got_ambient));
 }
 
 // checks for object type and sets object (except camera and ambient)

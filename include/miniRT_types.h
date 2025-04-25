@@ -53,6 +53,11 @@
 #  define SENSITIVITY 0.002f
 # endif
 
+# ifndef BONUS
+#  define MAX_LIGHTS 1
+# else
+#  define MAX_LIGHTS UINT_MAX
+# endif
 # ifndef SHININESS
 /// a higher value makes the material more metallic
 /// -> the specular reflection gets more concentrated at one spot
