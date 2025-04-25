@@ -6,11 +6,11 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:47:40 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/25 13:16:55 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:45:56 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../lib/libft/libft_full.h"
+#include "../../include/miniRT_types.h"
 
 int	input_check(int argc)
 {
@@ -34,27 +34,18 @@ int	ft_parseerror(char *error, char *line)
 int	check_count(t_scene *scene, int camera, int ambient)
 {
 	if (camera != 1)
-	{
 		ft_fprintf (2, "Need one single camera (C), have %d\n", camera);
-		return (0);
-	}
-	if (ambient != 1)
-	{
+	else if (ambient != 1)
 		ft_fprintf (2, "Need one single ambient light (A), have %d\n", ambient);
-		return (0);
-	}
-	if (scene->light_count == 0)
-	{
+	else if (scene->light_count == 0)
 		ft_fprintf (2, "Need at least one single light (L), have 0\n");
-		return (0);
-	}
-	if (scene->light_count > MAX_LIGHTS)
+	else if (scene->light_count > MAX_LIGHTS)
 	{
 		ft_fprintf(2, "Have too many lights (L)\n");
-		ft_fprintf(2, "if you intend to have more lights,\
-								please 'make bonus'\n");
-		return (0);
+		ft_fprintf(2, "current maximum light count: %d \n", MAX_LIGHTS);
 	}
-	return (1);
+	else
+		return (1);
+	scene->light_count = 0;
+	return (0);
 }
-
