@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/16 16:22:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/25 12:25:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,10 @@ static int	get_arrays(int fd, t_scene *scene)
 		if (line[0] == '\n')
 			;
 		else if (!set_obj(line, scene, indexi))
+		{
+			scene_destroy(scene);
 			return (0);
+		}
 		free(line);
 	}
 	get_next_line(-1);
