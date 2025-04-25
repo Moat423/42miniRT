@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:57:20 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/22 16:08:16 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/25 12:16:04 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,16 @@ bool	closer_circle_intersect(t_cylinder *cylinder, t_ray ray,
 
 	out->normal = cylinder->axis;
 	out->normal_calculated = true;
-	if (!circle_intersect((t_circle){cylinder->top, cylinder->axis, cylinder->radius}, ray, &(hit_dist[0]), &(hit_point[0])))
+	if (!circle_intersect((t_circle){cylinder->top, cylinder->axis,
+			cylinder->radius}, ray, &(hit_dist[0]), &(hit_point[0])))
 	{
 		out->normal = vec3_multiply(out->normal, -1);
-		return (circle_intersect((t_circle){cylinder->bottom, cylinder->axis, cylinder->radius}, ray, &(out->distance), &(out->point)));
+		return (circle_intersect((t_circle){cylinder->bottom, cylinder->axis,
+				cylinder->radius}, ray, &(out->distance), &(out->point)));
 	}
-	if (!circle_intersect((t_circle){cylinder->bottom, cylinder->axis, cylinder->radius}, ray, &(hit_dist[1]), &(hit_point[1])))
-	{
-		out->distance = hit_dist[0];
-		out->point = hit_point[0];
-		return (true);
-	}
-	if (hit_dist[0] < hit_dist[1])
+	if (!circle_intersect((t_circle){cylinder->bottom, cylinder->axis, 
+			cylinder->radius}, ray, &(hit_dist[1]), &(hit_point[1])) ||
+		(hit_dist[0] < hit_dist[1]))
 	{
 		out->distance = hit_dist[0];
 		out->point = hit_point[0];
