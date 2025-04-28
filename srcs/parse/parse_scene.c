@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/25 12:25:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:36:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ static int	parse_file(int fd, t_scene *scene)
 			count_obj(line, scene);
 		free(line);
 	}
-	if (got_camera != 1 || got_ambient != 1)
-		return (ft_parseerror("need 1 camera (C) & 1 ambient light (A)", NULL));
 	get_next_line(-1);
-	return (1);
+	return (check_count(scene, got_camera, got_ambient));
 }
 
 // checks for object type and sets object (except camera and ambient)
@@ -108,7 +106,7 @@ static int	set_obj(char *line, t_scene *scene, int *arrray_of_i)
 		return (set_ambient(line, &(scene->ambient)));
 	else if (!ft_strncmp(line, "C ", 2))
 		return (set_camera(line, &(scene->camera)));
-	return (ft_parseerror("invalid object", line));
+	return (ft_parseerror("invalid object", line, 0));
 }
 
 static int	get_arrays(int fd, t_scene *scene)
@@ -118,10 +116,7 @@ static int	get_arrays(int fd, t_scene *scene)
 
 	ft_bzero(indexi, sizeof(int) * OBJ_NUM);
 	if (!ft_malloc_scene_arrays(scene))
-	{
-		scene_destroy(scene);
 		return (0);
-	}
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -130,10 +125,7 @@ static int	get_arrays(int fd, t_scene *scene)
 		if (line[0] == '\n')
 			;
 		else if (!set_obj(line, scene, indexi))
-		{
-			scene_destroy(scene);
 			return (0);
-		}
 		free(line);
 	}
 	get_next_line(-1);

@@ -202,6 +202,9 @@ debug: FINAL_CFLAGS += -g
 debug: FINAL_LDFLAGS += -g
 debug: fclean $(NAME)
 
+bonus: FINAL_CFLAGS += -DBONUS
+bonus: re
+
 clean_submodules:
 	@printf "$(BOLD)Cleaning submodule object files...$(RESET)\n"
 	@rm -rf $(MLX_DIR)

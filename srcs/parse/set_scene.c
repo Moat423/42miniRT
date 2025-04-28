@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/03 14:25:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:35:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	set_light(char *line, t_light *light)
 	light->brightness = ft_strtof(number, &error);
 	free(number);
 	if (!light->brightness && error)
-		return (ft_parseerror("invalid number", line));
+		return (ft_parseerror("invalid number", line, i));
 	i = ft_skip_space(line, i + floatlen);
 	if (line[i] != '\n')
 		i = set_color(line, i, &(light->color));
@@ -56,7 +56,7 @@ int	set_ambient(char *line, t_ambient *ambient)
 	ambient->brightness = ft_strtof(number, &error);
 	free(number);
 	if (!ambient->brightness && error)
-		return (ft_parseerror("invalid number", line));
+		return (ft_parseerror("invalid number", line, i));
 	i = ft_skip_space(line, i + floatlen);
 	i = set_color(line, i, &(ambient->color));
 	return (i != 0);
@@ -79,7 +79,7 @@ int	set_camera(char *line, t_camera *camera)
 	i = ft_skip_space(line, i);
 	camera->fov = ft_strtoimax(&line[i], NULL, 10);
 	if (!(camera->fov) && error)
-		return (ft_parseerror("invalid number", line));
+		return (ft_parseerror("invalid number", line, i));
 	camera->up = vec3_new(0, 1, 0);
 	camera->right = vec3_cross(camera->dir, camera->up);
 	return (1);

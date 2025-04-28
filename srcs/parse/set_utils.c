@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/03 14:25:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:34:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_substrtof(float *num, int start, char *line)
 	*(num) = ft_strtof(number, &error);
 	free(number);
 	if (!*(num) && error)
-		return (ft_parseerror("invalid number", line));
+		return (ft_parseerror("invalid number", line, start));
 	return (ft_skip_space(line, start + floatlen));
 }
 
@@ -58,7 +58,8 @@ static int	parse_vec_component(char *line, int start, float *res, int is_last)
 	delim = line[start + len];
 	if ((is_last && delim != ' ' && delim != '\n') || 
 		(!is_last && delim != ','))
-		return (ft_parseerror("invalid separation in vector-numbers", line));
+		return (ft_parseerror("invalid separation in vector-numbers",
+				line, start + len));
 	num = ft_substr(line, start, len);
 	if (!num)
 		return (ft_rperror("malloc"));
@@ -66,7 +67,8 @@ static int	parse_vec_component(char *line, int start, float *res, int is_last)
 	*res = ft_strtof(num, &error);
 	free(num);
 	if (error)
-		return (ft_parseerror("invalid separation in vector-numbers", line));
+		return (ft_parseerror("invalid separation in vector-numbers",
+				line, start + len));
 	return (start + len + 1);
 }
 
