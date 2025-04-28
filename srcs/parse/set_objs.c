@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 09:23:15 by moat             ###   ########.fr       */
+/*   Updated: 2025/04/28 09:34:43 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	set_cone(char *line, t_cone *cone)
 	if (!i || line[i - 1] != ' ')
 		return (0);
 	i = set_color(line, i, &(cone->color));
-	if (!i || line[i] != '\n')
+	if (!i || line[i - 1] != '\n')
 		return (0);
 	cone->bottom = move_point(cone->top, cone->axis, cone->height);
 	cone->slant = cone->radius / cone->height;
