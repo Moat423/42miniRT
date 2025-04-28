@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:47:40 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/25 13:45:56 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:41:32 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,23 @@ int	input_check(int argc)
 	return (0);
 }
 
-int	ft_parseerror(char *error, char *line)
+int	ft_parseerror(char *error, char *line, int position)
 {
+	int	i;
+
 	if (!line)
+	{
 		ft_fprintf(2, "ERROR\n%s\n", error);
-	else
-		ft_fprintf(2, "ERROR\n%s\n   line:\n%s", error, line);
+		return (0);
+	}
+	ft_fprintf(2, "ERROR\n%s\n   line:\n%s", error, line);
+	i = 0;
+	while (i != position)
+	{
+		ft_fprintf(2, "-");
+		i++;
+	}
+	ft_fprintf(2, "^\n");
 	return (0);
 }
 

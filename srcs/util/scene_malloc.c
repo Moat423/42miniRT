@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:27:18 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/16 14:48:07 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:37:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_malloc_objects(t_objects *objects)
 int	ft_malloc_scene_arrays(t_scene *scene)
 {
 	if (scene->light_count == 0)
-		return (ft_parseerror("Need Lights! Give at least one L", NULL));
+		return (ft_parseerror("Need Lights! Give at least one L", NULL, 0));
 	if (!ft_malloc_array(scene->light_count, sizeof(t_light),
 			(void **)&(scene->lights)))
 		return (0);

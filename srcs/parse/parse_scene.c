@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/25 14:22:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:36:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int	set_obj(char *line, t_scene *scene, int *arrray_of_i)
 		return (set_ambient(line, &(scene->ambient)));
 	else if (!ft_strncmp(line, "C ", 2))
 		return (set_camera(line, &(scene->camera)));
-	return (ft_parseerror("invalid object", line));
+	return (ft_parseerror("invalid object", line, 0));
 }
 
 static int	get_arrays(int fd, t_scene *scene)
