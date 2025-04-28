@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:49:56 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:10:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ typedef struct s_aabb
 
 typedef struct s_quat
 {
-	float	w;  // Real part
-	float	x;  // i component
-	float	y;  // j component
-	float	z;  // k component
+	float	w;
+	float	x;
+	float	y;
+	float	z;
 }	t_quat;
 
 typedef struct s_coords
