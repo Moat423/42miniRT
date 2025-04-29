@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:59:10 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/29 14:59:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:53:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	set_derived_cylinders(t_scene *scene)
 void	calculate_derived_scene_values(t_scene *scene)
 {
 	size_t				i;
-	t_cylinder			*cyl;
 	t_cone				*cone;
 
 	set_derived_camera(scene);
