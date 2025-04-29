@@ -6,18 +6,13 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:39:12 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:49:52 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:11:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/miniRT.h"
 
-/// When calling this function, we already know on a per object basis
-/// which light affects which object
-/// We loop through every object's lights and for each of those lights
-/// add the object reference so that we can also loop through
-/// the objects a light affects directly on the light struct via its objects var
-bool	fill_objects_for_lights(t_scene *scene)
+static void	fill_spheres_for_lights(t_scene *scene)
 {
 	t_objects	*objs;
 	ssize_t		i;
@@ -33,6 +28,14 @@ bool	fill_objects_for_lights(t_scene *scene)
 			objs->spheres[objs->sphere_count++] = scene->objs.spheres[i];
 		}
 	}
+}
+
+static void	fill_cylinders_for_lights(t_scene *scene)
+{
+	t_objects	*objs;
+	ssize_t		i;
+	ssize_t		j;
+
 	i = -1;
 	while (++i < (ssize_t)scene->objs.cylinder_count)
 	{
@@ -43,6 +46,14 @@ bool	fill_objects_for_lights(t_scene *scene)
 			objs->cylinders[objs->cylinder_count++] = scene->objs.cylinders[i];
 		}
 	}
+}
+
+static void	fill_cones_for_lights(t_scene *scene)
+{
+	t_objects	*objs;
+	ssize_t		i;
+	ssize_t		j;
+
 	i = -1;
 	while (++i < (ssize_t)scene->objs.cone_count)
 	{
@@ -53,5 +64,17 @@ bool	fill_objects_for_lights(t_scene *scene)
 			objs->cones[objs->cone_count++] = scene->objs.cones[i];
 		}
 	}
+}
+
+/// When calling this function, we already know on a per object basis
+/// which light affects which object
+/// We loop through every object's lights and for each of those lights
+/// add the object reference so that we can also loop through
+/// the objects a light affects directly on the light struct via its objects var
+bool	fill_objects_for_lights(t_scene *scene)
+{
+	fill_spheres_for_lights(scene);
+	fill_cylinders_for_lights(scene);
+	fill_cones_for_lights(scene);
 	return (true);
 }
