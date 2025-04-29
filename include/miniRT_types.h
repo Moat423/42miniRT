@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/29 14:22:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:32:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,5 +330,13 @@ typedef struct s_light_ray
 	float	attenuation;
 	float	lambert;
 }	t_light_ray;
+
+typedef struct s_checkers
+{
+	float	width;
+	float	height;
+	t_color	color_a;
+	t_color	color_b;
+}	t_checkers;
 
 #endif
