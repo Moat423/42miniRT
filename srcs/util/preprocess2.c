@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:39:12 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/29 15:02:57 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:11:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ static void	fill_spheres_for_lights(t_scene *scene)
 	}
 }
 
-static	void	fill_cylinders_for_lights(t_scene *scene)
+static void	fill_cylinders_for_lights(t_scene *scene)
 {
 	t_objects	*objs;
 	ssize_t		i;
 	ssize_t		j;
 
-	fill_spheres_for_lights(scene);
 	i = -1;
 	while (++i < (ssize_t)scene->objs.cylinder_count)
 	{
@@ -49,7 +48,7 @@ static	void	fill_cylinders_for_lights(t_scene *scene)
 	}
 }
 
-static	void	fill_cones_for_lights(t_scene *scene)
+static void	fill_cones_for_lights(t_scene *scene)
 {
 	t_objects	*objs;
 	ssize_t		i;
