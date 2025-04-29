@@ -354,3 +354,48 @@ this check when calculating the discriminator:
 	}
 ```
 is an optimization, since when A is 0, we don't have to do a root, we can solve a liniare equation.
+
+
+since i implemented both original_phong and blinn phong here is how the function needs to be when using original phong:
+```
+t_color	calc_lights(const t_light light, const t_ray ray,
+					t_intersection its, t_light_ray l)
+{
+	t_color	diffuse;
+	t_color	spec_color;
+	float	n_dot_l;
+	t_vec3	reflection;
+
+	l.attenuation = light.brightness / (l.distance * l.distance / LIGHT_DIST);
+	diffuse = vec3_component_mul(object_color(its.object), light.color);
+	diffuse = vec3_multiply(diffuse, l.lambert * l.attenuation);
+	n_dot_l = vec3_dot(its.normal, l.direction);
+	reflection = vec3_subtract(
+			vec3_multiply(its.normal, 2.0f * n_dot_l),
+			l.direction
+			);
+	spec_color = original_phong(
+			vec3_multiply(ray.direction, -1.0),
+			l.attenuation, light.color, reflection
+			);
+	return (vec3_add(diffuse, spec_color));
+}
+```
+and here it is how it has to be to use the Blinn-Phong Model:
+```
+
+
+t_color	calc_lights(const t_light light, const t_ray ray,
+					t_intersection its, t_light_ray l)
+{
+	t_color	diffuse;
+	t_color	spec_color;
+
+	l.attenuation = light.brightness / (l.distance * l.distance / LIGHT_DIST);
+	diffuse = vec3_component_mul(object_color(its.object), light.color);
+	diffuse = vec3_multiply(diffuse, l.lambert * l.attenuation);
+	spec_color = blinn_phong(vec3_normalize(
+			vec3_add(l.direction, vec3_multiply(ray.direction, -1.0))),
+	 		its.normal, l.attenuation, light.color);
+	return (vec3_add(diffuse, spec_color));
+}

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:30:26 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 12:30:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:40:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	objects_destroy(t_objects *objects, bool free_inner)
 	objects->cylinder_count = 0;
 	free(objects->cones);
 	objects->cone_count = 0;
-	ft_bzero(&(objects->objs_n), sizeof(size_t) * 4);
 }
 
 /// Free memory allocated for a scene
