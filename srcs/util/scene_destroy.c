@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:30:26 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/29 14:40:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:43:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,3 @@ void	scene_destroy(t_scene *scene)
 		objects_destroy(&scene->objs, true);
 	}
 }
-
