@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:49:56 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:22:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@
 #  define EPSILON 0.0001
 # endif
 
-# ifndef MATERIAL_COLOR
-/// default object specular color as specular coefficient
-#  define MATERIAL_COLOR (t_color){0.9, 0.9, 0.9}
-# endif
-
 # ifndef OBJ_NUM
 /// number of different object-kinds we can parse in general
 #  define OBJ_NUM 5
@@ -54,10 +49,12 @@
 # endif
 
 # ifndef BONUS
+// BONUS compile flag to limit lights
 #  define MAX_LIGHTS 1
 # else
 #  define MAX_LIGHTS UINT_MAX
 # endif
+
 # ifndef SHININESS
 /// a higher value makes the material more metallic
 /// -> the specular reflection gets more concentrated at one spot
@@ -97,10 +94,10 @@ typedef struct s_aabb
 
 typedef struct s_quat
 {
-	float	w;  // Real part
-	float	x;  // i component
-	float	y;  // j component
-	float	z;  // k component
+	float	w;
+	float	x;
+	float	y;
+	float	z;
 }	t_quat;
 
 typedef struct s_coords
@@ -109,29 +106,34 @@ typedef struct s_coords
 	int32_t	y;
 }	t_coords;
 
+// interval used for cutting of view distance or
+// ephemeral to describe any interval
 typedef struct s_interval
 {
 	float	min;
 	float	max;
 }	t_interval;
 
+// describes ambient light parsed from file
+// brightness: in range 0.0-1.0
 typedef struct s_ambient
 {
 	t_color	color;
-	/// 0.0-1.0
 	float	brightness;
 }	t_ambient;
 
+// camera parsed from file
+//pos: postition of camera in 3d sapce as coords saved in vec3
+//dir: normalized
+//up: normalized up direction
+//right: normalized right direction
+// fov: 0-180
 typedef struct s_camera
 {
 	t_vec3		pos;
-	/// normalized
 	t_vec3		dir;
-	/// normalized up direction
 	t_vec3		up;
-	/// normalized right direction
 	t_vec3		right;
-	/// 0-180
 	uint32_t	fov;
 }	t_camera;
 
@@ -150,12 +152,12 @@ typedef struct s_plane
 	t_color	color;
 }	t_plane;
 
+// expects the axis to be normalized
 typedef struct s_cylinder
 {
 	t_vec3	pos;
 	t_vec3	top;
 	t_vec3	bottom;
-	/// normalized
 	t_vec3	axis;
 	t_color	color;
 	t_light	**lights;
@@ -163,11 +165,11 @@ typedef struct s_cylinder
 	float	height;
 }	t_cylinder;
 
+// expects the axis to be normalized
 typedef struct s_cone
 {
 	t_vec3	top;
 	t_vec3	bottom;
-	/// normalized
 	t_vec3	axis;
 	t_color	color;
 	t_light	**lights;
@@ -198,21 +200,22 @@ typedef struct s_objects
 	};
 }	t_objects;
 
+/// Objects here are scene objects copied by value,
+/// be careful about double free!!
+/// brightness in between 0.0-1.0
 typedef struct s_light
 {
-	/// Objects here are scene objects copied by value,
-	/// be careful about double free!!
 	t_objects	objs;
 	t_vec3		pos;
 	t_color		color;
-	/// 0.0-1.0
 	float		brightness;
 }	t_light;
 
+// describes a ray
+/// expects direction to be normalized
 typedef struct s_ray
 {
 	t_vec3		origin;
-	/// normalized
 	t_vec3		direction;
 	t_interval	range;
 }	t_ray;
@@ -222,7 +225,7 @@ typedef struct s_circle
 	t_vec3	center;
 	t_vec3	normal;
 	float	radius;
-} t_circle;
+}	t_circle;
 
 typedef enum e_object_type
 {
@@ -254,16 +257,17 @@ typedef struct s_object
 
 /// When successfully intersecting a Ray with an Object we can return
 /// a Intersection struct
+/// object: alias of the object from the scene which was intersected
+/// normal_calculated:
+/// Whether normal was calculated already or still needs to be calculated
+/// In case it was not calculated, the normal field is filled with
+/// a vec that may be unnormalized, meaning it has to be normalized before use
 typedef struct s_intersection
 {
 	t_vec3			point;
 	t_vec3			normal;
-	/// alias of the object from the scene which was intersected
 	t_object		object;
 	float			distance;
-	/// Whether normal was calculated already or still needs to be calculated
-	/// In case it was not calculated, the normal field is filled with
-	/// a vec that may be unnormalized, meaning it has to be normalized before use
 	bool			normal_calculated;
 }	t_intersection;
 
@@ -284,7 +288,8 @@ typedef struct s_calc
 	float	height;
 }	t_calc;
 
-typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);
+typedef bool			(*t_intersect_fn)(void *data,
+						t_ray ray, t_intersection *out);
 
 typedef struct s_scene
 {
@@ -306,10 +311,10 @@ typedef enum e_loop_state
 	NO_CHANGE,
 }	t_loop_state;
 
+/// scene and mlx must be initialized to null
 typedef struct s_minirt
 {
 	t_scene			scene;
-	/// must be initialized to null
 	mlx_t			*mlx;
 	mlx_image_t		*image;
 	double			last_resize_time;
