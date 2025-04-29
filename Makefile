@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/04/28 12:34:16 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/04/29 14:39:24 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		window_utils.c \
 		scene_fixing.c \
 		$(addprefix util/, quaternion.c color.c util.c vec3_0.c vec3_1.c vec3_2.c \
-		scene_malloc.c scene_destroy interval.c preprocess.c preprocess2.c \
+		scene_malloc.c scene_destroy.c interval.c preprocess.c preprocess2.c \
 		print_scene.c print_scene_utils_0.c print_scene_utils_1.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c \
 		set_utils.c) \
