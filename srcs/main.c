@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/16 14:33:22 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:52:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 
 // MANDATORY PART
 //TODO: valgrind!!
-//TODO: implement more options for dynamic camera movement for example
-// pgup/pgdown to move the camera up and down and mouse for rotation
 //TODO: compile time checks for things that should be disabled if not compiling bonus
 // 1. single light
 // 2. cones
