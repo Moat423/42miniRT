@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/28 12:53:48 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:22:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@
 #  define EPSILON 0.0001
 # endif
 
-# ifndef MATERIAL_COLOR
-/// default object specular color as specular coefficient
-#  define MATERIAL_COLOR (t_color){0.9, 0.9, 0.9}
-# endif
-
 # ifndef OBJ_NUM
 /// number of different object-kinds we can parse in general
 #  define OBJ_NUM 5
@@ -54,10 +49,12 @@
 # endif
 
 # ifndef BONUS
+// BONUS compile flag to limit lights
 #  define MAX_LIGHTS 1
 # else
 #  define MAX_LIGHTS UINT_MAX
 # endif
+
 # ifndef SHININESS
 /// a higher value makes the material more metallic
 /// -> the specular reflection gets more concentrated at one spot
@@ -291,7 +288,8 @@ typedef struct s_calc
 	float	height;
 }	t_calc;
 
-typedef bool	(*t_intersect_fn)(void *data, t_ray ray, t_intersection *out);
+typedef bool			(*t_intersect_fn)(void *data,
+						t_ray ray, t_intersection *out);
 
 typedef struct s_scene
 {
