@@ -399,3 +399,12 @@ t_color	calc_lights(const t_light light, const t_ray ray,
 	 		its.normal, l.attenuation, light.color);
 	return (vec3_add(diffuse, spec_color));
 }
+```
+
+# Patterns
+
+## checkerboard
+
+http://www.raytracerchallenge.com/bonus/texture-mapping.html
+
+my attempt is modeled after the above link
