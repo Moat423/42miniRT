@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/30 13:21:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:44:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,6 +282,7 @@ typedef struct s_intersection
 	t_object		object;
 	float			distance;
 	bool			normal_calculated;
+	t_color			color;
 }	t_intersection;
 
 // struct used in cone calculation to prepare values for discriminant
