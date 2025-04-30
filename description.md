@@ -498,3 +498,7 @@ t_point	planar_map(const t_vec3 plane_point)
 ```
 
 this last one can leave out the handling of negative numbers since that is 
+
+# Bump mapping
+
+srcs: https://medium.com/@muhammedcan.erbudak/ray-tracing-from-scratch-texture-normal-bump-mapping-22ece96038bf
