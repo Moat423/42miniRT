@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/9 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 16:48:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:31:13 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	}
 	if (!check_hit(t, ray, out, sphere))
 		return (false);
+	sphere->color = pattern_at(vec3_subtract(out->point, sphere->pos), sphere->radius);
 	return (true);
 }

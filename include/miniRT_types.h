@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/29 16:32:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:42:55 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@
 #  define LIGHT_DIST 30.0f
 # endif
 
+#define _USE_MATH_DEFINES
+
 typedef void			(*t_param_fn)(void *);
 
 typedef struct s_light	t_light;
@@ -113,6 +115,8 @@ typedef struct s_interval
 	float	min;
 	float	max;
 }	t_interval;
+
+typedef t_interval		t_point;
 
 // describes ambient light parsed from file
 // brightness: in range 0.0-1.0

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/29 14:44:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:23:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,9 @@ int			ft_malloc_scene_arrays(t_scene *scene);
 /*PRINT_SCENE*/
 
 void		print_scene(const t_scene *scene);
+
+/* CHECKERS */
+
+t_color		pattern_at(const t_vec3 sphere_point, const float radius);
 
 #endif
