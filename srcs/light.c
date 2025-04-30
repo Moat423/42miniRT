@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:07:42 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/29 14:39:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:47:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_color	calc_lights(const t_light light, const t_ray ray,
 	t_vec3	reflection;
 
 	l.attenuation = light.brightness / (l.distance * l.distance / LIGHT_DIST);
-	diffuse = vec3_component_mul(object_color(its.object), light.color);
+	diffuse = vec3_component_mul(its.color, light.color);
 	diffuse = vec3_multiply(diffuse, l.lambert * l.attenuation);
 	n_dot_l = vec3_dot(its.normal, l.direction);
 	reflection = vec3_subtract(

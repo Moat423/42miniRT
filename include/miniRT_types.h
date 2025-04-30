@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/29 14:22:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:44:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@
 #  define LIGHT_DIST 30.0f
 # endif
 
+#define _USE_MATH_DEFINES
+
 typedef void			(*t_param_fn)(void *);
 
 typedef struct s_light	t_light;
@@ -76,6 +78,13 @@ typedef enum e_abc
 	B,
 	C,
 }	t_abc;
+
+typedef enum e_texture
+{
+	NONE,
+	CHECKERS,
+	OTHER,
+}	t_texture;
 
 typedef struct s_vec3
 {
@@ -114,6 +123,8 @@ typedef struct s_interval
 	float	max;
 }	t_interval;
 
+typedef t_interval		t_point;
+
 // describes ambient light parsed from file
 // brightness: in range 0.0-1.0
 typedef struct s_ambient
@@ -139,17 +150,19 @@ typedef struct s_camera
 
 typedef struct s_sphere
 {
-	t_vec3	pos;
-	t_color	color;
-	t_light	**lights;
-	float	radius;
+	t_vec3		pos;
+	t_color		color;
+	t_light		**lights;
+	float		radius;
+	t_texture	texture;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	t_vec3	pos;
-	t_vec3	normal;
-	t_color	color;
+	t_vec3		pos;
+	t_vec3		normal;
+	t_color		color;
+	t_texture	texture;
 }	t_plane;
 
 // expects the axis to be normalized
@@ -269,6 +282,7 @@ typedef struct s_intersection
 	t_object		object;
 	float			distance;
 	bool			normal_calculated;
+	t_color			color;
 }	t_intersection;
 
 // struct used in cone calculation to prepare values for discriminant
@@ -330,5 +344,13 @@ typedef struct s_light_ray
 	float	attenuation;
 	float	lambert;
 }	t_light_ray;
+
+typedef struct s_checkers
+{
+	float	width;
+	float	height;
+	t_color	color_a;
+	t_color	color_b;
+}	t_checkers;
 
 #endif

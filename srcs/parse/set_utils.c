@@ -6,12 +6,24 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 11:34:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:29:38 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
+
+int	ft_set_texture_flag(int *i, char *line)
+{
+	*i = ft_skip_space(line, *i);
+	if (line[*i] == 'c' && line[*i + 1] == 'h')
+	{
+		(*i) += 3;
+		return (CHECKERS);
+	}
+	else
+		return (NONE);
+}
 
 // returns 0 on error or the start + the length of the float 
 // (up till first invalid char)
