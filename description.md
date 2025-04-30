@@ -401,7 +401,11 @@ t_color	calc_lights(const t_light light, const t_ray ray,
 }
 ```
 
-# Patterns
+# Patterns and Textures
+
+srcs:
+planet maps and bump maps
+https://planetpixelemporium.com/planets.html
 
 ## checkerboard
 
