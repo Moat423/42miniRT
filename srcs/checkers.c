@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d	  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2025/04/29 16:28:11 by lmeubrin		  #+#	#+#			 */
-/*   Updated: 2025/04/30 14:04:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:40:34 by lmeubrin         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ t_checkers	uv_checkers(int width, int height, t_color color_a, t_color color_b)
 	return (ch);
 }
 
-t_checkers	default_uv_checkers(void)
+t_checkers	plane_uv_checkers(void)
 {
 	t_checkers	ch;
 
-	ch.width = 16;
-	ch.height = 8;
+	ch.width = 2;
+	ch.height = 2;
 	ch.color_a = (t_vec3){255, 255, 255};
 	ch.color_b = (t_vec3){0, 0, 0};
 	return (ch);
@@ -65,7 +65,7 @@ t_color	planar_pattern_at(const t_vec3 plane_point)
 	t_checkers	checkers;
 	t_point		pt;
 
-	checkers = default_uv_checkers();
+	checkers = plane_uv_checkers();
 	pt = planar_map(plane_point);
 	return (uv_pattern_at(checkers, pt));
 }
