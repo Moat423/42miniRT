@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d	  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2025/04/29 16:28:11 by lmeubrin		  #+#	#+#			 */
-/*   Updated: 2025/04/30 11:39:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:50:31 by lmeubrin         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_checkers	default_uv_checkers(void)
 t_color	uv_pattern_at(const t_checkers checkers, t_point pt)
 {
 	pt.min *= checkers.width;
-	pt.min *= checkers.height;
+	pt.max *= checkers.height;
 	if (((int)pt.min + (int)pt.max) & 1)
 		return (checkers.color_a);
 	return (checkers.color_b);
