@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 11:55:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:16:59 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int		parse_scene(char *filename, t_scene *scene);
 int		set_color(char *line, int start, t_vec3 *color);
 int		set_vec(char *line, int start, t_vec3 *vec);
 int		ft_substrtof(float *num, int start, char *line);
+int		ft_set_texture_flag(int *i, char *line);
 
 // set_scene.c
 

@@ -442,3 +442,59 @@ if ((u2 + v2) & 1)
 ```
 
 so the last one is the fastest, but it means taking a certain risk and assuming my numbers are ALWAYS positive (which u v coords usually are)
+
+## planar texture-mapping
+
+Fmod Performance:
+Time taken: 0.207405 seconds
+Operations per second: 48214845.350884
+
+```C
+// The planar mapping function using fmod
+t_point planar_map_fmod(const t_vec3 plane_point)
+{
+    t_point pt;
+
+    pt.min = fmod(plane_point.x, 1.0);
+    pt.max = fmod(plane_point.z, 1.0);
+    pt.min += (pt.min < 0) * 1.0f;
+    pt.max += (pt.max < 0) * 1.0f;
+    return pt;
+}
+```
+
+Modf Performance:
+Time taken: 0.204562 seconds
+Operations per second: 48884934.640842
+
+```C
+// Alternative implementation using modf
+t_point planar_map_modf(const t_vec3 plane_point)
+{
+    t_point pt;
+    double integral_part;
+    
+    pt.min = modf(plane_point.x, &integral_part);
+    pt.max = modf(plane_point.z, &integral_part);
+    pt.min += (pt.min < 0) * 1.0f;
+    pt.max += (pt.max < 0) * 1.0f;
+    return pt;
+}
+```
+
+ownft Performance:
+Time taken: 0.167835 seconds
+Operations per second: 59582327.881550
+
+```C
+t_point	planar_map(const t_vec3 plane_point)
+{
+	t_point pt;
+
+    pt.min = plane_point.x - floorf(plane_point.x);
+    pt.max = plane_point.z - floorf(plane_point.z);
+	return (pt);
+}
+```
+
+this last one can leave out the handling of negative numbers since that is 

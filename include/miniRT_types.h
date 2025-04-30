@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/30 10:42:55 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:21:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,13 @@ typedef enum e_abc
 	C,
 }	t_abc;
 
+typedef enum e_texture
+{
+	NONE,
+	CHECKERS,
+	OTHER,
+}	t_texture;
+
 typedef struct s_vec3
 {
 	float	x;
@@ -143,17 +150,19 @@ typedef struct s_camera
 
 typedef struct s_sphere
 {
-	t_vec3	pos;
-	t_color	color;
-	t_light	**lights;
-	float	radius;
+	t_vec3		pos;
+	t_color		color;
+	t_light		**lights;
+	float		radius;
+	t_texture	texture;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	t_vec3	pos;
-	t_vec3	normal;
-	t_color	color;
+	t_vec3		pos;
+	t_vec3		normal;
+	t_color		color;
+	t_texture	texture;
 }	t_plane;
 
 // expects the axis to be normalized

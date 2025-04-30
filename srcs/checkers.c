@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d	  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2025/04/29 16:28:11 by lmeubrin		  #+#	#+#			 */
-/*   Updated: 2025/04/30 11:50:31 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:04:45 by lmeubrin         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -41,34 +41,31 @@ t_checkers	default_uv_checkers(void)
 // but its fast.
 t_color	uv_pattern_at(const t_checkers checkers, t_point pt)
 {
-	pt.min *= checkers.width;
-	pt.max *= checkers.height;
-	if (((int)pt.min + (int)pt.max) & 1)
+	int	u2;
+	int	v2;
+
+	u2 = (int)floor(pt.min * checkers.width);
+	v2 = (int)floor(pt.max * checkers.height);
+	if ((u2 + v2) & 1)
 		return (checkers.color_a);
 	return (checkers.color_b);
 }
 
-t_point	spherical_map(const t_vec3 sphere_point, const float radius)
+t_point	planar_map(const t_vec3 plane_point)
 {
-	float	theta;
-	float	phi;
-	float	raw_u;
 	t_point	pt;
 
-	theta = atan2(sphere_point.x, sphere_point.z);
-	phi = acos(sphere_point.y / radius);
-	raw_u = theta / (2 * M_PI);
-	pt.min = 1 - (raw_u + 0.5);
-	pt.max = 1 - phi / M_PI;
+	pt.min = plane_point.x - floorf(plane_point.x);
+	pt.max = plane_point.z - floorf(plane_point.z);
 	return (pt);
 }
 
-t_color	pattern_at(const t_vec3 sphere_point, const float radius)
+t_color	planar_pattern_at(const t_vec3 plane_point)
 {
 	t_checkers	checkers;
 	t_point		pt;
 
 	checkers = default_uv_checkers();
-	pt = spherical_map(sphere_point, radius);
+	pt = planar_map(plane_point);
 	return (uv_pattern_at(checkers, pt));
 }
