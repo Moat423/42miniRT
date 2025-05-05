@@ -69,7 +69,7 @@ int main(void)
             }
             else
             {
-                printf("PASSED: Bumpmap has the expected dimensions 300x300\n");
+                printf("PASSED: Bumpmap has the expected dimensions 1024x1024\n");
             }
             
             // Check if elevation data was loaded

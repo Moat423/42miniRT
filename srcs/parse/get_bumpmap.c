@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 16:47:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:13:07 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,61 @@ static t_bumpmap	*allocate_bumpmap(int fd)
 		line_after_number++;
 	height = ft_strtoimax(line_after_number, NULL, 10);
 	free(line);
-	get_next_line(-1);
+	line = get_next_line(fd);
+	if (ft_strncmp(line, "255\n", 4))
+		return ((t_bumpmap *)rperror_get_next_line(line,
+				"Error got different max colour value\n"));
+	free(line);
 	bump = ft_malloc_bumpmap(width, height);
 	return (bump);
+}
+
+static	int	get_val(int fd)
+{
+	char	*line;
+	char	*endptr;
+	int		num;
+
+	line = get_next_line(fd);
+	if (!line)
+		return (-1);
+	num = ft_strtoimax(line, &endptr, 10);
+	if (!num && (*endptr) != '\n')
+	{
+		ft_fprintf(2, "Error\ninvalid number in file\n");
+		free(line);
+		return (-1);
+	}
+	free(line);
+	return (num);
+}
+
+static int	fill_bump_greyscale(t_bumpmap *bump, int fd)
+{
+	int		r;
+	int		g;
+	int		b;
+	int		i;
+	int		max_pixels;
+
+	i = 0;
+	max_pixels = bump->height * bump->width;
+	while (i <= max_pixels)
+	{
+		r = get_val(fd);
+		if (r == -1)
+			break ;
+		g = get_val(fd);
+		if (g == -1)
+			return (0);
+		b = get_val(fd);
+		if (b == -1)
+			return (0);
+		bump->elevation[i] = ((float)r + (float)g + (float)b) / (3.0f * 255.0f);
+		++i;
+	}
+	// get_next_line(-1);
+	return (1);
 }
 
 int	set_bumpmap(char *obj_line, t_sphere *sphere)
@@ -87,6 +139,8 @@ int	set_bumpmap(char *obj_line, t_sphere *sphere)
 		return (0);
 	bump = allocate_bumpmap(fd);
 	if (!bump)
+		return (0);
+	if(!fill_bump_greyscale(bump, fd))
 		return (0);
 	sphere->bumpmap = bump;
 	return (1);
