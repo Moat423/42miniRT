@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 16:24:49 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:47:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,27 @@ static char	*skip_hash_lines(char *line, int fd)
 	return (line);
 }
 
+//checks for P3 in first line and skipps following comments
+static	char	*parse_file_head(int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	if (!(line[0] == 'P' && line[1] == '3' && line[2] == '\n'))
+	{
+		return (rperror_get_next_line(line,
+				"Error\n file is not in correct format\nExpected .ppm\n"));
+	}
+	free(line);
+	line = skip_hash_lines(line, fd);
+	if (!line)
+	{
+		return (rperror_get_next_line(line,
+				"Error in get_next_line\n"));
+	}
+	return (line);
+}
+
 // starts parsing the file to get file id (only accepting P3 for .ppm)
 // gets width and height to allocate struct
 static t_bumpmap	*allocate_bumpmap(int fd)
@@ -39,22 +60,18 @@ static t_bumpmap	*allocate_bumpmap(int fd)
 	size_t		height;
 	char		*line_after_number;
 
-	line = get_next_line(fd);
-	if (!(line[0] == 'P' && line[1] == '3' && line[2] == '\n'))
-		return ((t_bumpmap *)rperror_get_next_line(line,
-				"Error\n file is not in correct format\nExpected .ppm"));
-	free(line);
-	line = skip_hash_lines(line, fd);
+	line = parse_file_head(fd);
 	if (!line)
 		return (NULL);
 	width = ft_strtoimax(line, &line_after_number, 10);
 	if (width == 0 && line == line_after_number)
 		return ((t_bumpmap *)rperror_get_next_line(line,
-				"Error in ft_strtoimax"));
+				"Error in ft_strtoimax\n"));
 	while (ft_isspace(*line_after_number))
 		line_after_number++;
 	height = ft_strtoimax(line_after_number, NULL, 10);
 	free(line);
+	get_next_line(-1);
 	bump = ft_malloc_bumpmap(width, height);
 	return (bump);
 }
@@ -72,6 +89,5 @@ int	set_bumpmap(char *obj_line, t_sphere *sphere)
 	if (!bump)
 		return (0);
 	sphere->bumpmap = bump;
-	get_next_line(-1);
 	return (1);
 }

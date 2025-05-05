@@ -63,7 +63,7 @@ int main(void)
             // Check dimensions
             if (sphere.bumpmap->width != 1024 || sphere.bumpmap->height != 1024)
             {
-                printf("FAILED: Expected dimensions 300x300, got %zux%zu\n", 
+                printf("FAILED: Expected dimensions 1024x1024, got %zux%zu\n", 
                        sphere.bumpmap->width, sphere.bumpmap->height);
                 failed = 1;
             }
