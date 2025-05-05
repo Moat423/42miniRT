@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:30:26 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/29 14:43:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:27:55 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ void	objects_destroy(t_objects *objects, bool free_inner)
 	objects->cylinder_count = 0;
 	free(objects->cones);
 	objects->cone_count = 0;
+}
+
+void	bumpmap_destroy(t_bumpmap *bumpmap)
+{
+	if (!bumpmap)
+		return ;
+	free(bumpmap->elevation);
+	free(bumpmap);
 }
 
 /// Free memory allocated for a scene

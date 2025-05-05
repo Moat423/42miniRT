@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:27:18 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 11:37:12 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:23:51 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,21 @@ int	ft_malloc_scene_arrays(t_scene *scene)
 	if (!ft_malloc_objects(&(scene->objs)))
 		return (0);
 	return (1);
+}
+
+t_bumpmap	*ft_malloc_bump_map(size_t width, size_t height)
+{
+	t_bumpmap	*bump;
+
+	bump = ft_calloc(sizeof(*bump), 1);
+	if (!bump)
+		return (NULL);
+	bump->height = height;
+	bump->width = width;
+	if (!ft_malloc_array(width, height, (void **)&(bump->elevation)))
+	{
+		free(bump);
+		return (NULL);
+	}
+	return (bump);
 }
