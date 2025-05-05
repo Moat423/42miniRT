@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/30 14:16:59 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:11:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,8 @@ void	print_spheres(const t_sphere *spheres, size_t sphere_count);
 void	print_planes(const t_plane *planes, size_t plane_count);
 void	print_cylinders(const t_cylinder *cylinders, size_t cylinder_count);
 void	print_cones(const t_cone *cones, size_t cone_count);
+
+// textures
+
+void	*rperror_get_next_line(char *line, char *errormessage);
+int		open_bumpmap_file(char *line);

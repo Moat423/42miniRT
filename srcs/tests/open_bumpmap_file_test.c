@@ -1,3 +1,6 @@
+/* compile:
+ * cc -DTEST_MAIN srcs/tests/open_bumpmap_file_test.c srcs/parse/set_textures.c lib/libft/libft.a -o test_open_bumpmap
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

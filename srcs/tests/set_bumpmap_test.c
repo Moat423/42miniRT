@@ -1,3 +1,7 @@
+/* compiling:
+cc srcs/tests/set_bumpmap_test.c srcs/parse/set_textures.c srcs/util/scene_destroy.c srcs/util/scene_malloc.c srcs/parse/input_check.c srcs/parse/get_bumpmap.c lib/libft/libft.a 
+lib/libft/libft_full.h
+*/
 #include <stddef.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -9,22 +13,12 @@
 #include <errno.h>
 #include <string.h>
 #include "../../lib/libft/libft_full.h"
-
-typedef struct e_bumpmap
-{
-	float	*elevation;
-	size_t	width;
-	size_t	height;
-}	t_bumpmap;
-
-typedef struct s_sphere
-{
-	t_bumpmap	*bumpmap;
-}	t_sphere;
-
+#include "../../include/miniRT_types.h"
 
 int		set_bumpmap(char *obj_line, t_sphere *sphere);
 void	bumpmap_destroy(t_bumpmap *bumpmap);
+void	*rperror_get_next_line(char *line, char *errormessage);
+int		open_bumpmap_file(char *line);
 
 /**
  * Test the set_bumpmap function
@@ -67,7 +61,7 @@ int main(void)
             printf("PASSED: Bumpmap was assigned to sphere\n");
             
             // Check dimensions
-            if (sphere.bumpmap->width != 300 || sphere.bumpmap->height != 300)
+            if (sphere.bumpmap->width != 1024 || sphere.bumpmap->height != 1024)
             {
                 printf("FAILED: Expected dimensions 300x300, got %zux%zu\n", 
                        sphere.bumpmap->width, sphere.bumpmap->height);
