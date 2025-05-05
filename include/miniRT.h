@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/05 13:53:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:53:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ bool		interval_surrounds(t_interval interval, float x);
 
 float		clamp(float value, float min, float max);
 void		scene_destroy(t_scene *scene);
+void		bumpmap_destroy(t_bumpmap *bumpmap);
 float		image_aspect_ratio(t_scene *scene);
 bool		equal(float a, float b);
 float		powi(float x, int z);
