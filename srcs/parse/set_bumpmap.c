@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 19:38:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:15:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	fill_bump_greyscale(t_bumpmap *bump, int fd)
 int	set_bumpmap(char *obj_line, t_sphere *sphere)
 {
 	int			fd;
-	char		*line;
 	t_bumpmap	*bump;
 
 	fd = open_bumpmap_file(obj_line);
