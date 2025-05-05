@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/30 14:33:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:53:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,10 @@ float		image_aspect_ratio(t_scene *scene);
 bool		equal(float a, float b);
 float		powi(float x, int z);
 
-/*OBJS */
+/* MALLOCATION */
 
 int			ft_malloc_scene_arrays(t_scene *scene);
+t_bumpmap	*ft_malloc_bumpmap(size_t width, size_t height);
 
 /*PRINT_SCENE*/
 

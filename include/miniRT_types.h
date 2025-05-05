@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/30 14:44:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:38:55 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@
 #  define LIGHT_DIST 30.0f
 # endif
 
-#define _USE_MATH_DEFINES
+# define _USE_MATH_DEFINES
 
 typedef void			(*t_param_fn)(void *);
 
@@ -83,8 +83,15 @@ typedef enum e_texture
 {
 	NONE,
 	CHECKERS,
-	OTHER,
+	BUMP,
 }	t_texture;
+
+typedef struct e_bumpmap
+{
+	float	*elevation;
+	size_t	width;
+	size_t	height;
+}	t_bumpmap;
 
 typedef struct s_vec3
 {
@@ -155,6 +162,7 @@ typedef struct s_sphere
 	t_light		**lights;
 	float		radius;
 	t_texture	texture;
+	t_bumpmap	*bumpmap;
 }	t_sphere;
 
 typedef struct s_plane

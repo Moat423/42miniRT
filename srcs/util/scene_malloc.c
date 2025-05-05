@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:27:18 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 11:23:51 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:52:57 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_malloc_scene_arrays(t_scene *scene)
 	return (1);
 }
 
-t_bumpmap	*ft_malloc_bump_map(size_t width, size_t height)
+t_bumpmap	*ft_malloc_bumpmap(size_t width, size_t height)
 {
 	t_bumpmap	*bump;
 
