@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 11:36:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:10:15 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ int	parse_scene(char *filename, t_scene *scene)
 
 	if (!filename || filename[0] == 0)
 	{
-		ft_fprintf(2, "invalid empty filename");
+		ft_fprintf(2, "invalid empty filename\n");
 		return (1);
 	}
 	ft_bzero(scene, sizeof(t_scene));
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_fprintf(2, "invalid file: %s", strerror(errno));
+		ft_fprintf(2, "invalid file: %s\n", strerror(errno));
 		return (1);
 	}
 	if (!parse_file(fd, scene))
