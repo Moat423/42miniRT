@@ -179,7 +179,7 @@ $(LIBFT):
 	@printf "$(BOLD)Ensuring libft is at the correct commit...$(RESET)\n"
 	@( cd $(LIBFT_DIR) && \
 	  git fetch origin && \
-	  git checkout c26a3c2df589fb78c8abf554bea4660ce77e2e17 && \
+	  git checkout c4bf0df6090bf121129e62b3f25e3574efe073d6 && \
 	  printf "$(GREEN)Successfully checked out target commit.$(RESET)\n" ) || \
 	  printf "$(RED)Failed to checkout specific commit. Manual intervention required.$(RESET)\n"
 	@printf "$(BOLD)Building libft...$(RESET)\n"
