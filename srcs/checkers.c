@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d	  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2025/04/29 16:28:11 by lmeubrin		  #+#	#+#			 */
-/*   Updated: 2025/04/30 14:40:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:04:52 by lmeubrin         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ t_color	uv_pattern_at(const t_checkers checkers, t_point pt)
 	int	u2;
 	int	v2;
 
-	u2 = (int)floor(pt.min * checkers.width);
-	v2 = (int)floor(pt.max * checkers.height);
+	u2 = (int)floor(pt.u * checkers.width);
+	v2 = (int)floor(pt.v * checkers.height);
 	if ((u2 + v2) & 1)
 		return (checkers.color_a);
 	return (checkers.color_b);
@@ -55,8 +55,8 @@ t_point	planar_map(const t_vec3 plane_point)
 {
 	t_point	pt;
 
-	pt.min = plane_point.x - floorf(plane_point.x);
-	pt.max = plane_point.z - floorf(plane_point.z);
+	pt.u = plane_point.x - floorf(plane_point.x);
+	pt.v = plane_point.z - floorf(plane_point.z);
 	return (pt);
 }
 

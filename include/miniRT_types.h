@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/05 11:38:55 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:04:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,11 @@ typedef struct s_interval
 	float	max;
 }	t_interval;
 
-typedef t_interval		t_point;
+typedef struct s_point
+{
+	float	u;
+	float	v;
+}	t_point;
 
 // describes ambient light parsed from file
 // brightness: in range 0.0-1.0
