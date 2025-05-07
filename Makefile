@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/05/05 19:36:37 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/05/06 17:49:26 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -179,7 +179,7 @@ $(LIBFT):
 	@printf "$(BOLD)Ensuring libft is at the correct commit...$(RESET)\n"
 	@( cd $(LIBFT_DIR) && \
 	  git fetch origin && \
-	  git checkout c4bf0df6090bf121129e62b3f25e3574efe073d6 && \
+	  git checkout a4c8c412c9d6ca51b20e4fb1d879c21201417c02 && \
 	  printf "$(GREEN)Successfully checked out target commit.$(RESET)\n" ) || \
 	  printf "$(RED)Failed to checkout specific commit. Manual intervention required.$(RESET)\n"
 	@printf "$(BOLD)Building libft...$(RESET)\n"
