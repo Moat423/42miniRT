@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:35:47 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 19:38:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:24:30 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,16 @@ static char	*skip_hash_lines(char *line, int fd)
 }
 
 //checks for P3 in first line and skipps following comments
-static	char	*parse_file_head(int fd)
+char	*parse_file_head(int fd)
 {
 	char	*line;
 
 	line = get_next_line(fd);
 	if (!(line[0] == 'P' && line[1] == '3' && line[2] == '\n'))
 	{
+		ft_fprintf(2, "Error\nline: %s", line);
 		return (rperror_get_next_line(line,
-				"Error\n file is not in correct format\nExpected .ppm\n"));
+				"file is not in correct format\nExpected .ppm\n"));
 	}
 	free(line);
 	line = skip_hash_lines(line, fd);
@@ -48,36 +49,6 @@ static	char	*parse_file_head(int fd)
 				"Error in get_next_line\n"));
 	}
 	return (line);
-}
-
-// starts parsing the file to get file id (only accepting P3 for .ppm)
-// gets width and height to allocate struct
-t_bumpmap	*allocate_bumpmap(int fd)
-{
-	char		*line;
-	t_bumpmap	*bump;
-	size_t		width;
-	size_t		height;
-	char		*line_after_number;
-
-	line = parse_file_head(fd);
-	if (!line)
-		return (NULL);
-	width = ft_strtoimax(line, &line_after_number, 10);
-	if (width == 0 && line == line_after_number)
-		return ((t_bumpmap *)rperror_get_next_line(line,
-				"Error in ft_strtoimax\n"));
-	while (ft_isspace(*line_after_number))
-		line_after_number++;
-	height = ft_strtoimax(line_after_number, NULL, 10);
-	free(line);
-	line = get_next_line(fd);
-	if (ft_strncmp(line, "255\n", 4))
-		return ((t_bumpmap *)rperror_get_next_line(line,
-				"Error got different max colour value\n"));
-	free(line);
-	bump = ft_malloc_bumpmap(width, height);
-	return (bump);
 }
 
 int	get_val(int fd)
@@ -99,4 +70,3 @@ int	get_val(int fd)
 	free(line);
 	return (num);
 }
-

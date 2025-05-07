@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 16:10:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:41:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_subword(char *line)
 	i = 0;
 	while (line[i] && !ft_isspace(line[i]))
 		++i;
-	new = ft_substr(line, 0, i + 1);
+	new = ft_substr(line, 0, i);
 	return (new);
 }
 
@@ -42,7 +42,7 @@ int	open_bumpmap_file(char *line)
 	if (fd == -1)
 	{
 		ft_fprintf(2, "Error\ninvalid file: %s\n", strerror(errno));
-		ft_fprintf(2, "filename: %s\n", &filename[i]);
+		ft_fprintf(2, "filename: %s\n", filename);
 		free(filename);
 		return (-1);
 	}
