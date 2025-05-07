@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/05 14:53:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:46:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ t_vec3		intersect_normal(t_intersection *intersection);
 /* SPHERE */
 
 bool		sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out);
+
+/* SPHERE_CHECKERS */
+
+t_point		spherical_map(const t_vec3 sphere_point, const float radius);
+
+/* BUMPMAP_APPLY */
+
+t_vec3		apply_bump_mapping(const t_sphere *sphere,
+				const t_vec3 intersection_point, t_vec3 normal);
 
 /* CYLINDER */
 

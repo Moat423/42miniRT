@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/07 16:04:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:39:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@
 /// a higher value will make lights shine further
 #  define LIGHT_DIST 30.0f
 # endif
+
+# ifndef BUMP_STRENGTH
+#  define BUMP_STRENGTH 0.05f
+# endif //BUMP_STRENGTH
 
 # define _USE_MATH_DEFINES
 
