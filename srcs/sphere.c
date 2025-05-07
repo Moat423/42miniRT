@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/9 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/30 14:45:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:03:45 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	set_intersect_normal(const t_sphere *sphere,
 {
 	intersection->normal = vec3_divide(
 			vec3_subtract(intersection->point, sphere->pos), sphere->radius);
+	intersection->normal = apply_bump_mapping(sphere, intersection->point,
+			intersection->normal);
 	intersection->normal_calculated = true;
 }
 
