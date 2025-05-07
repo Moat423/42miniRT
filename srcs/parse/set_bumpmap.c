@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/07 14:37:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:20:55 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	fill_bump_greyscale(t_bumpmap *bump, int fd)
 		bump->elevation[i] = ((float)r + (float)g + (float)b) / (3.0f * 255.0f);
 		++i;
 	}
-	get_next_line(-1);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 12:10:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:24:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	parse_scene(char *filename, t_scene *scene)
 		return (1);
 	}
 	if (!parse_file(fd, scene))
+	{
+		close(fd);
 		return (1);
+	}
 	close(fd);
 	fd = open(filename, O_RDONLY);
 	if (!get_arrays(fd, scene))
@@ -68,6 +71,7 @@ static int	parse_file(int fd, t_scene *scene)
 
 	got_camera = 0;
 	got_ambient = 0;
+	get_next_line(-1);
 	while (1)
 	{
 		line = get_next_line(fd);
