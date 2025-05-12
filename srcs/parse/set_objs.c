@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 11:19:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:36:00 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,6 @@ int	set_plane(char *line, t_plane *plane)
 	if (!i)
 		return (0);
 	plane->texture = ft_set_texture_flag(&i, line);
-	if (plane->texture == BUMP)
-		return (set_bumpmap(&(line[i]), &(plane->bumpmap)));
 	if (line[i - 1] != '\n')
 		return (0);
 	return (1);
