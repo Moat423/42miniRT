@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/29 14:52:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:02:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,16 @@
 //TODO: compile time checks for things that should be disabled if not compiling bonus
 // 1. single light
 // 2. cones
-//TODO: precalculate on scene parsing which lights might affect which objects
-// this will optimize large scenes with many lights which are scattered loosely around the scene
-// without this we will not be able to render large scenes with many lights sufficiently fast
-// for this we need to create bounding boxes for each object (except for the plane) and then
-// check if the bounding box is in range of a light source
-// the objects which are in range will be stored in another small scene struct specific to the light
 //TODO: sort objects by distance to origin:
 // scene objects dont need to be sorted because we check all objects anyway
 // but light objects in relation to light position would be beneficial
+//
+//TODO: make camera better and more fluid (update on fixed fps, remove prints)
 
-// BONUS PART (fork of mandatory)
+// BONUS PART (mandatory saved in branch mandatory)
 //TODO: checkerboard pattern
 //TODO: bump map textures
-//TODO: parallelize the raytracing (bonus only)
+//TODO: parallelize the raytracing (bonus only) with shaders or symd
 //TODO: shadow not get closest, but instead get any intersect (bool)
 
 void	minirt_exit(t_minirt *minirt, int status)
