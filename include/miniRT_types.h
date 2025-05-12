@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/07 16:59:16 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:07:45 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ typedef struct s_plane
 	t_vec3		normal;
 	t_color		color;
 	t_texture	texture;
+	t_bumpmap	*bumpmap;
 }	t_plane;
 
 // expects the axis to be normalized

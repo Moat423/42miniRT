@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/07 16:46:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 10:09:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_point		spherical_map(const t_vec3 sphere_point, const float radius);
 
 t_vec3		apply_bump_mapping(const t_sphere *sphere,
 				const t_vec3 intersection_point, t_vec3 normal);
+float		get_bump_elevation(const t_bumpmap *bump, const t_point point);
 
 /* CYLINDER */
 
@@ -62,6 +63,8 @@ bool		cylinder_second_hit(t_cylinder *cylinder, const t_ray ray,
 /* PLANE */
 
 bool		plane_intersect(t_plane *plane, t_ray ray, t_intersection *out);
+
+t_point		planar_map(const t_vec3 plane_point);
 
 /* CIRCLE */
 

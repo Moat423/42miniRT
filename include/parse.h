@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/07 14:24:27 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:05:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	print_cones(const t_cone *cones, size_t cone_count);
 // textures
 
 void	*rperror_get_next_line(char *line, char *errormessage);
-int		set_bumpmap(char *obj_line, t_sphere *sphere);
 char	*parse_file_head(int fd);
+int		set_bumpmap(char *obj_line, t_bumpmap *bumpmap);
 int		open_bumpmap_file(char *line);
 
-int	get_val(int fd);
+int		get_val(int fd);
 t_bumpmap	*allocate_bumpmap(int fd);
