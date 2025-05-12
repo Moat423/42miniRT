@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/12 10:09:46 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:38:40 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,6 @@ t_checkers	default_uv_checkers(void);
 t_checkers	uv_checkers(int width, int height, t_color color_a,
 				t_color color_b);
 
-t_color	planar_pattern_at(const t_vec3 plane_point);
+t_color		planar_pattern_at(const t_vec3 plane_point);
 
 #endif

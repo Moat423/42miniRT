@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/12 11:07:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:05:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,12 @@
 # endif
 
 # ifndef BUMP_STRENGTH
-#  define BUMP_STRENGTH 0.1f
+#  define BUMP_STRENGTH 0.5f
 # endif //BUMP_STRENGTH
+
+# ifndef STEP
+#  define STEP 0.1
+# endif // STEP
 
 # define _USE_MATH_DEFINES
 
