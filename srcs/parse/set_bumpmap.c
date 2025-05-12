@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 11:04:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:18:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	fill_bump_greyscale(t_bumpmap *bump, int fd)
 }
 
 // function to call to fill bumpmap object in sphere
-int	set_bumpmap(char *obj_line, t_bumpmap *bumpmap)
+int	set_bumpmap(char *obj_line, t_bumpmap **bumpmap)
 {
 	int			fd;
 	t_bumpmap	*bump;
@@ -56,7 +56,7 @@ int	set_bumpmap(char *obj_line, t_bumpmap *bumpmap)
 		return (0);
 	if (!fill_bump_greyscale(bump, fd))
 		return (0);
-	*bumpmap = *bump;
+	*bumpmap = bump;
 	while (obj_line[position] && !ft_isspace(obj_line[position]))
 		++position;
 	return (position);
