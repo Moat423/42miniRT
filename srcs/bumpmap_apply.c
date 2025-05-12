@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:10:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 14:17:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:11:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,14 @@ t_vec3	apply_bump_mapping(const t_sphere *sphere,
 	// Sample height at current point and neighboring points
 	height = get_filtered_bump_elevation(sphere->bumpmap, point);
 	// Get height differences (derivatives)
-	// Sample neighboring points for derivatives
 	// Using small offset for UV coordinates
 	t_point point_u = point;
 	t_point point_v = point;
-	float uv_step = 0.0005; // Constant step in UV space
-	point_u.u = fmod(point.u + uv_step, 1.0f); // Use fmod to handle wrapping
-	point_v.v = fmod(point.v + uv_step, 1.0f);
+	// float uv_step = 0.0005; // Constant step in UV space
+	// point_u.u = fmod(point.u + uv_step, 1.0f); // Use fmod to handle wrapping
+	// point_v.v = fmod(point.v + uv_step, 1.0f);
+	point_u.u = fmin(point.u + 1.0f/sphere->bumpmap->width, 1.0f);
+	point_v.v = fmin(point.v + 1.0f/sphere->bumpmap->height, 1.0f);
 	// Offset points slightly in u and v directions
 	h_point.u = get_filtered_bump_elevation(sphere->bumpmap, point_u) - height;
 	h_point.v = get_filtered_bump_elevation(sphere->bumpmap, point_v) - height;
@@ -127,3 +128,27 @@ t_vec3	apply_bump_mapping(const t_sphere *sphere,
 			);
 	return (normal);
 }
+
+//bumped surface:
+//q(u,v)=point(u,v)+height(u,v)*normal(u,v)
+//point is the 3d point translated to 2d coordinates u and v
+//height is the height function at u and v (the computed value by which the height changed)
+//normal is the normal the those 2D coordinates
+//
+// t_vec3	apply_bump_mapping(const t_sphere *sphere,
+// 							const t_vec3 intersection_point, t_vec3 normal)
+// {
+// 	t_point		point;
+// 	float		height;
+// 	t_point		h_point;
+// 	float		u;
+// 	float		v;
+//
+// 	if (sphere->texture != BUMP)
+// 		return (normal);
+//
+// 	//new normal : cross product of partial derivatives (d for derivate)
+// 	//the derivates describe the changes of the bumped surface and we cross those changes in the 2 directions to get out new normal
+// 	//new_normal = (dq/dv) cross (dq/du)
+// 	return (normal);
+// }
