@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:10:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/07 16:52:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 10:04:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_vec3	apply_bump_mapping(const t_sphere *sphere,
 	float		height;
 	t_point		h_point;
 
-	if (!sphere->bumpmap)
+	if (sphere->texture != BUMP)
 		return (normal);
 	point = spherical_map(intersection_point, sphere->radius);
 	// Sample height at current point and neighboring points

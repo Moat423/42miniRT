@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:30:26 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/07 15:31:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 10:14:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ static void	objects_destroy_inner(t_objects *objects)
 	i = 0;
 	while (i < objects->cone_count)
 		free(objects->cones[i++].lights);
+	while (i < objects->plane_count)
+	{
+		if (objects->planes[i].texture == BUMP)
+			bumpmap_destroy(objects->planes[i].bumpmap);
+		i++;
+	}
 }
 
 void	objects_destroy(t_objects *objects, bool free_inner)
