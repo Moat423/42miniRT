@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:10:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 10:04:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:26:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,26 @@ t_vec3	apply_bump_mapping(const t_sphere *sphere,
 	// 		fmin(point.v + 1.0f/sphere->bumpmap->height, 1.0f)} - height);
 	h_point.u *= BUMP_STRENGTH;
 	h_point.v *= BUMP_STRENGTH;
-	// Create tangent and bitangent vec3s
-	// For a sphere, we can use the spherical coordinates
-	tangent = vec3_normalize((t_vec3){-sin(2 * M_PI * point.u), 0, 
-										cos(2 * M_PI * point.u)});
+	t_vec3 world_up = {0, 1, 0};
+	// If normal is parallel to world_up, use a different reference vector
+	if (fabs(vec3_dot(normal, world_up)) > 0.99f)
+		world_up = (t_vec3){1, 0, 0};
+	float phi = 2 * M_PI * point.u;
+	// Primary tangent (along lines of longitude)
+	tangent = vec3_normalize((t_vec3){
+		-sin(phi),
+		0,
+		cos(phi)
+	});
+	// bitangent simple calc:
 	bitangent = vec3_normalize(vec3_cross(normal, tangent));
+	// Bitangent (along lines of latitude)
+	// float theta = M_PI * point.v;
+	// bitangent = vec3_normalize((t_vec3){
+	// 	cos(phi) * cos(theta),
+	// 	-sin(theta),
+	// 	sin(phi) * cos(theta)
+	// });
 	// Perturb the normal using the height derivatives
 	normal = vec3_normalize(
 			vec3_add(normal, 

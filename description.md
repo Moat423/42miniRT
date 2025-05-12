@@ -506,3 +506,44 @@ this last one can leave out the handling of negative numbers since that is
 # Bump mapping
 
 srcs: https://medium.com/@muhammedcan.erbudak/ray-tracing-from-scratch-texture-normal-bump-mapping-22ece96038bf
+
+#### on a sphere
+
+so calculating  the tangent on a sphere is like this:
+This calculation works well along the equator but becomes problematic near the poles. It assumes the tangent is always horizontal (y=0), which is only true at the equator.
+```C
+	//	SIMPLE CALCULATION (this will assume there is a plane at this point on the sphere)
+	// Primary tangent (along lines of longitude)
+	tangent = vec3_normalize((t_vec3){-sin(2 * M_PI * point.u), 0, 
+										cos(2 * M_PI * point.u)});
+```
+bitangent however can be calculated either by pretending this is a plane (like the first following code, or as if it was on a sphere, like the second one)
+
+1. Cross Product Method:
+```C
+	bitangent = vec3_normalize(vec3_cross(normal, tangent));
+```
+2. Spherical Coordinate Method:
+```C
+	// more expensive calc
+	float phi = 2 * M_PI * point.u;
+	float theta = M_PI * point.v;
+
+	// Bitangent (along lines of latitude)
+	bitangent = vec3_normalize((t_vec3){
+		cos(phi) * cos(theta),
+		-sin(theta),
+		sin(phi) * cos(theta)
+	});
+```
+
+##### Why Bump Mapping Looks This Way (kind of bad XD)
+
+Bump mapping only modifies the surface normal, not the actual geometry. This means it can only affect how light reflects off the surface. The effect is most visible in two areas:
+
+Direct light areas (bright spots): Small changes in the normal create noticeable variations in how much light is reflected
+Grazing angles (shadow boundaries): Small changes in the normal can dramatically shift between light and shadow
+In the middle areas with more uniform lighting, the effect is naturally more subtle.
+
+Therefore the bumpmap is only visible in the bright spot and at the border to the shade.
+In the inbetween space, when the light is not shining onto it in a nearly perpendicular or nearly tangential area, there is nearly no bump texture.
