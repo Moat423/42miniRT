@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 09:34:43 by moat             ###   ########.fr       */
+/*   Updated: 2025/04/30 14:30:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ int	set_cone(char *line, t_cone *cone)
 }
 
 /*
-* sp 0.0,0.0,20.6 12.6 10,0,255
+* sp 0.0,0.0,20.6 12.6 10,0,255 ch
 * identifier: sp
 ∗ x, y, z coordinates of the sphere center: 0.0,0.0,20.6
 ∗ the sphere diameter: 12.6
 ∗ R,G,B colors in the range [0-255]: 10, 0, 255
+* optional: ch to apply checkers texture
 */
 int	set_sphere(char *line, t_sphere *sphere)
 {
@@ -78,9 +79,11 @@ int	set_sphere(char *line, t_sphere *sphere)
 	if (!i || !(line[i - 1] == ' ' || line[i - 1] == '\n'))
 		return (0);
 	sphere->radius /= 2;
-	if (line[i] != '\n')
-		i = set_color(line, i, &(sphere->color));
-	if (!i || line[i - 1] != '\n')
+	i = set_color(line, i, &(sphere->color));
+	if (!i)
+		return (0);
+	sphere->texture = ft_set_texture_flag(&i, line);
+	if (line[i - 1] != '\n')
 		return (0);
 	return (1);
 }
@@ -108,7 +111,10 @@ int	set_plane(char *line, t_plane *plane)
 	i = ft_skip_space(line, i);
 	if (line[i] != '\n')
 		i = set_color(line, i, &(plane->color));
-	if (!i || line[i - 1] != '\n')
+	if (!i)
+		return (0);
+	plane->texture = ft_set_texture_flag(&i, line);
+	if (line[i - 1] != '\n')
 		return (0);
 	return (1);
 }
