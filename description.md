@@ -511,7 +511,14 @@ https://medium.com/@Ksatese/advanced-ray-tracer-part-4-87d1c98eecff
 
 #### on a sphere
 
-so calculating  the tangent on a sphere is like this:
+##### how to map
+
+we get a picture, that is rectangular. for simplicity, we will use a normal picture and do an equirectagular projection. that is like wrapping a normal map (let's say a world map) around a globe and wrinkling it at the top and bottom so it kind of fits.
+
+pictures explaining this can be found here: https://medium.com/@Ksatese/advanced-ray-tracer-part-4-87d1c98eecff
+
+mapping 3d to 2d works like this then:
+calculating  the tangent on a sphere is like this:
 This calculation works well along the equator but becomes problematic near the poles. It assumes the tangent is always horizontal (y=0), which is only true at the equator.
 ```C
 	//	SIMPLE CALCULATION (this will assume there is a plane at this point on the sphere)
@@ -549,3 +556,167 @@ In the middle areas with more uniform lighting, the effect is naturally more sub
 
 Therefore the bumpmap is only visible in the bright spot and at the border to the shade.
 In the inbetween space, when the light is not shining onto it in a nearly perpendicular or nearly tangential area, there is nearly no bump texture.
+
+The description of the steps needed are as follows: (as on the [website](https://medium.com/@Ksatese/advanced-ray-tracer-part-4-87d1c98eecff))
+
+1. Tangent and Bitangent Vectors
+In mathematics, we have a surface in 3D and a 2D texture with coordinates (u,v). At every point:
+
+The tangent vector (T) points in the direction of increasing u
+The bitangent vector (B) points in the direction of increasing v
+The normal vector (N) is perpendicular to both
+Together, T, B, and N form an orthogonal coordinate system (called the TBN matrix) at each point.
+
+2. Height Function from Texture
+The bump map texture gives us a height function h(u,v) which tells us how "high" the surface would be at each point if we were to actually displace it.
+
+Mathematically: h(u,v) = texture_sample(u,v).r (or average of RGB)
+
+3. Partial Derivatives of the Height Function
+This is the key mathematical step. We need how much the height changes when we move slightly in u or v:
+$$
+∂h/∂u = [h(u+Δu,v) - h(u,v)]/Δu (approximation of partial derivative)
+∂h/∂v = [h(u,v+Δv) - h(u,v)]/Δv (approximation of partial derivative)
+$$
+These derivatives represent the "slope" of the height field in each direction.
+
+4. Perturbing the Tangent and Bitangent
+The article describes perturbing the tangent and bitangent vectors based on these derivatives:
+
+$T' = T + N·(∂h/∂u) B' = B + N·(∂h/∂v)$
+
+Mathematically, this means:
+
+If the height increases in u direction (∂h/∂u > 0), we tilt the tangent upward in the normal direction
+If the height decreases in u direction (∂h/∂u < 0), we tilt the tangent downward
+Same for bitangent using ∂h/∂v
+5. Calculate the New Normal
+The final perturbed normal is the cross product of the perturbed vectors:
+
+$N' = normalize(T' × B')$
+
+However, I will use a simplification in my Ray Tracer to compute less:
+$N' = normalize(N - (T·∂h/∂u + B·∂h/∂v))$
+
+###### Explanation for the simplification:
+
+explicit and mathematically correct approach:
+T' = T + N·(∂h/∂u)
+B' = B + N·(∂h/∂v)
+N' = normalize(T' × B')
+expanding the cross product:
+N' = normalize((T + N·(∂h/∂u)) × (B + N·(∂h/∂v)))
+
+expands to:
+= normalize(T×B + T×(N·(∂h/∂v)) + (N·(∂h/∂u))×B + (N·(∂h/∂u))×(N·(∂h/∂v)))
+
+Using the properties of our orthonormal basis (T,B,N):
+T×B = N
+T×N = -B (cross product anti-commutativity)
+N×B = -T (cross product anti-commutativity)
+Simplifying:
+T×B = N
+T×(N·(∂h/∂v)) = (T×N)·(∂h/∂v) = -B·(∂h/∂v)
+(N·(∂h/∂u))×B = (N×B)·(∂h/∂u) = -T·(∂h/∂u)
+The last term (N·(∂h/∂u))×(N·(∂h/∂v)) contains products of partial derivatives and becomes very small for small perturbations - it's a second-order term we can ignore.
+Therefore:
+T'×B' ≈ N - T·(∂h/∂u) - B·(∂h/∂v) = N - (T·(∂h/∂u) + B·(∂h/∂v))
+
+After normalization:
+N' = normalize(N - (T·(∂h/∂u) + B·(∂h/∂v)))
+
+###### explanation of my implementation:
+
+```C
+t_vec3	apply_bump_mapping(const t_sphere *sphere,
+							const t_vec3 intersection_point, t_vec3 normal)
+{
+    t_point     point;
+    t_vec3      tangent;
+    t_vec3      bitangent;
+    float       height;
+    t_point     h_point;
+
+	if (sphere->texture != BUMP)
+		return (normal);
+
+	// get texture coords (map 3D to 2D)
+	point = spherical_map(intersection_point, sphere->radius);
+	// get height at point (h(v,u) = height function from texture)
+	height = get_filtered_bump_elevation(sphere->bumpmap, point);
+	// calc partial derivatives (∂h/∂u and ∂h/∂v)
+	// sample neighboring points for height diffs (one pixel over in both directions)
+    point.u = fmin(point.u + 1.0f/sphere->bumpmap->width, 1.0f);
+    point.v = fmin(point.v + 1.0f/sphere->bumpmap->height, 1.0f);
+    // Calculate height differences (approximation of partial derivatives)
+    // ∂h/∂u = [h(u+Δu,v) - h(u,v)]
+    // ∂h/∂v = [h(u,v+Δv) - h(u,v)]
+	// and use them to calculate the derivatives
+	h_point.u = get_bump_elevation(sphere->bumpmap, (t_point){
+			fmin(point.u + 1.0f/sphere->bumpmap->width, 1.0f), point.v}) - height;
+	h_point.v = get_bump_elevation(sphere->bumpmap, (t_point){point.u, 
+			fmin(point.v + 1.0f/sphere->bumpmap->height, 1.0f)} - height);
+    // Scale the derivatives by bump strength
+    h_point.u *= BUMP_STRENGTH;
+    h_point.v *= BUMP_STRENGTH;
+	// Build tangent space (T,B,N basis)
+    // Reference vector for creating tangent space
+    t_vec3 world_up = {0, 1, 0};
+    // Handle special case when normal is parallel to world up
+    if (fabs(vec3_dot(normal, world_up)) > 0.99f)
+        world_up = (t_vec3){1, 0, 0};
+    // Convert UV coordinate to spherical angle
+    float phi = 2 * M_PI * point.u;
+    // Calculate tangent vector (T) - points along lines of longitude
+    // This represents the direction of increasing u in 3D space
+    tangent = vec3_normalize((t_vec3){
+        -sin(phi),
+        0,
+        cos(phi)
+    });
+    // Calculate bitangent vector (B) - points along lines of latitude
+    // This represents the direction of increasing v in 3D space
+    float theta = M_PI * point.v;
+    bitangent = vec3_normalize((t_vec3){
+        cos(phi) * cos(theta),
+        -sin(theta),
+        sin(phi) * cos(theta)
+    });
+    // Direct normal perturbation using the formula:
+    // N' = normalize(N + T*∂h/∂u + B*∂h/∂v)
+    normal = vec3_normalize(
+            vec3_subtract(normal,
+                vec3_add(
+                    vec3_multiply(tangent, h_point.u),
+                    vec3_multiply(bitangent, h_point.v)
+                    )
+                )
+            );
+    
+    return (normal);
+}
+```
+
+this part can be taken apart.
+
+```C
+	h_point.u = get_bump_elevation(sphere->bumpmap, (t_point){
+			fmin(point.u + 1.0f/sphere->bumpmap->width, 1.0f), point.v}) - height;
+	h_point.v = get_bump_elevation(sphere->bumpmap, (t_point){point.u, 
+			fmin(point.v + 1.0f/sphere->bumpmap->height, 1.0f)} - height);
+```
+first i need to get a pixel that is offset in the u direction and a pixel offset in the y direction:
+```C
+// Offset only u for ∂h/∂u
+point_u.u = fmin(point.u + 1.0f/sphere->bumpmap->width, 1.0f);
+// Offset only v for ∂h/∂v
+point_v.v = fmin(point.v + 1.0f/sphere->bumpmap->height, 1.0f);
+```
+
+second part:
+
+```C
+// calculate derivatives
+h_point.u = get_filtered_bump_elevation(sphere->bumpmap, point_u) - height;
+h_point.v = get_filtered_bump_elevation(sphere->bumpmap, point_v) - height;
+```
