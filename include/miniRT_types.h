@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/15 15:50:19 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:59:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef enum e_texture
 {
 	NONE,
 	CHECKERS,
+	BUMP,
 }	t_texture;
 
 typedef struct e_bumpmap
@@ -110,7 +111,7 @@ typedef struct e_texturing
 	void		*obj_colouring;
 	t_bumpmap	*bumpmap;
 	t_texture	type;
-} t_texturing;
+}	t_texturing;
 
 typedef t_vec3			t_color;
 

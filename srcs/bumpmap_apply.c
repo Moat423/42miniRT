@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:10:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/15 15:11:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:51:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_vec3	apply_bump_mapping(const t_sphere *sphere,
 	t_point	point;
 	t_point	derived_p;
 
-	if (sphere->texture != BUMP)
+	if (!sphere->bumpmap)
 		return (normal);
 	point = spherical_map(intersection_point, sphere->radius);
 	derived_p = get_derivative_bump_height(sphere->bumpmap, point);
