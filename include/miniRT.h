@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/12 14:06:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:10:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ t_point		spherical_map(const t_vec3 sphere_point, const float radius);
 t_vec3		apply_bump_mapping(const t_sphere *sphere,
 				const t_vec3 intersection_point, t_vec3 normal);
 float		get_bump_elevation(const t_bumpmap *bump, const t_point point);
-float		get_filtered_bump_elevation(const t_bumpmap *bump,
-				const t_point uv);
 
 /* CYLINDER */
 
@@ -154,6 +152,8 @@ void		bumpmap_destroy(t_bumpmap *bumpmap);
 float		image_aspect_ratio(t_scene *scene);
 bool		equal(float a, float b);
 float		powi(float x, int z);
+float		bilinear_interpolate(const float *data, const int width,
+				const int height, const t_point uv);
 
 /* MALLOCATION */
 
