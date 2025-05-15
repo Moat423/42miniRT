@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:29:46 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/30 14:36:16 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:04:26 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ t_point	spherical_map(const t_vec3 sphere_point, const float radius)
 	theta = atan2(sphere_point.x, sphere_point.z);
 	phi = acos(sphere_point.y / radius);
 	raw_u = theta / (2 * M_PI);
-	pt.min = 1 - (raw_u + 0.5);
-	pt.max = 1 - phi / M_PI;
+	pt.u = 1 - (raw_u + 0.5);
+	pt.v = 1 - phi / M_PI;
 	return (pt);
 }
 

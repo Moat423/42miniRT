@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/30 14:33:21 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:06:23 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,18 @@ t_vec3		intersect_normal(t_intersection *intersection);
 
 bool		sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out);
 
+/* SPHERE_CHECKERS */
+
+t_point		spherical_map(const t_vec3 sphere_point, const float radius);
+
+/* BUMPMAP_APPLY */
+
+t_vec3		apply_bump_mapping(const t_sphere *sphere,
+				const t_vec3 intersection_point, t_vec3 normal);
+float		get_bump_elevation(const t_bumpmap *bump, const t_point point);
+float		get_filtered_bump_elevation(const t_bumpmap *bump,
+				const t_point uv);
+
 /* CYLINDER */
 
 bool		cylinder_intersect(t_cylinder *cylinder, const t_ray ray,
@@ -53,6 +65,8 @@ bool		cylinder_second_hit(t_cylinder *cylinder, const t_ray ray,
 /* PLANE */
 
 bool		plane_intersect(t_plane *plane, t_ray ray, t_intersection *out);
+
+t_point		planar_map(const t_vec3 plane_point);
 
 /* CIRCLE */
 
@@ -136,13 +150,15 @@ bool		interval_surrounds(t_interval interval, float x);
 
 float		clamp(float value, float min, float max);
 void		scene_destroy(t_scene *scene);
+void		bumpmap_destroy(t_bumpmap *bumpmap);
 float		image_aspect_ratio(t_scene *scene);
 bool		equal(float a, float b);
 float		powi(float x, int z);
 
-/*OBJS */
+/* MALLOCATION */
 
 int			ft_malloc_scene_arrays(t_scene *scene);
+t_bumpmap	*ft_malloc_bumpmap(size_t width, size_t height);
 
 /*PRINT_SCENE*/
 
@@ -156,6 +172,6 @@ t_checkers	default_uv_checkers(void);
 t_checkers	uv_checkers(int width, int height, t_color color_a,
 				t_color color_b);
 
-t_color	planar_pattern_at(const t_vec3 plane_point);
+t_color		planar_pattern_at(const t_vec3 plane_point);
 
 #endif

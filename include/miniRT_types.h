@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/30 14:44:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:36:41 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,15 @@
 #  define LIGHT_DIST 30.0f
 # endif
 
-#define _USE_MATH_DEFINES
+# ifndef BUMP_STRENGTH
+#  define BUMP_STRENGTH 5
+# endif //BUMP_STRENGTH
+
+# ifndef STEP
+#  define STEP 0.1
+# endif // STEP
+
+# define _USE_MATH_DEFINES
 
 typedef void			(*t_param_fn)(void *);
 
@@ -83,8 +91,15 @@ typedef enum e_texture
 {
 	NONE,
 	CHECKERS,
-	OTHER,
+	BUMP,
 }	t_texture;
+
+typedef struct e_bumpmap
+{
+	float	*elevation;
+	size_t	width;
+	size_t	height;
+}	t_bumpmap;
 
 typedef struct s_vec3
 {
@@ -123,7 +138,11 @@ typedef struct s_interval
 	float	max;
 }	t_interval;
 
-typedef t_interval		t_point;
+typedef struct s_point
+{
+	float	u;
+	float	v;
+}	t_point;
 
 // describes ambient light parsed from file
 // brightness: in range 0.0-1.0
@@ -155,6 +174,7 @@ typedef struct s_sphere
 	t_light		**lights;
 	float		radius;
 	t_texture	texture;
+	t_bumpmap	*bumpmap;
 }	t_sphere;
 
 typedef struct s_plane

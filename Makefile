@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/04/30 13:32:07 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/05/07 16:46:44 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,11 +88,12 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		scene_fixing.c \
 		checkers.c \
 		sphere_checkers.c \
+		bumpmap_apply.c \
 		$(addprefix util/, quaternion.c color.c util.c vec3_0.c vec3_1.c vec3_2.c \
 		scene_malloc.c scene_destroy.c interval.c preprocess.c preprocess2.c \
 		print_scene.c print_scene_utils_0.c print_scene_utils_1.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c \
-		set_utils.c) \
+		set_utils.c set_bumpmap.c get_texture.c set_bumpmap_utils.c) \
 		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
@@ -179,7 +180,7 @@ $(LIBFT):
 	@printf "$(BOLD)Ensuring libft is at the correct commit...$(RESET)\n"
 	@( cd $(LIBFT_DIR) && \
 	  git fetch origin && \
-	  git checkout 6917d9c7ae0874e57c0c9d6555ed5abb118e5889 && \
+	  git checkout a4c8c412c9d6ca51b20e4fb1d879c21201417c02 && \
 	  printf "$(GREEN)Successfully checked out target commit.$(RESET)\n" ) || \
 	  printf "$(RED)Failed to checkout specific commit. Manual intervention required.$(RESET)\n"
 	@printf "$(BOLD)Building libft...$(RESET)\n"
