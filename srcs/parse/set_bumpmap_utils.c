@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_textures.c                                     :+:      :+:    :+:   */
+/*   set_bumpmap_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/06 15:41:02 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:05:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/miniRT.h"
+#include "../../lib/libft/libft_full.h"
+#include "../../include/parse.h"
 
 // creates a word while reading till 
 // the null temrinator,
