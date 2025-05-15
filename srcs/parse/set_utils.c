@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 11:44:33 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:16:39 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	ft_set_texture_flag(int *i, char *line)
 	{
 		(*i += 3);
 		return (BUMP);
+	}
+	if (line[*i] == 't' && line[*i + 1] == 'e')
+	{
+		(*i += 3);
+		return (TEXTURE);
 	}
 	else
 		return (NONE);

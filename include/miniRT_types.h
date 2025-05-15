@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/15 17:34:01 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:17:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef enum e_texture
 	NONE,
 	CHECKERS,
 	BUMP,
+	TEXTURE,
 }	t_texture;
 
 typedef struct e_bumpmap
@@ -179,7 +180,7 @@ typedef struct s_sphere
 	t_light		**lights;
 	float		radius;
 	t_texture	tex_type;
-	t_texturing	*textureing;
+	t_texturing	textureing;
 	t_bumpmap	*bumpmap;
 }	t_sphere;
 
