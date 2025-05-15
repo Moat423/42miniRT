@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/9 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/07 17:03:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:30:52 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	get_hits(t, discriminant, abc[B]);
 	if (!check_hit(t, ray, out, sphere))
 		return (false);
-	if (sphere->texture == CHECKERS)
+	if (sphere->tex_type == CHECKERS)
 		out->color = sphere_pattern_at(vec3_subtract(out->point, sphere->pos),
 				sphere->radius);
 	else

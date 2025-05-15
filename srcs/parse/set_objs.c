@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 15:36:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:31:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int	set_sphere(char *line, t_sphere *sphere)
 	i = set_color(line, i, &(sphere->color));
 	if (!i)
 		return (0);
-	sphere->texture = ft_set_texture_flag(&i, line);
-	if (sphere->texture == BUMP)
+	sphere->tex_type = ft_set_texture_flag(&i, line);
+	if (sphere->tex_type == BUMP)
 		return (set_bumpmap(&(line[i]), &(sphere->bumpmap)));
 	if (line[i - 1] == '\n')
 		return (1);
