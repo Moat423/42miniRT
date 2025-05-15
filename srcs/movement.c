@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 13:19:53 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/22 14:04:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 09:03:01 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,5 @@ void	movement(t_minirt *minirt)
 	if (moved)
 	{
 		minirt->loop_state = DEFERRED_RENDER;
-		printf("Camera Position: (%f, %f, %f)\n", minirt->scene.camera.pos.x,
-			minirt->scene.camera.pos.y, minirt->scene.camera.pos.z);
-		printf("Camera Direction: (%f, %f, %f)\n", minirt->scene.camera.dir.x,
-			minirt->scene.camera.dir.y, minirt->scene.camera.dir.z);
 	}
 }
