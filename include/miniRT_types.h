@@ -87,7 +87,6 @@ typedef enum e_texture
 {
 	NONE,
 	CHECKERS,
-	BUMP,
 }	t_texture;
 
 typedef struct e_bumpmap
@@ -103,6 +102,15 @@ typedef struct s_vec3
 	float	y;
 	float	z;
 }	t_vec3;
+
+//obj_colouring can be a pointer to t_checkers
+//or a pointer to mlx_texture_t depending on the texture type
+typedef struct e_texturing
+{
+	void		*obj_colouring;
+	t_bumpmap	*bumpmap;
+	t_texture	type;
+} t_texturing;
 
 typedef t_vec3			t_color;
 
