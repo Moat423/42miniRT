@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/15 14:06:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:07:10 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ int			set_color(char *line, int start, t_vec3 *color);
 int			set_vec(char *line, int start, t_vec3 *vec);
 int			ft_substrtof(float *num, int start, char *line);
 int			ft_set_texture_flag(int *i, char *line);
+
+// set_texturing.c
+
+int			set_texturing(char *line, t_texturing *texturing);
 
 // set_scene.c
 

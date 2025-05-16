@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/15 09:36:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/16 11:46:44 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,6 @@
 #  define BUMP_STRENGTH 3
 # endif //BUMP_STRENGTH
 
-# ifndef STEP
-#  define STEP 0.1
-# endif // STEP
-
 # define _USE_MATH_DEFINES
 
 typedef void			(*t_param_fn)(void *);
@@ -92,6 +88,7 @@ typedef enum e_texture
 	NONE,
 	CHECKERS,
 	BUMP,
+	TEXTURE,
 }	t_texture;
 
 typedef struct e_bumpmap
@@ -107,6 +104,15 @@ typedef struct s_vec3
 	float	y;
 	float	z;
 }	t_vec3;
+
+//obj_colouring can be a pointer to t_checkers
+//or a pointer to mlx_texture_t depending on the texture type
+typedef struct e_texturing
+{
+	void		*obj_colouring;
+	t_bumpmap	*bumpmap;
+	t_texture	type;
+}	t_texturing;
 
 typedef t_vec3			t_color;
 
@@ -173,7 +179,8 @@ typedef struct s_sphere
 	t_color		color;
 	t_light		**lights;
 	float		radius;
-	t_texture	texture;
+	t_texture	tex_type;
+	t_texturing	texturing;
 	t_bumpmap	*bumpmap;
 }	t_sphere;
 

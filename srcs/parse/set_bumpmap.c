@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/15 09:21:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:56:45 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	set_bumpmap(char *obj_line, t_bumpmap **bumpmap)
 	if (!fill_bump_greyscale(bump, fd))
 		return (0);
 	*bumpmap = bump;
-	while (obj_line[position] && !ft_isspace(obj_line[position]))
+	while (obj_line[position] && (!ft_isspace(obj_line[position]) || obj_line[position] != '\n'))
 		++position;
 	return (position);
 }
