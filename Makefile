@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/05/15 15:09:13 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/05/16 16:09:16 by moat             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		scene_malloc.c scene_destroy.c interval.c preprocess.c preprocess2.c \
 		print_scene.c print_scene_utils_0.c print_scene_utils_1.c interpolation.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c \
-		set_utils.c set_bumpmap.c get_texture.c set_bumpmap_utils.c) \
+		set_utils.c set_bumpmap.c get_texture.c set_bumpmap_utils.c set_texturing.c) \
 		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
@@ -204,8 +204,8 @@ sanitize: FINAL_CFLAGS = $(CFLAGS) $(SANITIZE_FLAGS)
 sanitize: FINAL_LDFLAGS = $(LDFLAGS) $(SANITIZE_FLAGS)
 sanitize: fclean $(NAME)
 
-debug: FINAL_CFLAGS += -g
-debug: FINAL_LDFLAGS += -g
+debug: FINAL_CFLAGS += -g3
+debug: FINAL_LDFLAGS += -g3
 debug: fclean $(NAME)
 
 bonus: FINAL_CFLAGS += -DBONUS
