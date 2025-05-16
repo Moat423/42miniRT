@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:29:46 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/07 16:04:26 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:51:23 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ t_point	spherical_map(const t_vec3 sphere_point, const float radius)
 	return (pt);
 }
 
-t_color	sphere_pattern_at(const t_vec3 sphere_point, const float radius)
+t_color	sphere_pattern_at(const t_vec3 sphere_point, const float radius, t_checkers *checker_pattern)
 {
 	t_checkers	checkers;
 	t_point		pt;
 
-	checkers = default_uv_checkers();
+	checkers = *checker_pattern;
 	pt = spherical_map(sphere_point, radius);
 	return (uv_pattern_at(checkers, pt));
 }

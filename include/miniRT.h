@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/16 15:13:49 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/16 18:56:18 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ bool		interval_surrounds(t_interval interval, float x);
 
 float		clamp(float value, float min, float max);
 void		scene_destroy(t_scene *scene);
+void		texturing_destroy(t_texturing *texturing);
 void		bumpmap_destroy(t_bumpmap *bumpmap);
 float		image_aspect_ratio(t_scene *scene);
 bool		equal(float a, float b);
@@ -167,7 +168,7 @@ void		print_scene(const t_scene *scene);
 
 /* CHECKERS */
 
-t_color		sphere_pattern_at(const t_vec3 sphere_point, const float radius);
+t_color		sphere_pattern_at(const t_vec3 sphere_point, const float radius, t_checkers *checker_pattern);
 t_color		uv_pattern_at(const t_checkers checkers, t_point pt);
 t_checkers	default_uv_checkers(void);
 t_checkers	uv_checkers(int width, int height, t_color color_a,
