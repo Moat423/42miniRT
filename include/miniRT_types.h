@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/19 13:59:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:26:17 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ typedef struct e_texturing
 {
 	union
 	{
-		t_checkers *checkers;
-		mlx_texture_t *texture;
+		t_checkers		*checkers;
+		mlx_texture_t	*texture;
 	};
 	t_bumpmap	*bumpmap;
 	t_texture	type;
