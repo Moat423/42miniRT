@@ -6,7 +6,7 @@
 /*   By: moat <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:44:54 by moat              #+#    #+#             */
-/*   Updated: 2025/05/19 14:32:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:22:37 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,27 @@ int	set_checkers(char *line, t_texturing *texturing,
 // return 0 on error in parse
 // returns -1 if good line ending has been discovered
 // returns i+ j if line ending has not been discovered
-// int	set_type_texture(char *line, t_texturing *texturing, int i, const t_texture type)
-// {
-// 	int	j;
-//
-// 	if (type == BUMP)
-// 		j = set_bumpmap(&(line[i]), &(texturing->bumpmap));
-// 	else if (type == CHECKERS)
-// 		j = set_checkers(&line[i], texturing, SP_CH_WIDTH, SP_CH_HEIGHT);
-// 	else if (type == TEXTURE)
-// 	{
-//		ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
-// 		j = 0;
-// 	}
-// 	if (!j)
-// 		return (0);
-// 	else if (line[i + (j && j > 0)] == '\n')
-// 		return (-1);
-// 	return (i + j);
-// }
+int	set_type_texture(char *line, t_texturing *texturing, const int i,
+						const t_texture type)
+{
+	int	j;
+
+	j = 0;
+	if (type == BUMP)
+		j = set_bumpmap(&(line[i]), &(texturing->bumpmap));
+	else if (type == CHECKERS)
+		j = set_checkers(&line[i], texturing, SP_CH_WIDTH, SP_CH_HEIGHT);
+	else if (type == TEXTURE)
+	{
+		ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
+		j = 0;
+	}
+	if (!j)
+		return (0);
+	else if (line[i + (j && j > 0)] == '\n')
+		return (-1);
+	return (i + j);
+}
 
 int	set_texturing(char *line, t_texturing *texturing)
 {
@@ -75,26 +77,41 @@ int	set_texturing(char *line, t_texturing *texturing)
 		type = ft_set_texture_flag(&i, line);
 		if (!type)
 			break ;
-		// i = set_type_texture(line, texturing, i, type);
-		if (type == BUMP)
-			j = set_bumpmap(&(line[i]), &(texturing->bumpmap));
-		else if (type == CHECKERS)
-			j = set_checkers(&line[i], texturing, SP_CH_WIDTH, SP_CH_HEIGHT);
-		else if (type == TEXTURE)
-		{
-			ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
-			j = 0;
-		}
-		if (!j)
-			return (0);
-		else if (line[i + (j && j > 0)] == '\n')
-			return (1);
-		i = ft_skip_space(line, i + j);
+		j = set_type_texture(line, texturing, i, type);
+		if (j > 0)
+			i = ft_skip_space(line, j);
+		else
+			return (1 && j);
 	}
 	if ((line[i] == '\n') || line[i] == '\0')
 		return (1);
 	ft_parseerror("expected end of line here", line, i);
 	return (0);
+}
+
+// return 0 on error in parse
+// returns -1 if good line ending has been discovered
+// returns i+ j if line ending has not been discovered
+int	set_plane_type_texture(char *line, t_texturing *texturing, const int i,
+						const t_texture type)
+{
+	int	j;
+
+	j = 0;
+	if (type == BUMP)
+		j = set_bumpmap(&(line[i]), &(texturing->bumpmap));
+	else if (type == CHECKERS)
+		j = set_checkers(&line[i], texturing, PL_CH_WIDTH, PL_CH_HEIGHT);
+	else if (type == TEXTURE)
+	{
+		ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
+		j = 0;
+	}
+	if (!j)
+		return (0);
+	else if (line[i + (j && j > 0)] == '\n')
+		return (-1);
+	return (i + j);
 }
 
 int	set_plane_texturing(char *line, t_texturing *texturing)
@@ -109,20 +126,11 @@ int	set_plane_texturing(char *line, t_texturing *texturing)
 		type = ft_set_texture_flag(&i, line);
 		if (!type)
 			break ;
-		if (type == BUMP)
-			j = set_bumpmap(&(line[i]), &(texturing->bumpmap));
-		else if (type == CHECKERS)
-			j = set_checkers(&line[i], texturing, PL_CH_WIDTH, PL_CH_HEIGHT);
-		else if (type == TEXTURE)
-		{
-			ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
-			j = 0;
-		}
-		if (!j)
-			return (0);
-		else if (line[i + (j && j > 0)] == '\n')
-			return (1);
-		i = ft_skip_space(line, i + j);
+		j = set_plane_type_texture(line, texturing, i, type);
+		if (j > 0)
+			i = ft_skip_space(line, j);
+		else
+			return (1 && j);
 	}
 	if ((line[i] == '\n') || line[i] == '\0')
 		return (1);
