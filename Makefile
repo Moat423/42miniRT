@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/05/16 16:09:16 by moat             ###   ########.fr        #
+#    Updated: 2025/05/19 19:05:21 by lmeubrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		scene_malloc.c scene_destroy.c interval.c preprocess.c preprocess2.c \
 		print_scene.c print_scene_utils_0.c print_scene_utils_1.c interpolation.c) \
 		$(addprefix parse/, input_check.c parse_scene.c set_scene.c set_objs.c \
-		set_utils.c set_bumpmap.c get_texture.c set_bumpmap_utils.c set_texturing.c) \
+		set_utils.c set_bumpmap.c get_ppm.c set_bumpmap_utils.c set_texturing.c) \
 		)
 
 OBJS := $(SRCS:($SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
