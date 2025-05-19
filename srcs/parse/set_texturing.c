@@ -6,7 +6,7 @@
 /*   By: moat <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:44:54 by moat              #+#    #+#             */
-/*   Updated: 2025/05/19 14:27:20 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:32:45 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	set_checkers(char *line, t_texturing *texturing,
 // 		j = set_checkers(&line[i], texturing, SP_CH_WIDTH, SP_CH_HEIGHT);
 // 	else if (type == TEXTURE)
 // 	{
-// 		ft_fprintf(2, "Feature not yet available\nyou requested textures with te\n");
+//		ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
 // 		j = 0;
 // 	}
 // 	if (!j)
@@ -72,7 +72,6 @@ int	set_texturing(char *line, t_texturing *texturing)
 	i = ft_skip_space(line, 0);
 	while (line[i] != '\0')
 	{
-		ft_parseerror("setting flag", line, i);
 		type = ft_set_texture_flag(&i, line);
 		if (!type)
 			break ;
@@ -83,7 +82,7 @@ int	set_texturing(char *line, t_texturing *texturing)
 			j = set_checkers(&line[i], texturing, SP_CH_WIDTH, SP_CH_HEIGHT);
 		else if (type == TEXTURE)
 		{
-			ft_fprintf(2, "Feature not yet available\nyou requested textures with te\n");
+			ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
 			j = 0;
 		}
 		if (!j)
@@ -116,7 +115,7 @@ int	set_plane_texturing(char *line, t_texturing *texturing)
 			j = set_checkers(&line[i], texturing, PL_CH_WIDTH, PL_CH_HEIGHT);
 		else if (type == TEXTURE)
 		{
-			ft_fprintf(2, "Feature not yet available\nyou requested textures with te\n");
+			ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
 			j = 0;
 		}
 		if (!j)
