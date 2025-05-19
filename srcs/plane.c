@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:51:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 15:36:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 09:21:29 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out)
 		out->point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
 		out->normal = plane->normal;
 		out->normal_calculated = true;
-		if (plane->texture == CHECKERS)
+		if (plane->texturing.type == CHECKERS)
 			out->color = planar_pattern_at(out->point);
 		else
 			out->color = plane->color;

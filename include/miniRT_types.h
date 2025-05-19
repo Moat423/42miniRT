@@ -198,7 +198,7 @@ typedef struct s_plane
 	t_vec3		pos;
 	t_vec3		normal;
 	t_color		color;
-	t_texture	texture;
+	t_texturing	texturing;
 }	t_plane;
 
 // expects the axis to be normalized
