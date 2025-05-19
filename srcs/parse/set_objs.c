@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 15:36:00 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 10:44:13 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,11 @@ int	set_sphere(char *line, t_sphere *sphere)
 	i = set_color(line, i, &(sphere->color));
 	if (!i)
 		return (0);
-	sphere->texture = ft_set_texture_flag(&i, line);
-	if (sphere->texture == BUMP)
-		return (set_bumpmap(&(line[i]), &(sphere->bumpmap)));
-	if (line[i - 1] == '\n')
+	if (set_texturing(&(line[i]), &(sphere->texturing)))
 		return (1);
-	ft_fprintf(2, "Error\nwrong line ending\nline: %s", line);
-	return (1);
+	ft_fprintf(2, "failed settting texture\n");
+	ft_fprintf(2, "expected texture %d, incorrect values were given\n", sphere->texturing.type);
+	return (0);
 }
 
 /*
@@ -99,6 +97,7 @@ int	set_sphere(char *line, t_sphere *sphere)
 0.0,1.0,0.0
 ∗ R,G,B colors in the range [0-255]: 0,0,225
 */
+// bump is disabled for now, still gets parsed though
 int	set_plane(char *line, t_plane *plane)
 {
 	int			i;
@@ -116,10 +115,12 @@ int	set_plane(char *line, t_plane *plane)
 		i = set_color(line, i, &(plane->color));
 	if (!i)
 		return (0);
-	plane->texture = ft_set_texture_flag(&i, line);
-	if (line[i - 1] != '\n')
-		return (0);
-	return (1);
+	if (set_texturing(&(line[i]), &(plane->texturing)) && plane->texturing.type != BUMP)
+		return (1);
+	ft_fprintf(2, "failed settting texture\n");
+	if (plane->texturing.type == BUMP)
+		ft_fprintf(2, "bumpmaps currently not implemented on planes");
+	return (0);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d	  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2025/04/29 16:28:11 by lmeubrin		  #+#	#+#			 */
-/*   Updated: 2025/05/07 16:04:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 09:40:20 by moat             ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -60,12 +60,15 @@ t_point	planar_map(const t_vec3 plane_point)
 	return (pt);
 }
 
-t_color	planar_pattern_at(const t_vec3 plane_point)
+t_color	planar_pattern_at(const t_vec3 plane_point, t_checkers *ch)
 {
 	t_checkers	checkers;
 	t_point		pt;
 
-	checkers = plane_uv_checkers();
+	if (ch)
+		checkers = (t_checkers){2, 2, ch->color_a, ch->color_b};
+	else
+		checkers = plane_uv_checkers();
 	pt = planar_map(plane_point);
 	return (uv_pattern_at(checkers, pt));
 }

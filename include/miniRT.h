@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/15 15:52:03 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/19 10:36:01 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ bool		sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out);
 
 /* SPHERE_CHECKERS */
 
+t_checkers	default_uv_checkers(void);
 t_point		spherical_map(const t_vec3 sphere_point, const float radius);
 
 /* BUMPMAP_APPLY */
@@ -148,6 +149,7 @@ bool		interval_surrounds(t_interval interval, float x);
 
 float		clamp(float value, float min, float max);
 void		scene_destroy(t_scene *scene);
+void		texturing_destroy(t_texturing *texturing);
 void		bumpmap_destroy(t_bumpmap *bumpmap);
 float		image_aspect_ratio(t_scene *scene);
 bool		equal(float a, float b);
@@ -166,12 +168,12 @@ void		print_scene(const t_scene *scene);
 
 /* CHECKERS */
 
-t_color		sphere_pattern_at(const t_vec3 sphere_point, const float radius);
+t_color		sphere_pattern_at(const t_vec3 sphere_point, const float radius, t_checkers *checker_pattern);
 t_color		uv_pattern_at(const t_checkers checkers, t_point pt);
 t_checkers	default_uv_checkers(void);
 t_checkers	uv_checkers(int width, int height, t_color color_a,
 				t_color color_b);
 
-t_color		planar_pattern_at(const t_vec3 plane_point);
+t_color		planar_pattern_at(const t_vec3 plane_point, t_checkers *ch);
 
 #endif

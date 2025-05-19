@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:30:26 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 15:36:15 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 09:09:31 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ void	bumpmap_destroy(t_bumpmap *bumpmap)
 	free(bumpmap);
 }
 
+void	texturing_destroy(t_texturing *texturing)
+{
+	if (texturing->bumpmap)
+		bumpmap_destroy(texturing->bumpmap);
+	if (texturing->type == CHECKERS)
+		free(texturing->checkers);
+	else if (texturing->type == TEXTURE)
+		free(texturing->texture);
+}
+
 static void	objects_destroy_inner(t_objects *objects)
 {
 	size_t	i;
@@ -30,8 +40,7 @@ static void	objects_destroy_inner(t_objects *objects)
 	while (i < objects->sphere_count)
 	{
 		free(objects->spheres[i].lights);
-		if (objects->spheres[i].texture == BUMP)
-			bumpmap_destroy(objects->spheres[i].bumpmap);
+		texturing_destroy(&(objects->spheres[i].texturing));
 		i++;
 	}
 	i = 0;

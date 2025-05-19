@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/15 15:51:36 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/19 09:17:07 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,6 @@
 #  define BUMP_STRENGTH 3
 # endif //BUMP_STRENGTH
 
-# ifndef STEP
-#  define STEP 0.1
-# endif // STEP
-
 # define _USE_MATH_DEFINES
 
 typedef void			(*t_param_fn)(void *);
@@ -92,6 +88,7 @@ typedef enum e_texture
 	NONE,
 	CHECKERS,
 	BUMP,
+	TEXTURE,
 }	t_texture;
 
 typedef struct e_bumpmap
@@ -109,6 +106,25 @@ typedef struct s_vec3
 }	t_vec3;
 
 typedef t_vec3			t_color;
+
+typedef struct s_checkers
+{
+	float	width;
+	float	height;
+	t_color	color_a;
+	t_color	color_b;
+}	t_checkers;
+
+typedef struct e_texturing
+{
+	union
+	{
+		t_checkers *checkers;
+		mlx_texture_t *texture;
+	};
+	t_bumpmap	*bumpmap;
+	t_texture	type;
+}	t_texturing;
 
 typedef struct s_aabb
 {
@@ -173,7 +189,7 @@ typedef struct s_sphere
 	t_color		color;
 	t_light		**lights;
 	float		radius;
-	t_texture	texture;
+	t_texturing	texturing;
 	t_bumpmap	*bumpmap;
 }	t_sphere;
 
@@ -182,7 +198,7 @@ typedef struct s_plane
 	t_vec3		pos;
 	t_vec3		normal;
 	t_color		color;
-	t_texture	texture;
+	t_texturing	texturing;
 }	t_plane;
 
 // expects the axis to be normalized
@@ -363,13 +379,5 @@ typedef struct s_light_ray
 	float	attenuation;
 	float	lambert;
 }	t_light_ray;
-
-typedef struct s_checkers
-{
-	float	width;
-	float	height;
-	t_color	color_a;
-	t_color	color_b;
-}	t_checkers;
 
 #endif
