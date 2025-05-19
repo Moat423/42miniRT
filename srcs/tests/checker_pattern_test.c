@@ -43,7 +43,7 @@ t_vec3 point(float x, float y, float z)
 }
 
 // Pattern at with specific checkers parameters
-t_color pattern_at_with_params(const t_vec3 sphere_point, const float radius, 
+t_color pattern_at_with_params(const t_vec3 sphere_point, const float radius,
                               int width, int height, t_color color_a, t_color color_b)
 {
     t_checkers checkers;
@@ -71,7 +71,7 @@ const char* color_name(t_color color)
 {
     if (color.x == 0 && color.y == 0 && color.z == 0)
         return "black";
-    else if (color.x == 255 && color.y == 255 && color.z == 255)
+    else if (color.x == 1 && color.y == 1 && color.z == 1)
         return "white";
     else
         return "other";
@@ -80,10 +80,10 @@ const char* color_name(t_color color)
 int main()
 {
     // Define constants
-    const t_color white = {255, 255, 255};
+    const t_color white = {1, 1, 1};
     const t_color black = {0, 0, 0};
     float radius = 1.0;  // Using unit sphere
-    
+
     // Define test points from the scenario
     t_vec3 test_points[] = {
         point(0.4315, 0.4670, 0.7719),
@@ -97,7 +97,7 @@ int main()
         point(0.7688, -0.1470, 0.6223),
         point(-0.7652, 0.2175, 0.6060)
     };
-    
+
     // Define expected colors
     t_color expected_colors[] = {
         white,  // For point(0.4315, 0.4670, 0.7719)
@@ -129,68 +129,68 @@ int main()
     // Run tests with specified checkers parameters (16x8)
     printf("=== Testing Texture Map Pattern with Spherical Mapping ===\n");
     printf("Checkers parameters: width=16, height=8\n");
-    printf("| %-30s | %-10s | %-10s | %-7s |\n", 
+    printf("| %-30s | %-10s | %-10s | %-7s |\n",
            "Point", "Expected", "Actual", "Result");
     printf("|--------------------------------|------------|------------|----------|\n");
 
     int pass_count = 0;
     int total_tests = sizeof(test_points) / sizeof(test_points[0]);
-    
+
     clock_t start_time = clock();
 
     for (int i = 0; i < total_tests; i++)
     {
         t_vec3 test_point = test_points[i];
         t_color expected = expected_colors[i];
-        
+
         // Call the function to test with specific parameters (16x8)
         t_color result = pattern_at_with_params(test_point, radius, 16, 8, white, black);
-        
+
         // Check if results match expected values
         bool test_pass = color_eq(result, expected);
-        
+
         if (test_pass)
             pass_count++;
-        
+
         printf("| %-30s | %-10s | %-10s | %-7s |\n",
                test_descriptions[i],
                color_name(expected),
                color_name(result),
                test_pass ? "PASS" : "FAIL");
     }
-    
+
     clock_t end_time = clock();
     double time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-    
+
     printf("\nTest Results: %d/%d tests passed\n", pass_count, total_tests);
     printf("Total time: %f seconds\n", time_spent);
 
     // Performance test
     printf("\n=== Performance Test (1,000,000 iterations) ===\n");
-    
+
     start_time = clock();
     t_vec3 sample_point = point(0.5, 0.7, 0.3);
     t_color result;
-    
+
     for (int i = 0; i < 1000000; i++) {
         // Slightly modify the point to prevent optimization
         sample_point.x = 0.5 + (i % 100) * 0.001;
         sample_point.y = 0.7 + (i % 50) * 0.001;
         sample_point.z = 0.3 + (i % 75) * 0.001;
-        
+
         result = pattern_at_with_params(sample_point, radius, 16, 8, white, black);
     }
-    
+
     end_time = clock();
     time_spent = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-    
+
     printf("Time taken: %f seconds\n", time_spent);
     printf("Operations per second: %f\n", 1000000.0 / time_spent);
-    
+
     // Print a result to prevent optimization
     printf("Final result: ");
     print_color(result);
     printf("\n");
-    
+
     return (total_tests - pass_count); // Return 0 if all tests pass
 }
