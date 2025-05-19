@@ -90,7 +90,7 @@ t_aabb		cone_aabb(t_cone *cone);
 
 /* OBJECT */
 
-t_color		object_color(t_object object);
+t_color		object_color_at(t_object object, t_vec3 pt);
 
 /* CAMERA */
 

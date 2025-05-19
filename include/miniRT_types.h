@@ -318,7 +318,6 @@ typedef struct s_intersection
 	t_object		object;
 	float			distance;
 	bool			normal_calculated;
-	t_color			color;
 }	t_intersection;
 
 // struct used in cone calculation to prepare values for discriminant

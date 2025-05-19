@@ -18,7 +18,7 @@ t_checkers	default_uv_checkers(void)
 
 	ch.width = 16;
 	ch.height = 8;
-	ch.color_a = (t_vec3){255, 255, 255};
+	ch.color_a = (t_vec3){1, 1, 1};
 	ch.color_b = (t_vec3){0, 0, 0};
 	return (ch);
 }

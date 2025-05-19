@@ -24,7 +24,7 @@ t_checkers	uv_checkers(void)
 
 	ch.width = 2;
 	ch.height = 2;
-	ch.color_a = (t_vec3){255, 255, 255};
+	ch.color_a = (t_vec3){1, 1, 1};
 	ch.color_b = (t_vec3){0, 0, 0};
 	return (ch);
 }
@@ -40,17 +40,17 @@ void test_checkerboard_pattern() {
 	float u;
 	float v;
 	t_color result;
-	
-	printf("Checkers properties: width=%.1f, height=%.1f\n", 
+
+	printf("Checkers properties: width=%.1f, height=%.1f\n",
 		   checkers.width, checkers.height);
 	printf("Color A: "); print_color(checkers.color_a); printf("\n");
 	printf("Color B: "); print_color(checkers.color_b); printf("\n\n");
-	
+
 	float test_coords[][2] = {
 		{0.0, 0.0}, {0.3, 0.3}, {0.7, 0.3}, {0.3, 0.7}, {0.7, 0.7},
 		{1.0, 1.0}, {1.3, 1.3}, {1.7, 1.3}, {1.3, 1.7}, {1.7, 1.7}
 	};
-	
+
 	printf("UV Coordinate Tests:\n");
 	for (int i = 0; i < 10; i++) {
 		u = test_coords[i][0];
@@ -74,7 +74,7 @@ void test_checkerboard_pattern() {
 		printf("UV(%.1f, %.1f) -> ", u, v);
 		print_color(result);
 		printf("\n");
-		if ((i == 1 || i == 2) && (result.x == 255 && result.y == 255 && result.z == 255))
+		if ((i == 1 || i == 2) && (result.x == 1 && result.y == 1 && result.z == 1))
 	  		printf("OK\n");
 		else if ((i != 1 && 1 != 2) && (result.x == 0))
 		   printf("OK\n");
@@ -87,31 +87,31 @@ void test_checkerboard_pattern() {
 void performance_test(int iterations) {
     printf("\n=== Performance Test (%d iterations) ===\n", iterations);
     t_checkers checkers = uv_checkers();
-    
+
     clock_t start = clock();
-    
+
     // Variables to prevent compiler optimization
     float sum_r = 0, sum_g = 0, sum_b = 0;
-    
+
     for (int i = 0; i < iterations; i++) {
         // Generate varying UV coordinates
         float u = (float)i / iterations * 10.0;
         float v = (float)(i * 7 % 97) / 97.0 * 10.0;
-        
+
         t_color result = uv_pattern_at(checkers, u, v);
-        
+
         // Use the results to prevent optimization
         sum_r += result.x;
         sum_g += result.y;
         sum_b += result.z;
     }
-    
+
     clock_t end = clock();
     double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    
+
     printf("Time taken: %f seconds\n", time_spent);
     printf("Operations per second: %f\n", iterations / time_spent);
-    
+
     // Print sums to ensure operations weren't optimized away
     printf("Checksum: %.1f\n", (sum_r + sum_g + sum_b));
 }
@@ -119,9 +119,9 @@ void performance_test(int iterations) {
 int main() {
 	// Test the checkerboard pattern functionality
 	test_checkerboard_pattern();
-	
+
 	// Performance test with 10 million iterations
 	performance_test(1000000000);
-	
+
 	return 0;
 }

@@ -30,10 +30,6 @@ bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out)
 		out->point = vec3_add(ray.origin, vec3_multiply(ray.direction, t));
 		out->normal = plane->normal;
 		out->normal_calculated = true;
-		if (plane->texturing.type == CHECKERS)
-			out->color = planar_pattern_at(out->point);
-		else
-			out->color = plane->color;
 		return (true);
 	}
 	return (false);

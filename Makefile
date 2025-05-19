@@ -169,7 +169,7 @@ $(LIBMLX):
 # Submodules in my own Libft from own repo if not present and compiles
 $(LIBFT):
 	@mkdir -p lib
-	@if [ ! -d "$(LIBFT_DIR)" ] || [ -z "$$(ls -A $(LIBFT_DIR))" ]; then \
+	@if [ ! -d "$(LIBFT_DIR)" ]; then \
 		printf "$(BOLD)Initializing libft...$(RESET)\n"; \
 		git submodule add -f https://github.com/Moat423/Libft_full.git $(LIBFT_DIR); \
 		git submodule update --init --recursive -- $(LIBFT_DIR); \

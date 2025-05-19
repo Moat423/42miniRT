@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/16 14:49:52 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:45:46 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static float	lambertian(t_vec3 normal, t_vec3 light_dir)
 	return (fmaxf(0.0f, vec3_dot(normal, light_dir)));
 }
 
-static t_color	ambient(t_scene *scene, t_object object)
+static t_color	ambient(t_scene *scene, t_object object, t_vec3 pt)
 {
 	return (vec3_multiply(
-			vec3_component_mul(scene->ambient.color, object_color(object)),
+			vec3_component_mul(scene->ambient.color, object_color_at(object, pt)),
 			scene->ambient.brightness));
 }
 
@@ -58,7 +58,7 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
 	t_light_ray	l;
 	t_light		*light;
 
-	color = ambient(scene, intersection.object);
+	color = ambient(scene, intersection.object, intersection.point);
 	normal = intersect_normal(&intersection);
 	i = 0;
 	while (intersection.object.type != PLANE && object_lights(intersection.object)[i])
