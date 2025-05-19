@@ -6,7 +6,7 @@
 /*   By: moat <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:44:54 by moat              #+#    #+#             */
-/*   Updated: 2025/05/19 15:22:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:46:29 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	set_checkers(char *line, t_texturing *texturing,
 // return 0 on error in parse
 // returns -1 if good line ending has been discovered
 // returns i+ j if line ending has not been discovered
+// uses default values for the SPHERE!
 int	set_type_texture(char *line, t_texturing *texturing, const int i,
 						const t_texture type)
 {
@@ -92,6 +93,7 @@ int	set_texturing(char *line, t_texturing *texturing)
 // return 0 on error in parse
 // returns -1 if good line ending has been discovered
 // returns i+ j if line ending has not been discovered
+// uses default values for the PLANE
 int	set_plane_type_texture(char *line, t_texturing *texturing, const int i,
 						const t_texture type)
 {
@@ -114,6 +116,7 @@ int	set_plane_type_texture(char *line, t_texturing *texturing, const int i,
 	return (i + j);
 }
 
+// grabs texturing and sets default values for checkers for plane
 int	set_plane_texturing(char *line, t_texturing *texturing)
 {
 	int	i;
