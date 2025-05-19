@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:51:50 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/19 13:46:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:58:30 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ t_color	object_color_at(t_object object, t_vec3 pt)
 			return (sphere_pattern_at(
 					vec3_subtract(pt, object.sphere->pos),
 					object.sphere->radius, object.sphere->texturing.checkers));
+		else if (object.sphere->texturing.type == TEXTURE)
+			return (sphere_texture_at(
+					vec3_subtract(pt, object.sphere->pos),
+					object.sphere->radius, object.sphere->texturing.texture));
 		return (object.sphere->color);
 	}
 	if (object.type == PLANE)

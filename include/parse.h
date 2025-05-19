@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/16 16:07:10 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 19:25:11 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,15 @@ char		*parse_file_head(int fd);
 int			set_bumpmap(char *obj_line, t_bumpmap **bumpmap);
 int			open_bumpmap_file(char *line);
 
+// bumpmap
+
 int			get_val(int fd);
 t_bumpmap	*allocate_bumpmap(int fd);
+
+// set_bumpmap_utils.c
+
+char		*ft_subword(char *line);
+
+// set_png_texture.c
+
+int			set_png_texture(char *obj_line, mlx_texture_t **texture);
