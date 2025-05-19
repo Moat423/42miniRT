@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/15 14:05:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:17:08 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,12 @@ char	*ft_subword(char *line)
 // if this returns -1, somethig went wrong and an errormessage has been printed
 int	open_bumpmap_file(char *line)
 {
-	int		i;
 	int		fd;
 	char	*filename;
 
-	i = 0;
-	i = ft_skip_space(line, i);
-	filename = ft_subword(&line[i]);
+	while (*line == ' ')
+		line++;
+	filename = ft_subword(line);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
