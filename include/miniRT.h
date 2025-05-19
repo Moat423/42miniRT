@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/15 15:10:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:52:03 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_aabb		cone_aabb(t_cone *cone);
 
 /* OBJECT */
 
-t_color		object_color(t_object object);
+t_color		object_color_at(t_object object, t_vec3 pt);
 
 /* CAMERA */
 

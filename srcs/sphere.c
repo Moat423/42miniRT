@@ -72,10 +72,5 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 	get_hits(t, discriminant, abc[B]);
 	if (!check_hit(t, ray, out, sphere))
 		return (false);
-	if (sphere->texture == CHECKERS)
-		out->color = sphere_pattern_at(vec3_subtract(out->point, sphere->pos),
-				sphere->radius);
-	else
-		out->color = sphere->color;
 	return (true);
 }
