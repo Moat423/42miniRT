@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/16 11:46:44 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 09:17:07 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,26 @@ typedef struct s_vec3
 	float	z;
 }	t_vec3;
 
-//obj_colouring can be a pointer to t_checkers
-//or a pointer to mlx_texture_t depending on the texture type
+typedef t_vec3			t_color;
+
+typedef struct s_checkers
+{
+	float	width;
+	float	height;
+	t_color	color_a;
+	t_color	color_b;
+}	t_checkers;
+
 typedef struct e_texturing
 {
-	void		*obj_colouring;
+	union
+	{
+		t_checkers *checkers;
+		mlx_texture_t *texture;
+	};
 	t_bumpmap	*bumpmap;
 	t_texture	type;
 }	t_texturing;
-
-typedef t_vec3			t_color;
 
 typedef struct s_aabb
 {
@@ -179,7 +189,6 @@ typedef struct s_sphere
 	t_color		color;
 	t_light		**lights;
 	float		radius;
-	t_texture	tex_type;
 	t_texturing	texturing;
 	t_bumpmap	*bumpmap;
 }	t_sphere;
@@ -371,13 +380,5 @@ typedef struct s_light_ray
 	float	attenuation;
 	float	lambert;
 }	t_light_ray;
-
-typedef struct s_checkers
-{
-	float	width;
-	float	height;
-	t_color	color_a;
-	t_color	color_b;
-}	t_checkers;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: moat <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:44:54 by moat              #+#    #+#             */
-/*   Updated: 2025/05/16 18:45:09 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 09:12:29 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	set_checkers(char *line, t_texturing *texturing)
 	*ch = default_uv_checkers();
 	texturing->type = CHECKERS;
 	i = ft_skip_space(line, 0);
-	texturing->obj_colouring = ch;
+	texturing->checkers = ch;
 	if (!ft_isdigit(line[i]))
 	{
 		ft_fprintf(2, "proceeding with default checkers colour\n");

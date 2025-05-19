@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:30:26 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/16 19:06:59 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 09:09:31 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ void	texturing_destroy(t_texturing *texturing)
 {
 	if (texturing->bumpmap)
 		bumpmap_destroy(texturing->bumpmap);
-	if (texturing->type)
-		free(texturing->obj_colouring);
+	if (texturing->type == CHECKERS)
+		free(texturing->checkers);
+	else if (texturing->type == TEXTURE)
+		free(texturing->texture);
 }
 
 static void	objects_destroy_inner(t_objects *objects)

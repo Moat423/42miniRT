@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/16 16:58:17 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 09:20:11 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,6 @@ int	set_sphere(char *line, t_sphere *sphere)
 		return (1);
 	ft_fprintf(2, "failed settting texture\n");
 	ft_fprintf(2, "expected texture %d, incorrect values were given\n", sphere->texturing.type);
-	// sphere->texturing.type = ft_set_texture_flag(&i, line);
-	// if (sphere->texturing.type == BUMP)
-	// 	return (set_bumpmap(&(line[i]), &(sphere->bumpmap)));
-	// if (line[i - 1] == '\n')
-	// 	return (1);
-	// ft_fprintf(2, "Error\nwrong line ending line:\n%s", line);
 	return (0);
 }
 

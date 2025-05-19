@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/9 11:01:02 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/16 18:49:08 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 09:12:11 by moat             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ bool	sphere_intersect(t_sphere *sphere, t_ray ray, t_intersection *out)
 		return (false);
 	if (sphere->texturing.type == CHECKERS)
 		out->color = sphere_pattern_at(vec3_subtract(out->point, sphere->pos),
-				sphere->radius, sphere->texturing.obj_colouring);
+				sphere->radius, sphere->texturing.checkers);
 	else
 		out->color = sphere->color;
 	return (true);
