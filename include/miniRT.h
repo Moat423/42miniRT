@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/19 10:36:01 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 13:07:53 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool		cylinder_second_hit(t_cylinder *cylinder, const t_ray ray,
 
 bool		plane_intersect(t_plane *plane, t_ray ray, t_intersection *out);
 
-t_point		planar_map(const t_vec3 plane_point);
+t_point		planar_map(const t_vec3 plane_normal, const t_vec3 plane_point);
 
 /* CIRCLE */
 
@@ -168,12 +168,14 @@ void		print_scene(const t_scene *scene);
 
 /* CHECKERS */
 
-t_color		sphere_pattern_at(const t_vec3 sphere_point, const float radius, t_checkers *checker_pattern);
+t_color		sphere_pattern_at(const t_vec3 sphere_point, const float radius,
+				t_checkers *checker_pattern);
 t_color		uv_pattern_at(const t_checkers checkers, t_point pt);
 t_checkers	default_uv_checkers(void);
 t_checkers	uv_checkers(int width, int height, t_color color_a,
 				t_color color_b);
 
-t_color		planar_pattern_at(const t_vec3 plane_point, t_checkers *ch);
+t_color		planar_pattern_at(const t_vec3 plane_normal,
+				const t_vec3 plane_point, t_checkers *ch);
 
 #endif

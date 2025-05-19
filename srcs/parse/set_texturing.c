@@ -6,22 +6,23 @@
 /*   By: moat <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:44:54 by moat              #+#    #+#             */
-/*   Updated: 2025/05/19 09:12:29 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 14:27:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
 
-int	set_checkers(char *line, t_texturing *texturing)
+int	set_checkers(char *line, t_texturing *texturing,
+					const float width, const float height)
 {
 	int			i;
-	t_checkers *ch;
+	t_checkers	*ch;
 
 	ch = malloc(sizeof(t_checkers));
 	if (!ch)
 		return (0);
-	*ch = default_uv_checkers();
+	*ch = uv_checkers(width, height, (t_vec3){1, 1, 1}, (t_vec3){0, 0, 0});
 	texturing->type = CHECKERS;
 	i = ft_skip_space(line, 0);
 	texturing->checkers = ch;
@@ -39,7 +40,65 @@ int	set_checkers(char *line, t_texturing *texturing)
 	return (i);
 }
 
+// return 0 on error in parse
+// returns -1 if good line ending has been discovered
+// returns i+ j if line ending has not been discovered
+// int	set_type_texture(char *line, t_texturing *texturing, int i, const t_texture type)
+// {
+// 	int	j;
+//
+// 	if (type == BUMP)
+// 		j = set_bumpmap(&(line[i]), &(texturing->bumpmap));
+// 	else if (type == CHECKERS)
+// 		j = set_checkers(&line[i], texturing, SP_CH_WIDTH, SP_CH_HEIGHT);
+// 	else if (type == TEXTURE)
+// 	{
+// 		ft_fprintf(2, "Feature not yet available\nyou requested textures with te\n");
+// 		j = 0;
+// 	}
+// 	if (!j)
+// 		return (0);
+// 	else if (line[i + (j && j > 0)] == '\n')
+// 		return (-1);
+// 	return (i + j);
+// }
+
 int	set_texturing(char *line, t_texturing *texturing)
+{
+	int	i;
+	int	type;
+	int	j;
+
+	i = ft_skip_space(line, 0);
+	while (line[i] != '\0')
+	{
+		ft_parseerror("setting flag", line, i);
+		type = ft_set_texture_flag(&i, line);
+		if (!type)
+			break ;
+		// i = set_type_texture(line, texturing, i, type);
+		if (type == BUMP)
+			j = set_bumpmap(&(line[i]), &(texturing->bumpmap));
+		else if (type == CHECKERS)
+			j = set_checkers(&line[i], texturing, SP_CH_WIDTH, SP_CH_HEIGHT);
+		else if (type == TEXTURE)
+		{
+			ft_fprintf(2, "Feature not yet available\nyou requested textures with te\n");
+			j = 0;
+		}
+		if (!j)
+			return (0);
+		else if (line[i + (j && j > 0)] == '\n')
+			return (1);
+		i = ft_skip_space(line, i + j);
+	}
+	if ((line[i] == '\n') || line[i] == '\0')
+		return (1);
+	ft_parseerror("expected end of line here", line, i);
+	return (0);
+}
+
+int	set_plane_texturing(char *line, t_texturing *texturing)
 {
 	int	i;
 	int	type;
@@ -54,7 +113,7 @@ int	set_texturing(char *line, t_texturing *texturing)
 		if (type == BUMP)
 			j = set_bumpmap(&(line[i]), &(texturing->bumpmap));
 		else if (type == CHECKERS)
-			j = set_checkers(&line[i], texturing);
+			j = set_checkers(&line[i], texturing, PL_CH_WIDTH, PL_CH_HEIGHT);
 		else if (type == TEXTURE)
 		{
 			ft_fprintf(2, "Feature not yet available\nyou requested textures with te\n");

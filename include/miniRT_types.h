@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/19 09:17:07 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/19 13:59:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,22 @@
 /// a higher value makes the material more metallic
 /// -> the specular reflection gets more concentrated at one spot
 #  define SHININESS 32
+# endif
+
+# ifndef SP_CH_WIDTH
+#  define SP_CH_WIDTH 16
+# endif
+
+# ifndef SP_CH_HEIGHT
+#  define SP_CH_HEIGHT 8
+# endif
+
+# ifndef PL_CH_WIDTH
+#  define PL_CH_WIDTH 2
+# endif
+
+# ifndef PL_CH_HEIGHT
+#  define PL_CH_HEIGHT 2
 # endif
 
 # ifndef LIGHT_DIST
