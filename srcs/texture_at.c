@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:31:35 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/20 19:00:49 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:29:05 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,16 @@ t_color	uv_texture_at(mlx_texture_t *texture, t_point point)
 
 	point.u = point.u - floor(point.u);
 	point.v = point.v - floor(point.v);
-	y = (1.0 - point.u) * (texture->width - 1);
 	x = (point.v) * (texture->height - 1);
-    x = (x < 0) ? 0 : ((x >= texture->height) ? texture->width - 1 : x);
-    y = (y < 0) ? 0 : ((y >= texture->width) ? texture->height - 1 : y);
+	y = (1.0 - point.u) * (texture->width - 1);
+	if (x < 0)
+		x = 0;
+	else if (x >= texture->height)
+		x = x % (texture->width - 1);
+	if (y < 0)
+		y = 0;
+	else if (y >= texture->width)
+		y = y % (texture->height - 1);
 	pixel = &texture->pixels[(int)(x * texture->width + y)
 		* texture->bytes_per_pixel];
 	return (color_from_rgb(pixel[0], pixel[1], pixel[2]));

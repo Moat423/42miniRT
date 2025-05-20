@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/12 14:02:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:32:37 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 
 // MANDATORY PART
 //TODO: valgrind!!
-//TODO: compile time checks for things that should be disabled if not compiling bonus
+//TODO: compile time checks for things that should be disabled if not
+//compiling bonus
 // 1. single light
 // 2. cones
 //TODO: sort objects by distance to origin:
