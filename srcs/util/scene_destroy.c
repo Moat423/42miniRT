@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:30:26 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/19 19:18:52 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:10:41 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	texturing_destroy(t_texturing *texturing)
 		bumpmap_destroy(texturing->bumpmap);
 	if (texturing->type == CHECKERS)
 		free(texturing->checkers);
-	else if (texturing->type == TEXTURE)
+	else if (texturing->type == TEXTURE && texturing->texture)
 		mlx_delete_texture(texturing->texture);
 }
 
