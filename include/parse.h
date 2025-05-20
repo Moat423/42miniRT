@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:29:00 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/19 19:25:11 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:38:12 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,4 @@ char		*ft_subword(char *line);
 
 // set_png_texture.c
 
-int			set_png_texture(char *obj_line, mlx_texture_t **texture);
+int			set_png_texture(char *obj_line, t_texturing *texturing);

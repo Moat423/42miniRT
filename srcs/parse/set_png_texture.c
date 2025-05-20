@@ -6,25 +6,34 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:06:48 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/19 19:23:38 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:45:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parse.h"
 
-int	set_png_texture(char *obj_line, mlx_texture_t **texture)
+int	set_png_texture(char *obj_line, t_texturing *texturing)
 {
 	char	*filename;
 	int		position;
 
+	if (texturing->type != 0)
+	{
+		ft_fprintf(2, "already has a type: %d", texturing->type);
+		return (0);
+	}
 	position = 0;
+	texturing->type = TEXTURE;
 	while (ft_isspace(obj_line[position]))
 		++position;
 	filename = ft_subword(obj_line);
 	if (!filename)
+	{
+		ft_fprintf(2, "failed creating subword from line for filename");
 		return (0);
-	*texture = (mlx_load_png(filename));
-	if (!*texture)
+	}
+	texturing->texture = (mlx_load_png(filename));
+	if (!texturing->texture)
 		return (0);
 	while (obj_line[position] && (!ft_isspace(obj_line[position])
 			|| obj_line[position] == '\n'))
