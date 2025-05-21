@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:31:35 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/21 11:13:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:29:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ t_color	uv_texture_at(mlx_texture_t *texture, t_point point)
 	pixel = &texture->pixels[(y * texture->width + x)
 		* texture->bytes_per_pixel];
 	return (color_from_rgb(pixel[0], pixel[1], pixel[2]));
+}
+
+t_color	planar_texture_at(const t_vec3 plane_normal, const t_vec3 plane_point,
+							mlx_texture_t *texture)
+{
+	t_point		pt;
+
+	pt = planar_map(plane_normal, plane_point);
+	return (uv_texture_at(texture, pt));
 }
 
 t_color	sphere_texture_at(const t_vec3 sphere_point, const float radius,

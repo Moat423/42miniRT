@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:51:50 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/19 19:58:30 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:32:13 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ t_color	object_color_at(t_object object, t_vec3 pt)
 		if (object.plane->texturing.type == CHECKERS)
 			return (planar_pattern_at(object.plane->normal, pt,
 					object.plane->texturing.checkers));
+		else if (object.plane->texturing.type == TEXTURE)
+			return (planar_texture_at(object.plane->normal,
+					vec3_subtract(pt, object.plane->pos),
+					object.sphere->texturing.texture));
 		return (object.plane->color);
 	}
 	if (object.type == CYLINDER)
