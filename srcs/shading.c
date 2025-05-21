@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/21 12:28:51 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:02:36 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static t_color	light_contribution(t_scene *scene, t_intersection ix,
 	if (l_ray.lambert > 0)
 	{
 		if (!is_in_shadow(scene, (t_ray){ix.point,
-				l_ray.direction, interval_new(0, l_ray.distance)}, light))
+				l_ray.direction, interval_new(0.005, l_ray.distance)}, light))
 			return (calc_lights(light, ray, ix, l_ray));
 	}
 	return (color_new(0, 0, 0));
@@ -77,6 +77,7 @@ t_color	shade(t_scene *scene, t_ray ray, t_intersection ix)
 	color = ambient(scene, ix.object, ix.point);
 	i = 0;
 	obj_lights = object_lights(ix.object);
+	intersect_normal(&ix);
 	if (obj_lights)
 	{
 		while (obj_lights[i])
