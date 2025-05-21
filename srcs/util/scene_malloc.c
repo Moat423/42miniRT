@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:27:18 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/05 19:27:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:31:03 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ t_bumpmap	*ft_malloc_bumpmap(size_t width, size_t height)
 		return (NULL);
 	bump->height = height;
 	bump->width = width;
-	if (!ft_malloc_array(width * height, sizeof(float), (void **)&(bump->elevation)))
+	if (!ft_malloc_array(width * height, sizeof(float),
+			(void **)&(bump->elevation)))
 	{
 		free(bump);
 		return (NULL);

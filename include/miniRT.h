@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/19 13:07:53 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:50:18 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,5 +177,10 @@ t_checkers	uv_checkers(int width, int height, t_color color_a,
 
 t_color		planar_pattern_at(const t_vec3 plane_normal,
 				const t_vec3 plane_point, t_checkers *ch);
+
+/* SPHERE TEXTURE */
+
+t_color		sphere_texture_at(const t_vec3 sphere_point, const float radius,
+				mlx_texture_t *texture);
 
 #endif

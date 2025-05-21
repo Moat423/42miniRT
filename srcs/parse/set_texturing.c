@@ -6,7 +6,7 @@
 /*   By: moat <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:44:54 by moat              #+#    #+#             */
-/*   Updated: 2025/05/19 18:46:29 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:37:14 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	set_checkers(char *line, t_texturing *texturing,
 	int			i;
 	t_checkers	*ch;
 
+	if (texturing->type != 0)
+		return (0);
 	ch = malloc(sizeof(t_checkers));
 	if (!ch)
 		return (0);
@@ -55,10 +57,7 @@ int	set_type_texture(char *line, t_texturing *texturing, const int i,
 	else if (type == CHECKERS)
 		j = set_checkers(&line[i], texturing, SP_CH_WIDTH, SP_CH_HEIGHT);
 	else if (type == TEXTURE)
-	{
-		ft_fprintf(2, "Feature not yet available:\nte is for textures\n");
-		j = 0;
-	}
+		j = set_png_texture(&line[i], texturing);
 	if (!j)
 		return (0);
 	else if (line[i + (j && j > 0)] == '\n')

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/19 15:26:17 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:32:26 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,6 @@ typedef struct s_sphere
 	t_light		**lights;
 	float		radius;
 	t_texturing	texturing;
-	t_bumpmap	*bumpmap;
 }	t_sphere;
 
 typedef struct s_plane

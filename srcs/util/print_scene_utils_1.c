@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:47:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/16 14:56:26 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:34:16 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	print_spheres(const t_sphere *spheres, size_t sphere_count)
 			print_vec3("	Position", spheres[i].pos);
 			print_color("	Color", spheres[i].color);
 			printf("	Radius: %.2f\n", spheres[i].radius);
+			if (spheres[i].texturing.type == TEXTURE)
+				printf("	texturing: TEXTURE\n");
+			if (spheres[i].texturing.type == CHECKERS)
+				printf("	texturing: CHECKERS\n");
+			if (spheres[i].texturing.bumpmap)
+				printf("	texturing: BUMP\n");
 			i++;
 		}
 	}
