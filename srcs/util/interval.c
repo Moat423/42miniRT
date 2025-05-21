@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:17:32 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/02 11:26:58 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:06:39 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,16 @@ t_interval	interval_new(float min, float max)
 {
 	t_interval	interval;
 
-	interval.min = min;
-	interval.max = max;
+	if (min > max)
+	{
+		interval.min = max;
+		interval.max = min;
+	}
+	else
+	{
+		interval.min = min;
+		interval.max = max;
+	}
 	return (interval);
 }
 
