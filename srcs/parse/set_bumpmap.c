@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:09:04 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/19 15:19:45 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:00:38 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ t_bumpmap	*allocate_bumpmap(int fd)
 	free(line);
 	line = get_next_line(fd);
 	if (ft_strncmp(line, "255\n", 4))
-		return ((t_bumpmap *)rperror_get_next_line(line,
-				"Error got different max colour value\n"));
+		ft_fprintf(2, "WARNING\n color value not as expected\n");
 	free(line);
 	bump = ft_malloc_bumpmap(width, height);
 	return (bump);

@@ -6,12 +6,17 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:51:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/19 09:21:29 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/21 14:39:06 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
+// geturn an intersection with the plane if there is one
+//
+// to enable bumpmaps use:
+// out->normal = plane_apply_bump_mapping(plane, out->point,
+// 		out->normal);
 bool	plane_intersect(t_plane *plane, t_ray ray, t_intersection *out)
 {
 	float	t;

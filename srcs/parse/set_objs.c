@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/20 19:30:25 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:41:09 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ int	set_plane(char *line, t_plane *plane)
 		i = set_color(line, i, &(plane->color));
 	if (!i)
 		return (0);
-	if (set_texturing(&(line[i]), &(plane->texturing))
-		&& plane->texturing.type != BUMP)
+	if (set_texturing(&(line[i]), &(plane->texturing)))
 		return (1);
-	ft_fprintf(2, "failed settting texture\n");
-	if (plane->texturing.type == BUMP)
-		ft_fprintf(2, "bumpmaps currently not implemented on planes");
+	ft_fprintf(2, "failed setting texture\n");
+	if (plane->texturing.bumpmap)
+		ft_fprintf(2, "WARNING\nbumpmaps currently not implemented on planes\n\
+			proceeding to generate image without including bumpmap");
 	return (0);
 }
 
