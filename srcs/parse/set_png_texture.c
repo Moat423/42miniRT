@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:06:48 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/20 12:45:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:37:24 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	set_png_texture(char *obj_line, t_texturing *texturing)
 		return (0);
 	}
 	texturing->texture = (mlx_load_png(filename));
+	free(filename);
 	if (!texturing->texture)
 		return (0);
 	while (obj_line[position] && (!ft_isspace(obj_line[position])
