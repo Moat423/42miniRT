@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/21 15:30:44 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:39:15 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,19 @@ static void	render(t_minirt *minirt)
 
 static void	render_on_request(t_minirt *minirt)
 {
-	if (minirt->loop_state == RENDER_NOW
-		|| (minirt->loop_state == RESIZING
-			&& mlx_get_time() - minirt->last_resize_time > 0.5))
+	if (minirt->loop_state == DEFERRED_RENDER || minirt->loop_state == RENDER_NOW || minirt->loop_state == RESIZING)
 	{
 		render(minirt);
 		minirt->loop_state = NO_ACTION;
+		return ;
 	}
+	// if (minirt->loop_state == RENDER_NOW
+	// 	|| (minirt->loop_state == RESIZING
+	// 		&& mlx_get_time() - minirt->last_resize_time > 0.5))
+	// {
+	// 	render(minirt);
+	// 	minirt->loop_state = NO_ACTION;
+	// }
 }
 
 int	render_loop(t_minirt *minirt)
