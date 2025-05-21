@@ -1,5 +1,6 @@
 C 0,0,0 0,0,-1 90
-A 0.25 255,255,255
+A 0.40 255,255,255
 
 sp 0,0,-8 8 255,0,0 te ./scene/textures/earthmap1k.png
+sp 0,0,-8 100 255,0,0 te ./scene/textures/beautiful-shining-stars-night-sky.png
 L 4,6,-4 0.6 255,200,0
