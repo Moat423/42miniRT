@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/21 13:00:10 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:30:44 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,30 @@ t_color	trace_ray(t_scene *scene, t_ray ray, t_intersection *out)
 	return (color_new(0, 0, 0));
 }
 
-static void	render_image(t_minirt *minirt)
+static bool	next_row(t_minirt *minirt, uint32_t *next_row)
 {
-	uint32_t		x;
+	pthread_mutex_lock(&minirt->render_y_mutex);
+	if (minirt->render_y >= minirt->scene.image_height)
+	{
+		pthread_mutex_unlock(&minirt->render_y_mutex);
+		return (false);
+	}
+	*next_row = minirt->render_y++;
+	pthread_mutex_unlock(&minirt->render_y_mutex);
+	return (true);
+}
+
+static void	*render_image(t_minirt *minirt)
+{
 	uint32_t		y;
 	t_ray			ray;
-	size_t			i;
+	uint32_t		x;
 	t_intersection	ix;
+	size_t			i;
 
 	y = 0;
-	while (y < minirt->scene.image_height)
+	while ((minirt->mt && next_row(minirt, &y))
+		|| (!minirt->mt && y < minirt->scene.image_height))
 	{
 		x = 0;
 		while (x < minirt->scene.image_width)
@@ -51,16 +65,38 @@ static void	render_image(t_minirt *minirt)
 			minirt->image->pixels[i + 3] = 255;
 			x++;
 		}
-		y++;
+		if (!minirt->mt)
+			y++;
 	}
+	return NULL;
 }
 
 static void	render(t_minirt *minirt)
 {
-	double	before_render;
+	double		before_render;
+	pthread_t	render_threads[NUM_THREADS];
+	uint32_t	i;
 
 	before_render = mlx_get_time();
-	render_image(minirt);
+	minirt->render_y = 0;
+	minirt->mt = !pthread_mutex_init(&minirt->render_y_mutex, 0);
+	if (!minirt->mt)
+		render_image(minirt);
+	else
+	{
+		minirt->mt = true;
+		i = 0;
+		while (i < NUM_THREADS)
+		{
+			if (pthread_create(&render_threads[i], 0,
+					(void *(*)(void *))render_image, minirt))
+				break ;
+			i++;
+		}
+		while (i > 0)
+			pthread_join(render_threads[--i], 0);
+		pthread_mutex_destroy(&minirt->render_y_mutex);
+	}
 	printf("Rendered frame in %f seconds\n", mlx_get_time() - before_render);
 }
 

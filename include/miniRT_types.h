@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/20 12:32:26 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:09:29 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdint.h>
 # include <errno.h>
 # include <string.h>
+# include <pthread.h>
 # include "../lib/mlx/include/MLX42/MLX42.h"
 # include "../lib/libft/libft_full.h"
 
@@ -85,6 +86,10 @@
 # ifndef BUMP_STRENGTH
 #  define BUMP_STRENGTH 3
 # endif //BUMP_STRENGTH
+
+# ifndef NUM_THREADS
+#  define NUM_THREADS 16
+# endif //THREAD_COUNT
 
 # define _USE_MATH_DEFINES
 
@@ -385,6 +390,9 @@ typedef struct s_minirt
 	int32_t			mouse_pos_x;
 	int32_t			mouse_pos_y;
 	t_loop_state	loop_state;
+	pthread_mutex_t	render_y_mutex;
+	uint32_t		render_y;
+	bool			mt;
 }	t_minirt;
 
 typedef struct s_light_ray

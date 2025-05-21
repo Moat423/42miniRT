@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/05/19 19:50:57 by lmeubrin         ###   ########.fr        #
+#    Updated: 2025/05/21 15:14:58 by kwurster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ DIRS = $(addprefix $(OBJ_DIR)/, . util parse)
 
 CC := clang
 NAME := miniRT
-INCLUDES := -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)/include
+INCLUDES := -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)/include -lpthread
 
 # Set MLX_FLAGS based on the operating system
 ifeq ($(UNAME_S), Linux)
