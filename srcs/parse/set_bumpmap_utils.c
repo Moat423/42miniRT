@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:49:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/19 19:17:08 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:10:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ void	*rperror_get_next_line(char *line, char *errormessage)
 {
 	ft_fprintf(2, errormessage);
 	free(line);
-	get_next_line(-1);
 	return (NULL);
 }
