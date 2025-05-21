@@ -52,6 +52,9 @@ t_vec3		apply_bump_mapping(const t_sphere *sphere,
 				const t_vec3 intersection_point, t_vec3 normal);
 float		get_bump_elevation(const t_bumpmap *bump, const t_point point);
 
+t_vec3		plane_apply_bump_mapping(const t_plane *plane,
+				const t_vec3 intersection_point, t_vec3 normal);
+
 /* CYLINDER */
 
 bool		cylinder_intersect(t_cylinder *cylinder, const t_ray ray,

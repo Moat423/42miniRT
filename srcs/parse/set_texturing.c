@@ -6,7 +6,7 @@
 /*   By: moat <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:44:54 by moat              #+#    #+#             */
-/*   Updated: 2025/05/20 12:37:14 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:54:49 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	set_texturing(char *line, t_texturing *texturing)
 		if (j > 0)
 			i = ft_skip_space(line, j);
 		else
-			return (1 && j);
+			return (j);
 	}
 	if ((line[i] == '\n') || line[i] == '\0')
 		return (1);

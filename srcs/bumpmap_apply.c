@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:10:21 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/16 15:50:32 by moat             ###   ########.fr       */
+/*   Updated: 2025/05/21 13:13:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ static t_point	get_derivative_bump_height(t_bumpmap *bumpmap, t_point uv_point)
 
 	height = get_filtered_bump_elevation(bumpmap, uv_point);
 	derived_p.u = get_filtered_bump_elevation(bumpmap, (t_point){
-			fmin(uv_point.u + 1.0f / bumpmap->width, 1.0f), uv_point.v})
+			fmod(uv_point.u + 1.0f / bumpmap->width, 1.0f), uv_point.v})
 		- height;
 	derived_p.v = get_filtered_bump_elevation(bumpmap, (t_point){uv_point.u, 
-			fmin(uv_point.v + 1.0f / bumpmap->height, 1.0f)}) - height;
+			fmod(uv_point.v + 1.0f / bumpmap->height, 1.0f)}) - height;
 	derived_p.u *= BUMP_STRENGTH;
 	derived_p.v *= BUMP_STRENGTH;
 	return (derived_p);

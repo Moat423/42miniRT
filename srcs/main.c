@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/20 19:32:37 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:02:36 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv)
 
 	minirt = (t_minirt){0};
 	scene = &minirt.scene;
-	if (!(input_check(argc) && !parse_scene(argv[1], scene)))
+	if ((!input_check(argc) || parse_scene(argv[1], scene)))
 	{
 		scene_destroy(scene);
 		return (1);
