@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:40:23 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/15 15:45:46 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:28:51 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static float	lambertian(t_vec3 normal, t_vec3 light_dir)
 static t_color	ambient(t_scene *scene, t_object object, t_vec3 pt)
 {
 	return (vec3_multiply(
-			vec3_component_mul(scene->ambient.color, object_color_at(object, pt)),
+			vec3_component_mul(scene->ambient.color,
+				object_color_at(object, pt)),
 			scene->ambient.brightness));
 }
 
@@ -32,12 +33,12 @@ static bool	is_in_shadow(t_scene *scene, t_ray ray, t_light light)
 	size_t			i;
 
 	i = 0;
-	while (i < light.objs.sphere_count)
-		if (sphere_intersect(&light.objs.spheres[i++], ray, &ix))
-			return (true);
-	i = 0;
 	while (i < scene->objs.plane_count)
 		if (plane_intersect(&scene->objs.planes[i++], ray, &ix))
+			return (true);
+	i = 0;
+	while (i < light.objs.sphere_count)
+		if (sphere_intersect(&light.objs.spheres[i++], ray, &ix))
 			return (true);
 	i = 0;
 	while (i < light.objs.cylinder_count)
@@ -50,50 +51,47 @@ static bool	is_in_shadow(t_scene *scene, t_ray ray, t_light light)
 	return (false);
 }
 
-t_color	shade(t_scene *scene, t_ray ray, t_intersection intersection)
+static t_color	light_contribution(t_scene *scene, t_intersection ix,
+		t_ray ray, t_light light)
+{
+	t_light_ray	l_ray;
+
+	l_ray.direction = vec3_calc_length_and_normalize(
+			vec3_subtract(light.pos, ix.point), &(l_ray.distance));
+	l_ray.lambert = lambertian(ix.normal, l_ray.direction);
+	if (l_ray.lambert > 0)
+	{
+		if (!is_in_shadow(scene, (t_ray){ix.point,
+				l_ray.direction, interval_new(0, l_ray.distance)}, light))
+			return (calc_lights(light, ray, ix, l_ray));
+	}
+	return (color_new(0, 0, 0));
+}
+
+t_color	shade(t_scene *scene, t_ray ray, t_intersection ix)
 {
 	t_color		color;
-	t_vec3		normal;
 	size_t		i;
-	t_light_ray	l;
-	t_light		*light;
+	t_light		**obj_lights;
 
-	color = ambient(scene, intersection.object, intersection.point);
-	normal = intersect_normal(&intersection);
+	color = ambient(scene, ix.object, ix.point);
 	i = 0;
-	while (intersection.object.type != PLANE && object_lights(intersection.object)[i])
+	obj_lights = object_lights(ix.object);
+	if (obj_lights)
 	{
-		light = object_lights(intersection.object)[i];
-		intersection.point = vec3_add(intersection.point, vec3_multiply(normal, EPSILON));
-		l.direction = vec3_calc_length_and_normalize(
-				vec3_subtract(light->pos, intersection.point),
-				&(l.distance));
-		l.lambert = lambertian(normal, l.direction);
-		if (l.lambert > 0)
+		while (obj_lights[i])
 		{
-			if (!is_in_shadow(scene, (t_ray){intersection.point,
-					l.direction, interval_new(0, l.distance)}, *light))
-				color = vec3_add(color,
-						calc_lights(*light, ray, intersection, l));
+			color = vec3_add(color, light_contribution(scene, ix, ray,
+						*(obj_lights[i++])));
 		}
-		i++;
 	}
-	while (intersection.object.type == PLANE && i < scene->light_count)
+	else
 	{
-		light = &scene->lights[i];
-		intersection.point = vec3_add(intersection.point, vec3_multiply(normal, EPSILON));
-		l.direction = vec3_calc_length_and_normalize(
-				vec3_subtract(light->pos, intersection.point),
-				&(l.distance));
-		l.lambert = lambertian(normal, l.direction);
-		if (l.lambert > 0)
+		while (i < scene->light_count)
 		{
-			if (!is_in_shadow(scene, (t_ray){intersection.point,
-					l.direction, interval_new(0, l.distance)}, *light))
-				color = vec3_add(color,
-						calc_lights(*light, ray, intersection, l));
+			color = vec3_add(color, light_contribution(scene, ix, ray,
+						scene->lights[i++]));
 		}
-		i++;
 	}
 	return (color);
 }

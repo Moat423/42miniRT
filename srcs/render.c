@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/22 16:01:05 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:41:32 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void	window_init(t_minirt *minirt);
 t_color	trace_ray(t_scene *scene, t_ray ray, t_intersection *out)
 {
 	if (find_closest_intersection(scene, ray, out))
+	{
+		out->point = vec3_add(out->point,
+				vec3_multiply(intersect_normal(out), EPSILON));
 		return (color_clamp(shade(scene, ray, *out)));
+	}
 	return (color_new(0, 0, 0));
 }
 
