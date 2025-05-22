@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 13:55:31 by kwurster          #+#    #+#             */
-/*   Updated: 2025/04/28 12:30:46 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:03:19 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,13 @@ float	powi(float x, int n)
 		n >>= 1;
 	}
 	return (result);
+}
+
+/// Convert Color to RGB
+void	color_to_rgb2(t_color color, uint8_t *rgba)
+{
+	rgba[0] = (uint8_t)(clamp(color.x, 0.0f, 1.0f) * 255.0f);
+	rgba[1] = (uint8_t)(clamp(color.y, 0.0f, 1.0f) * 255.0f);
+	rgba[2] = (uint8_t)(clamp(color.z, 0.0f, 1.0f) * 255.0f);
+	rgba[3] = 255;
 }

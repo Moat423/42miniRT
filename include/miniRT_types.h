@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:38:25 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/21 15:09:29 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:47:41 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # endif
 
 # ifndef SPEED // movement speed for keyboard motions
-#  define SPEED 0.01f
+#  define SPEED 0.5f
 # endif
 
 # ifndef SENSITIVITY // mouse movement SENSITIVITY
@@ -90,6 +90,10 @@
 # ifndef NUM_THREADS
 #  define NUM_THREADS 16
 # endif //THREAD_COUNT
+
+# ifndef LONG_RENDER_TIME
+#  define LONG_RENDER_TIME 0.15f
+# endif //LONG_RENDER_TIME
 
 # define _USE_MATH_DEFINES
 
@@ -393,6 +397,8 @@ typedef struct s_minirt
 	pthread_mutex_t	render_y_mutex;
 	uint32_t		render_y;
 	bool			mt;
+	bool			deferred_render;
+	double			render_time;
 }	t_minirt;
 
 typedef struct s_light_ray

@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:09:53 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/21 11:55:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:00:14 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ t_quat		quat_mul(t_quat a, t_quat b);
 
 t_color		color_new(float r, float g, float b);
 void		color_to_rgb(t_color color, uint8_t *r, uint8_t *g, uint8_t *b);
+void		color_to_rgb2(t_color color, uint8_t *rgba);
 t_color		color_from_rgb(uint8_t r, uint8_t g, uint8_t b);
 t_color		color_clamp(t_color color);
 t_color		vec3_to_color(t_vec3 vec);

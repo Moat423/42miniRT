@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/05/21 15:14:58 by kwurster         ###   ########.fr        #
+#    Updated: 2025/05/22 12:24:35 by kwurster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRCS := $(addprefix $(SRCS_DIR)/,\
 		main.c \
 		camera.c \
 		render.c \
+		render2.c \
 		movement.c \
 		key_movement.c \
 		intersect.c \

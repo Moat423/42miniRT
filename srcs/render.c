@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:35:51 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/21 15:39:15 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:02:30 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,8 @@ void	click_object(t_minirt *minirt);
 void	window_resize(int32_t width, int32_t height, t_minirt *minirt);
 void	movement(t_minirt *minirt);
 void	window_init(t_minirt *minirt);
-
-t_color	trace_ray(t_scene *scene, t_ray ray, t_intersection *out)
-{
-	if (find_closest_intersection(scene, ray, out))
-		return (color_clamp(shade(scene, ray, *out)));
-	return (color_new(0, 0, 0));
-}
+t_color	trace_ray(t_scene *scene, t_ray ray, t_intersection *out);
+void	measure_render_time(t_minirt *minirt, double render_start);
 
 static bool	next_row(t_minirt *minirt, uint32_t *next_row)
 {
@@ -41,9 +36,9 @@ static bool	next_row(t_minirt *minirt, uint32_t *next_row)
 
 static void	*render_image(t_minirt *minirt)
 {
+	uint32_t		x;
 	uint32_t		y;
 	t_ray			ray;
-	uint32_t		x;
 	t_intersection	ix;
 	size_t			i;
 
@@ -58,17 +53,14 @@ static void	*render_image(t_minirt *minirt)
 			ray = get_viewport_ray(&minirt->scene,
 					(float)x / (float)minirt->scene.image_width,
 					(float)y / (float)minirt->scene.image_height);
-			color_to_rgb(trace_ray(&minirt->scene, ray, &ix),
-				&minirt->image->pixels[i],
-				&minirt->image->pixels[i + 1],
-				&minirt->image->pixels[i + 2]);
-			minirt->image->pixels[i + 3] = 255;
+			color_to_rgb2(trace_ray(&minirt->scene, ray, &ix),
+				&minirt->image->pixels[i]);
 			x++;
 		}
 		if (!minirt->mt)
 			y++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 static void	render(t_minirt *minirt)
@@ -97,24 +89,19 @@ static void	render(t_minirt *minirt)
 			pthread_join(render_threads[--i], 0);
 		pthread_mutex_destroy(&minirt->render_y_mutex);
 	}
-	printf("Rendered frame in %f seconds\n", mlx_get_time() - before_render);
+	measure_render_time(minirt, before_render);
 }
 
 static void	render_on_request(t_minirt *minirt)
 {
-	if (minirt->loop_state == DEFERRED_RENDER || minirt->loop_state == RENDER_NOW || minirt->loop_state == RESIZING)
+	if ((!minirt->deferred_render && minirt->loop_state == DEFERRED_RENDER)
+		|| minirt->loop_state == RENDER_NOW
+		|| (minirt->loop_state == RESIZING
+			&& mlx_get_time() - minirt->last_resize_time > 0.5))
 	{
 		render(minirt);
 		minirt->loop_state = NO_ACTION;
-		return ;
 	}
-	// if (minirt->loop_state == RENDER_NOW
-	// 	|| (minirt->loop_state == RESIZING
-	// 		&& mlx_get_time() - minirt->last_resize_time > 0.5))
-	// {
-	// 	render(minirt);
-	// 	minirt->loop_state = NO_ACTION;
-	// }
 }
 
 int	render_loop(t_minirt *minirt)
