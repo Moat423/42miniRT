@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:38:32 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/10 10:32:06 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:45:20 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	sort_t(float t[2])
 /// Then to avoid calculating the unstable formula, it uses Vieta's formula
 /// t1 * t2 = c / a
 /// t2 = (c / a) / t1
-/// TODO t[0] is not guaranteed to be smaller than t[1]
 static int	cylinder_solve_quadratic_eq(float abc[3], float t[2])
 {
 	double	discr;
