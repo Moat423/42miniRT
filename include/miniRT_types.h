@@ -58,7 +58,7 @@
 # ifndef SHININESS
 /// a higher value makes the material more metallic
 /// -> the specular reflection gets more concentrated at one spot
-#  define SHININESS 32
+#  define SHININESS 128
 # endif
 
 # ifndef LIGHT_DIST
