@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 11:36:23 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:38:32 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ static int	parse_file(int fd, t_scene *scene)
 }
 
 // checks for object type and sets object (except camera and ambient)
+// only enable for bonus:
+	// else if (!ft_strncmp(line, "co ", 3))
+	// 	return (set_cone(line, &(scene->objs.cones[arrray_of_i[CONE]++])));
 static int	set_obj(char *line, t_scene *scene, int *arrray_of_i)
 {
 	if (!ft_strncmp(line, "L ", 2))
@@ -100,8 +103,6 @@ static int	set_obj(char *line, t_scene *scene, int *arrray_of_i)
 	else if (!ft_strncmp(line, "cy ", 3))
 		return (set_cylinder(line,
 				&(scene->objs.cylinders[arrray_of_i[CYLINDER]++])));
-	else if (!ft_strncmp(line, "co ", 3))
-		return (set_cone(line, &(scene->objs.cones[arrray_of_i[CONE]++])));
 	else if (!ft_strncmp(line, "A ", 2))
 		return (set_ambient(line, &(scene->ambient)));
 	else if (!ft_strncmp(line, "C ", 2))
