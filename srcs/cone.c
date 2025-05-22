@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/23 13:51:24 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:37:43 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ bool	cone_intersect(t_cone *co, const t_ray ray, t_intersection *out)
 		out->point = hit_point;
 		return (true);
 	}
-	out->normal = calc_cone_normal(out->point, co->top, co->axis, hit_proj);
+	out->normal = calc_cone_normal(out->point, co, hit_proj);
 	out->normal_calculated = false;
 	return (true);
 }
