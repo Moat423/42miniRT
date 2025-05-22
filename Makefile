@@ -6,7 +6,7 @@
 #    By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 15:55:27 by lmeubrin          #+#    #+#              #
-#    Updated: 2025/05/22 12:24:35 by kwurster         ###   ########.fr        #
+#    Updated: 2025/05/22 13:24:25 by kwurster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,6 @@ OPTIM_FLAGS := -O3 -march=native
 LINUX_MLX := -ldl -lglfw -pthread -lm
 MAC_MLX := -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
-#TODO: IMPORTANT, clear the bonus flag when submitting mandatory
 FINAL_CFLAGS = $(CFLAGS) $(OPTIM_FLAGS) -DBONUS
 FINAL_LDFLAGS = $(LDFLAGS)
 

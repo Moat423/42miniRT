@@ -6,44 +6,12 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:14:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/21 14:02:36 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:23:29 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 #include "../include/parse.h"
-
-// trace_ray_intersection_t_total
-// intersect_t_avg_sphere
-// intersect_t_avg_plane
-// intersect_t_avg_cylinder
-// intersect_t_avg_cone
-// trace_ray_shade_t_total
-// shade_light_contribution[light_count]
-// // display percentage and totals
-// shade_light_contribution[].lambert_skips
-// // display percentage and totals
-// shade_light_contribution[].shadow_test_culled_objects
-// shade_light_contribution[].shadow_test_closest_intersect_tested_total
-// shade_light_contribution[].shadow_test_t
-
-// MANDATORY PART
-//TODO: valgrind!!
-//TODO: compile time checks for things that should be disabled if not
-//compiling bonus
-// 1. single light
-// 2. cones
-//TODO: sort objects by distance to origin:
-// scene objects dont need to be sorted because we check all objects anyway
-// but light objects in relation to light position would be beneficial
-//
-//TODO: make camera better and more fluid (update on fixed fps, remove prints)
-
-// BONUS PART (mandatory saved in branch mandatory)
-//TODO: checkerboard pattern
-//TODO: bump map textures
-//TODO: parallelize the raytracing (bonus only) with shaders or symd
-//TODO: shadow not get closest, but instead get any intersect (bool)
 
 void	minirt_exit(t_minirt *minirt, int status)
 {
