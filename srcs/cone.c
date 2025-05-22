@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:28:02 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/22 15:37:43 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:41:28 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static	float	get_discriminant(const t_vec3 ray_dir, const t_calc cc,
 {
 	abc[A] = vec3_squared_length(ray_dir) - cc.coeff * cc.d_dot_n * cc.d_dot_n;
 	abc[C] = vec3_squared_length(cc.oc) - cc.coeff * cc.oc_dot_n * cc.oc_dot_n;
-	abc[B] = 2 * (vec3_dot(ray_dir, cc.oc) 
+	abc[B] = 2 * (vec3_dot(ray_dir, cc.oc)
 			- cc.coeff * cc.d_dot_n * cc.oc_dot_n);
 	return (abc[B] * abc[B] - 4 * abc[A] * abc[C]);
 }
@@ -71,7 +71,7 @@ static float	cone_body_hit(t_calc cc, const t_ray ray,
 	{
 		if (interval_contains(ray.range, t[i]))
 		{
-			hit_point = vec3_add(ray.origin, 
+			hit_point = vec3_add(ray.origin,
 					vec3_multiply(ray.direction, t[i]));
 			hit_proj = cc.d_dot_n * t[i] + cc.oc_dot_n;
 			if (hit_proj >= 0 && hit_proj <= cc.height)
@@ -101,9 +101,9 @@ bool	cone_intersect(t_cone *co, const t_ray ray, t_intersection *out)
 				co->axis, co->radius}, ray, &(out->distance), &(out->point)));
 	hit_proj = cone_body_hit(cc, ray, out, t);
 	if (hit_proj == -1)
-		return (cc.d_dot_n < 0 && circle_intersect((t_circle){co->bottom,
+		return (circle_intersect((t_circle){co->bottom,
 				co->axis, co->radius}, ray, &(out->distance), &(out->point)));
-	if (circle_intersect((t_circle){co->bottom, co->axis, co->radius}, 
+	if (circle_intersect((t_circle){co->bottom, co->axis, co->radius},
 		ray, &(t[1]), &(hit_point)) && out->distance > t[1])
 	{
 		out->distance = t[1];
