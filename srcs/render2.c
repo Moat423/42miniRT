@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:16:18 by kwurster          #+#    #+#             */
-/*   Updated: 2025/05/22 12:31:09 by kwurster         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:58:16 by kwurster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ void	measure_render_time(t_minirt *minirt, double render_start)
 		return ;
 	minirt->deferred_render = minirt->render_time > LONG_RENDER_TIME;
 	executed_once = true;
-	printf("Deferred render is active due to long render time.\n");
+	if (minirt->deferred_render)
+		printf("Deferred render is active due to long render time.\n");
 }
