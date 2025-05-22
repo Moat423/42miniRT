@@ -4,3 +4,5 @@ objs
 *.o
 miniRT
 en.subject.pdf
+.vscode
+a.out
