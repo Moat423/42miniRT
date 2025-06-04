@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:47:40 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/04/28 11:41:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:29:27 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	input_check(int argc)
 		return (1);
 	ft_fprintf(2, "usage: ./miniRT scene/scene-description.rt\n");
 	ft_fprintf(2, 
-		"scene-description.rt must be a valid file inside the 'scene' folder");
+		"scene-description.rt must be a valid file inside the 'scene' folder\n");
 	return (0);
 }
 
