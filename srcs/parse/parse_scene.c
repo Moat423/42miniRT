@@ -6,7 +6,7 @@
 /*   By: kwurster <kwurster@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:03 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/16 19:02:44 by moat             ###   ########.fr       */
+/*   Updated: 2025/06/04 10:31:02 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ int	parse_scene(char *filename, t_scene *scene)
 	int	fd;
 
 	if (!filename || filename[0] == 0)
-	{
-		ft_fprintf(2, "invalid empty filename\n");
-		return (1);
-	}
+		return (!ft_parseerror("invalid empty filename", NULL, 0));
+	if (strncmp(strrchr(filename, '.'), ".rt", 4))
+		return (!ft_parseerror("invalid filename, doesn't end with .rt",
+				NULL, 0));
 	ft_bzero(scene, sizeof(t_scene));
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_fprintf(2, "invalid file: %s\n", strerror(errno));
+		ft_fprintf(2, "ERROR\n%s: %s\n", strerror(errno), filename);
 		return (1);
 	}
 	if (!parse_file(fd, scene))
