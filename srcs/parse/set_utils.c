@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/15 18:16:39 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:04:34 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ static int	parse_vec_component(char *line, int start, float *res, int is_last)
 	char	*num;
 
 	len = ft_float_len(&line[start]);
+	if (!len)
+		return (ft_parseerror("expected a number here",
+				line, start));
 	delim = line[start + len];
 	if ((is_last && delim != ' ' && delim != '\n') || 
 		(!is_last && delim != ','))
