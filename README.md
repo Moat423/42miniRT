@@ -38,7 +38,6 @@ all primitive objects are calculated with their respective geometric formulas an
 
 - GCC compiler
 - Make
-- MinilibX library (Codam version)
 
 ### Installation
 
