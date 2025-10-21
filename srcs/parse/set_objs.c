@@ -6,12 +6,22 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/10/21 18:11:50 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:04:32 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
+
+//TODO: check for line ending everywhere
+/*
+	i = ft_skip_space(line, i);
+	if ((line[i] != '\n') || line[i] != '\0')
+		return (ft_parseerror("expected end of line here", line, i));
+*/
+
+//TODO: and remove line ending check from texture and bumpmap
+//to not have duplicate error printout
 
 static t_vec3	move_point(t_vec3 point, t_vec3 dir, float dist)
 {
