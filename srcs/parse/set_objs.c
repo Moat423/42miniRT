@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/21 14:41:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:11:50 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ int	set_cone(char *line, t_cone *cone)
 		return (0);
 	i = ft_substrtof(&(cone->radius), i, line);
 	if (!i || line[i - 1] != ' ')
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	cone->radius /= 2;
 	i = ft_substrtof(&(cone->height), i, line);
 	if (!i || line[i - 1] != ' ')
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	i = set_color(line, i, &(cone->color));
 	if (!i || line[i - 1] != '\n')
 		return (0);
@@ -77,7 +77,7 @@ int	set_sphere(char *line, t_sphere *sphere)
 	i = ft_skip_space(line, i);
 	i = ft_substrtof(&(sphere->radius), i, line);
 	if (!i || !(line[i - 1] == ' ' || line[i - 1] == '\n'))
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	sphere->radius /= 2;
 	i = set_color(line, i, &(sphere->color));
 	if (!i)
@@ -151,11 +151,11 @@ int	set_cylinder(char *line, t_cylinder *cyl)
 		return (0);
 	i = ft_substrtof(&(cyl->radius), i, line);
 	if (!i || line[i - 1] != ' ')
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	cyl->radius /= 2;
 	i = ft_substrtof(&(cyl->height), i, line);
 	if (!i || line[i - 1] != ' ')
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	i = set_color(line, i, &(cyl->color));
 	if (!i || line[i - 1] != '\n')
 		return (0);
