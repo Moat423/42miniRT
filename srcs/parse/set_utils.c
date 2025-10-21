@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:28:56 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/06/04 10:04:34 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:51:48 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,19 @@ int	ft_substrtof(float *num, int start, char *line)
 
 int	set_color(char *line, int start, t_vec3 *color)
 {
-	start = set_vec(line, start, color);
-	if (!start)
+	int	color_end_index;
+
+	color_end_index = 0;
+	color_end_index = set_vec(line, start, color);
+	if (!color_end_index)
 		return (0);
+	if ((color->x > 255 || color->x < 0)
+		|| (color->y > 255 || color->y < 0)
+		|| (color->z > 255 || color->z < 0))
+		return (ft_parseerror("colour value not between 0 and 255",
+				line, start));
 	*color = vec3_to_color(*color);
-	return (start);
+	return (color_end_index);
 }
 
 static int	parse_vec_component(char *line, int start, float *res, int is_last)
