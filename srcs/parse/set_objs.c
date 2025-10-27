@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/10/27 14:27:44 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:47:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,7 @@ int	set_cylinder(char *line, t_cylinder *cyl)
 	i = set_vec(line, i, &(cyl->pos));
 	if (!i || line[i - 1] != ' ')
 		return (0);
-	i = ft_skip_space(line, i);
-	i = set_vec(line, i, &(cyl->axis));
+	i = set_vec(line, ft_skip_space(line, i), &(cyl->axis));
 	if (!i || line[i - 1] != ' ')
 		return (0);
 	i = ft_substrtof(&(cyl->radius), i, line);

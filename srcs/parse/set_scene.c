@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:48:11 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/10/27 14:39:10 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:55:58 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,20 @@ int	set_light(char *line, t_light *light)
 	int		i;
 	int		error;
 	char	*number;
-	int		floatlen;
 
 	error = 0;
 	i = set_vec(line, 2, &(light->pos));
 	if (!i)
 		return (0);
 	i = ft_skip_space(line, i);
-	floatlen = ft_float_len(&line[i]);
-	number = ft_substr(line, i, floatlen);
+	number = ft_substr(line, i, ft_float_len(&line[i]));
 	if (!number)
 		return (ft_rperror("malloc)"));
 	light->brightness = ft_strtof(number, &error);
 	free(number);
 	if (!light->brightness && error)
 		return (ft_parseerror("invalid number", line, i));
-	i = ft_skip_space(line, i + floatlen);
+	i = ft_skip_space(line, i + ft_float_len(&line[i]));
 	if (line[i] != '\n')
 		i = set_color(line, i, &(light->color));
 	if (i == 0)
