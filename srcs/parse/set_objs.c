@@ -6,7 +6,7 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/10/21 19:04:32 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:27:44 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	set_cone(char *line, t_cone *cone)
 	i = set_vec(line, i, &(cone->top));
 	if (!i || line[i - 1] != ' ')
 		return (0);
-	i = ft_skip_space(line, i);
-	i = set_vec(line, i, &(cone->axis));
+	i = set_vec(line, ft_skip_space(line, i), &(cone->axis));
 	if (!i || line[i - 1] != ' ')
 		return (0);
 	i = ft_substrtof(&(cone->radius), i, line);
@@ -61,8 +60,11 @@ int	set_cone(char *line, t_cone *cone)
 	if (!i || line[i - 1] != ' ')
 		return (i && ft_parseerror("invalid ending of number", line, i));
 	i = set_color(line, i, &(cone->color));
-	if (!i || line[i - 1] != '\n')
+	if (!i)
 		return (0);
+	i = ft_skip_space(line, i - 1);
+	if ((line[i] != '\n' && line[i] != EOF && line[i] != '\0'))
+		return (ft_parseerror("expected end of line here", line, i));
 	cone->bottom = move_point(cone->top, cone->axis, cone->height);
 	cone->slant = cone->radius / cone->height;
 	return (1);
@@ -167,9 +169,12 @@ int	set_cylinder(char *line, t_cylinder *cyl)
 	if (!i || line[i - 1] != ' ')
 		return (i && ft_parseerror("invalid ending of number", line, i));
 	i = set_color(line, i, &(cyl->color));
-	if (!i || line[i - 1] != '\n')
+	if (!i)
 		return (0);
 	cyl->top = move_point(cyl->pos, cyl->axis, cyl->height / 2);
 	cyl->bottom = move_point(cyl->pos, cyl->axis, -cyl->height / 2);
+	i = ft_skip_space(line, i);
+	if ((line[i] != '\n') && line[i] != '\0' && line[i] != EOF)
+		return (ft_parseerror("expected end of line here", line, i));
 	return (1);
 }
