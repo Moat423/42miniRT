@@ -6,12 +6,22 @@
 /*   By: lmeubrin <lmeubrin@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:07:49 by lmeubrin          #+#    #+#             */
-/*   Updated: 2025/05/21 14:41:09 by lmeubrin         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:47:46 by lmeubrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/miniRT.h"
 #include "../../include/parse.h"
+
+//TODO: check for line ending everywhere
+/*
+	i = ft_skip_space(line, i);
+	if ((line[i] != '\n') || line[i] != '\0')
+		return (ft_parseerror("expected end of line here", line, i));
+*/
+
+//TODO: and remove line ending check from texture and bumpmap
+//to not have duplicate error printout
 
 static t_vec3	move_point(t_vec3 point, t_vec3 dir, float dist)
 {
@@ -39,20 +49,22 @@ int	set_cone(char *line, t_cone *cone)
 	i = set_vec(line, i, &(cone->top));
 	if (!i || line[i - 1] != ' ')
 		return (0);
-	i = ft_skip_space(line, i);
-	i = set_vec(line, i, &(cone->axis));
+	i = set_vec(line, ft_skip_space(line, i), &(cone->axis));
 	if (!i || line[i - 1] != ' ')
 		return (0);
 	i = ft_substrtof(&(cone->radius), i, line);
 	if (!i || line[i - 1] != ' ')
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	cone->radius /= 2;
 	i = ft_substrtof(&(cone->height), i, line);
 	if (!i || line[i - 1] != ' ')
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	i = set_color(line, i, &(cone->color));
-	if (!i || line[i - 1] != '\n')
+	if (!i)
 		return (0);
+	i = ft_skip_space(line, i - 1);
+	if ((line[i] != '\n' && line[i] != EOF && line[i] != '\0'))
+		return (ft_parseerror("expected end of line here", line, i));
 	cone->bottom = move_point(cone->top, cone->axis, cone->height);
 	cone->slant = cone->radius / cone->height;
 	return (1);
@@ -77,7 +89,7 @@ int	set_sphere(char *line, t_sphere *sphere)
 	i = ft_skip_space(line, i);
 	i = ft_substrtof(&(sphere->radius), i, line);
 	if (!i || !(line[i - 1] == ' ' || line[i - 1] == '\n'))
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	sphere->radius /= 2;
 	i = set_color(line, i, &(sphere->color));
 	if (!i)
@@ -145,21 +157,23 @@ int	set_cylinder(char *line, t_cylinder *cyl)
 	i = set_vec(line, i, &(cyl->pos));
 	if (!i || line[i - 1] != ' ')
 		return (0);
-	i = ft_skip_space(line, i);
-	i = set_vec(line, i, &(cyl->axis));
+	i = set_vec(line, ft_skip_space(line, i), &(cyl->axis));
 	if (!i || line[i - 1] != ' ')
 		return (0);
 	i = ft_substrtof(&(cyl->radius), i, line);
 	if (!i || line[i - 1] != ' ')
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	cyl->radius /= 2;
 	i = ft_substrtof(&(cyl->height), i, line);
 	if (!i || line[i - 1] != ' ')
-		return (0);
+		return (i && ft_parseerror("invalid ending of number", line, i));
 	i = set_color(line, i, &(cyl->color));
-	if (!i || line[i - 1] != '\n')
+	if (!i)
 		return (0);
 	cyl->top = move_point(cyl->pos, cyl->axis, cyl->height / 2);
 	cyl->bottom = move_point(cyl->pos, cyl->axis, -cyl->height / 2);
+	i = ft_skip_space(line, i);
+	if ((line[i] != '\n') && line[i] != '\0' && line[i] != EOF)
+		return (ft_parseerror("expected end of line here", line, i));
 	return (1);
 }
